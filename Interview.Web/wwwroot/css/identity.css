@@ -1,0 +1,22 @@
+.logo-container {
+    position: absolute;
+    right: 0;
+    top: 3rem;
+    padding: 0 3rem !important;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-container {
+    width: 36rem;
+}
+
+
+/* Comfiramtion Code */
+.code-input {
+    text-align:center;
+    width:4rem;
+    height:4rem;
+    border-radius:var(--radius-2);
+}

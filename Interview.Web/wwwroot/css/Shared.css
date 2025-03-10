@@ -1,0 +1,656 @@
+:root {
+    --main-font: "Almarai", serif;
+    --color-1: #E5E5E5;
+    --color-2: #DFDCD5;
+    --color-3: #8F968D;
+    --color-4: #3F4F44;
+    --color-5: #2C3930;
+    --color-6: #161D18;
+    --accent: #A27B5C;
+    /*for gradient*/
+    --accent-2: #D4A77C;
+    --error: #DB4B4E;
+    --blue: #51b4bb;
+    --aramm: #DB4B4E;
+    --bg-t: transparent;
+    --bg-acc: var(--accent);
+    --border-3: var(--accent) !important;
+    --gradient-acc: linear-gradient(135deg, var(--accent), var(--accent-2));
+    /* check if needed */
+    --theme: var(--accent);
+    --radius-1: 1rem;
+    --radius-2: .4rem;
+    --gray: #D9D9D9;
+    /* small >/ */
+    --sm: 576px;
+    /* meduim >/ */
+    --md: 768px;
+    /* large >/ */
+    --lg: 992px;
+    --nav-height: 7rem;
+    --footer-height: 45rem;
+}
+
+/* Modes */
+body.light {
+    --bg: var(--color-1) !important;
+    --bg-1: var(--color-1) !important;
+    --bg-2: var(--color-2) !important;
+    --bg-3: var(--color-3) !important;
+    --bg-4: var(--color-4) !important;
+    --bg-5: var(--color-5) !important;
+    --bg-6: var(--color-6) !important;
+    --bg-shape: var(--gray) !important;
+    --bg-nav: var(--color-4) !important;
+    --footer-bg: var( --color-4) !important;
+    --text-1: var(--color-2) !important;
+    --text-2: var(--color-3) !important;
+    --text-3: var(--color-5) !important;
+    --gradient-1: linear-gradient(135deg, var(--color-4), var(--color-6)) !important;
+    --border-1: var(--color-6) !important;
+    --border-2: var(--color-5) !important;
+    /* --shadow-1: 0 4px 14px var(--color-5) !important; */
+    --shadow-1: 0 4px 6px 0px var(--color-5) !important;
+    --shadow-2: 0 .5rem 1rem var(--color-3) !important;
+}
+
+body.dark {
+    --bg: var(--color-5) !important;
+    --bg-1: var(--color-6) !important;
+    --bg-2: var(--color-5) !important;
+    --bg-3: var(--color-4) !important;
+    --bg-4: var(--color-3) !important;
+    --bg-5: var(--color-3) !important;
+    --bg-6: var(--color-2) !important;
+    --bg-shape: var(--color-4) !important;
+    --bg-nav: var( --color-4) !important;
+    --footer-bg: var( --color-4) !important;
+    --text-2: var(--color-3) !important;
+    --text-3: var(--color-2) !important;
+    /* --gradient-1: linear-gradient(135deg, var(--color-2), var(--color-3)) !important; */
+    --gradient-1: linear-gradient(135deg, var(--color-3), var(--color-4)) !important;
+    --border-1: var(--color-2) !important;
+    --border-2: var(--color-4) !important;
+    /* --shadow-1: 0 4px 14px var(--color-4) !important; */
+    --shadow-1: 0 4px 6px 0px var(--color-4) !important;
+    --shadow-2: 0 .5rem 1rem var(--color-5) !important;
+}
+
+/* 
+(Light)       (dark)
+--Text 
+--Border
+--Shadow
+*/
+
+/* Scroll Bars */
+::-webkit-scrollbar {
+    width: .75rem;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--bg-nav);
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg);
+}
+
+/* Default settings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box !important;
+}
+
+html {
+    min-height: 100vh;
+    /*1rem => 10px*/
+    font-size: 62.5%;
+    line-height: 1.5;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+@media (max-width: 576px) {
+    html {
+        font-size: 71.42%;
+    }
+}
+
+
+body {
+    position: relative;
+    min-height: 100vh;
+    font-family: var(--main-font) !important;
+    font-size: 1.6rem;
+    background: var(--bg);
+    overflow-x: hidden;
+    animation: gradientAnimation 15s ease infinite;
+    transition: background 500ms ease-in-out, color 1000ms ease-in-out;
+    -webkit-transition: background 500ms ease-in-out, color 1000ms ease-in-out;
+    -moz-transition: background 500ms ease-in-out, color 1000ms ease-in-out;
+    -ms-transition: background 500ms ease-in-out, color 1000ms ease-in-out;
+    -o-transition: background 500ms ease-in-out, color 1000ms ease-in-out;
+}
+
+@media (max-width: 576px) {
+    body {
+        font-size: 1.4rem;
+    }
+}
+
+button {
+    border: none;
+    background: none;
+    outline: none;
+    cursor: pointer;
+    color: currentColor;
+}
+a {
+    cursor: pointer;
+    color: currentColor;
+    text-decoration: none;
+    transition: .25s ease-in-out;
+    -webkit-transition: .25s ease-in-out;
+    -moz-transition: .25s ease-in-out;
+    -ms-transition: .25s ease-in-out;
+    -o-transition: .25s ease-in-out;
+}
+
+    /* Test */
+    a:hover {
+        color: currentColor;
+    }
+
+input,
+select,
+textarea,
+input:focus-within,
+select:focus-within,
+textarea:focus-within {
+    border: none;
+    outline: none;
+}
+
+form {
+    margin-bottom:0 !important;
+}
+
+ol, ul {
+    padding: 0 !important;
+}
+
+/* modify Bootstrap*/
+.row {
+    margin: 0 !important;
+}
+
+.col,
+.col-3,
+.col-4,
+.col-6,
+.col-12 {
+    padding: 0 !important;
+}
+
+/* Font whights*/
+.f-lt {
+    font-weight: 300;
+    font-style: normal;
+}
+
+.f-reg {
+    font-weight: 400;
+    font-style: normal;
+}
+
+.f-bd {
+    font-weight: 700;
+    font-style: normal;
+}
+
+.f-extbd {
+    font-weight: 800;
+    font-style: normal;
+}
+
+/* Font Size */
+.big-text {
+    font-size: 4.2rem;
+    text-align:center;
+}
+
+/* Background colors */
+.bg {
+    background: var(--bg) !important;
+}
+
+.bg-1 {
+    background: var(--bg-1) !important;
+}
+
+.bg-2 {
+    background: var(--bg-2) !important;
+}
+
+.bg-3 {
+    background: var(--bg-3) !important;
+}
+
+.bg-4 {
+    background: var(--bg-4) !important;
+}
+
+.bg-5 {
+    background: var(--bg-5) !important;
+}
+
+.bg-6 {
+    background: var(--bg-6) !important;
+}
+
+.bg-acc {
+    background: var(--gradient-acc) !important;
+}
+
+.bg-gray {
+    background: var(--gray) !important;
+}
+
+.bg-err {
+    background: var(--error) !important;
+}
+
+.bg-g {
+    background: var(--gradient-1) !important;
+}
+
+.bg-sh {
+    background: var(--bg-shape) !important;
+}
+
+.bg-t {
+    background: transparent !important;
+}
+.bg-aramm {
+    background:var(--aramm);
+}
+
+    /* Text colors */
+    .tc-1 {
+        color: var(--text-1) !important;
+    }
+
+.tc-2 {
+    color: var(--text-2) !important;
+}
+
+.tc-3 {
+    color: var(--text-3) !important;
+}
+
+.tc-acc {
+    color: var(--accent) !important;
+}
+
+.tc-gray {
+    color: var(--color-2) !important;
+}
+
+.tc-err {
+    color: var(--error) !important;
+}
+
+.tc-g {
+    color: var(--gradient-1) !important;
+}
+.tc-aramm {
+    color: var(--aramm) !important;
+}
+
+/* Border color */
+/* main */
+.border-m {
+    border-color: var(--text-3);
+}
+
+/* graidiant */
+.border-g {
+    border-color: var(--gradient-1);
+}
+
+/* Shadow */
+.shadow-m {
+    box-shadow: var(--shadow-1);
+}
+
+/* Transition */
+.trnc-1 {
+    transition: 1s ease-in-out;
+    -webkit-transition: 1s ease-in-out;
+    -moz-transition: 1s ease-in-out;
+    -ms-transition: 1s ease-in-out;
+    -o-transition: 1s ease-in-out;
+}
+
+.trnc-5 {
+    transition: .5s ease-in-out;
+    -webkit-transition: .5s ease-in-out;
+    -moz-transition: .5s ease-in-out;
+    -ms-transition: .5s ease-in-out;
+    -o-transition: .5s ease-in-out;
+}
+
+.trnc-25 {
+    transition: .25s ease-in-out;
+    -webkit-transition: .25s ease-in-out;
+    -moz-transition: .25s ease-in-out;
+    -ms-transition: .25s ease-in-out;
+    -o-transition: .25s ease-in-out;
+}
+
+
+/* Heights */
+.page-height {
+    min-height: 100vh
+}
+
+.sec-height {
+    min-height: calc(100vh - var(--nav-height));
+}
+
+.mb-footer {
+    margin-bottom:var(--footer-height)
+}
+
+.h-90 {
+    height: 90% !important;
+}
+
+.h-80 {
+    height: 80% !important;
+}
+
+.h-70 {
+    height: 70% !important;
+}
+
+.h-60 {
+    height: 60% !important;
+}
+
+.h-40 {
+    height: 40% !important;
+}
+
+.h-30 {
+    height: 30% !important;
+}
+
+.h-20 {
+    height: 20% !important;
+}
+
+.h-10 {
+    height: 10% !important;
+}
+
+
+/* Width */
+.size-100 {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.w-90 {
+    width: 90% !important;
+}
+
+.w-80 {
+    width: 80% !important;
+}
+
+.w-70 {
+    width: 70% !important;
+}
+
+.w-60 {
+    width: 60% !important;
+}
+
+.w-40 {
+    width: 40% !important;
+}
+
+.w-30 {
+    width: 30% !important;
+}
+
+.w-20 {
+    width: 20% !important;
+}
+
+.w-10 {
+    width: 10% !important;
+}
+
+/* Raduis */
+.round-1 {
+    border-radius: 1rem;
+    -webkit-border-radius: 1rem;
+    -moz-border-radius: 1rem;
+    -ms-border-radius: 1rem;
+    -o-border-radius: 1rem;
+}
+
+.round-2 {
+    border-radius: .4rem;
+    -webkit-border-radius: .4rem;
+    -moz-border-radius: .4rem;
+    -ms-border-radius: .4rem;
+    -o-border-radius: .4rem;
+}
+
+/* Mix */
+.pointer {
+    cursor: pointer;
+}
+
+
+/* Flex */
+/* Justify */
+.f-ctr {
+    display: flex;
+    justify-content: center;
+}
+
+.f-btw {
+    display: flex;
+    justify-content: space-between;
+}
+
+.f-ard {
+    display: flex;
+    justify-content: space-around;
+}
+
+.f-end {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.f-str {
+    display: flex;
+    justify-content: flex-start;
+}
+
+/*Align Center */
+.f-ctr-ctr {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.f-btw-ctr {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+}
+
+.f-ard-ctr {
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    align-items: center;
+}
+
+.f-end-ctr {
+    display: flex;
+    justify-content: flex-end;
+    align-content: center;
+    align-items: center;
+}
+
+.f-str-ctr {
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+    align-items: center;
+}
+
+/* Column */
+.f-col-str {
+    display: flex;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+}
+
+.f-col-end {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+}
+
+
+
+
+/* Animation classes */
+.inf-zoom-in-out {
+    animation: zoom-in-out 3s linear infinite;
+    -webkit-animation: zoom-in-out 3s linear infinite;
+}
+
+.inf-rotate {
+    animation: rotate 3s linear infinite;
+    -webkit-animation: rotate 3s linear infinite;
+}
+
+
+/* Hover Classes*/
+.hov-jump,
+.hov-inf-zoom-in-out,
+.hov-zoom-in-out,
+.hov-zoom-in,
+.hov-t-1,
+.hov-t-2,
+.hov-t-3,
+.hov-t-acc {
+    transition: .25s ease-in-out;
+    -webkit-transition: .25s ease-in-out;
+    -moz-transition: .25s ease-in-out;
+    -ms-transition: .25s ease-in-out;
+    -o-transition: .25s ease-in-out;
+}
+
+    .hov-jump:hover {
+        transform: translateY(-5px);
+        -webkit-transform: translateY(-5px);
+        -moz-transform: translateY(-5px);
+        -ms-transform: translateY(-5px);
+        -o-transform: translateY(-5px);
+    }
+
+.hov-rotate:hover {
+    animation: rotate 3s linear infinite;
+    -webkit-animation: rotate 3s linear infinite;
+}
+
+.hov-fill:hover {
+}
+
+.hov-inf-zoom-in-out:hover {
+    animation: zoom-in-out 3s linear infinite;
+    -webkit-animation: zoom-in-out 3s linear infinite;
+}
+
+.hov-inf-rotate:hover {
+    animation: rotate 3s linear infinite;
+    -webkit-animation: rotate 3s linear infinite;
+}
+
+.hov-inf-zoom-in-out:hover {
+    animation: zoom .75s linear;
+    -webkit-animation: zoom .75s linear;
+}
+
+.hov-zoom-in-out:hover {
+    animation: zoom .75s linear;
+    -webkit-animation: zoom .75s linear;
+}
+
+.hov-zoom-in:hover {
+    transform: scale(1.05);
+    -webkit-transform: scale(1.05);
+    -moz-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+    -o-transform: scale(1.05);
+}
+
+.hov-1:hover {
+    color: var(--text-1) !important;
+}
+
+.hov-2:hover {
+    color: var(--text-2) !important;
+}
+
+.hov-3:hover {
+    color: var(--text-3) !important;
+}
+
+.hov-t-acc:hover {
+    color: var(--accent) !important;
+}
+
+/* Transission */
+.trnc-25 {
+    transition: .25 ease-in-out;
+    -webkit-transition: .25 ease-in-out;
+    -moz-transition: .25 ease-in-out;
+    -ms-transition: .25 ease-in-out;
+    -o-transition: .25 ease-in-out;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+    .big-text {
+        font-size: 3.7rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .big-text {
+        font-size: 3.2rem;
+    }
+}
+
+
+
+/* Display */
+.hidden {
+    display:none;
+}

@@ -1,0 +1,376 @@
+/* Start Navbar */
+.navbar {
+    background: var(--bg-nav);
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    height:var(--nav-height);
+}
+.offcanvas {
+    background: transparent !important;
+}
+.offcanvas-body {
+    background: var(--bg-nav) !important;
+}
+.offcanvas-header {
+    background: var(--bg);
+    color: var(--text-3);
+    display: flex;
+    justify-content: space-between !important;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.offcanvas .btn-close {
+    position: relative;
+    color: var(--text-3) !important;
+    margin: 0 !important;
+    margin-right: 0 !important;
+    border: 1px solid var(--border-1) !important;
+    background: var(--bg-5);
+    transition:.25s;
+}
+    .offcanvas .btn-close:after {
+        content: "x";
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        text-align:center;
+        width: 100%;
+        height: 100%;
+        background: rgb(0 0 0 / 0.36);
+        color:var(--text-1);
+    }
+
+
+.navbar .navbar-nav .nav-link {
+    color: var(--text-1) ;
+}
+
+body.dark .navbar .navbar-nav svg path {
+    color: var(--text-1);
+}
+
+.nav-item {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+body.dark .navbar-nav .nav-item svg path {
+    stroke: var(--text-2) !important;
+}
+.active,
+.navbar-nav .nav-item .nav-link:hover {
+    color: var(--text-2) !important;
+}
+
+.active:hover svg path,
+.navbar-nav .nav-item:hover svg path {
+    stroke: var(--text-2) !important;
+}
+
+.logo-container .logo a {
+    border-radius: var(--radius-2);
+    padding: .2rem;
+}
+
+.logo-container .logo img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+.navbar .navbar-toggler {
+    transition: .25s;
+    -webkit-transition: .25s;
+    -moz-transition: .25s;
+    -ms-transition: .25s;
+    -o-transition: .25s;
+}
+
+.navbar .navbar-toggler:focus {
+    box-shadow: none;
+}
+.nav-item#search-box input {
+    box-shadow: none !important;
+}
+
+@media (max-width: 992px) {
+    .offcanvas {
+        justify-content: flex-start;
+        padding-right: 1rem !important;
+    }
+
+        .offcanvas ul.navbar-nav {
+            flex-direction: column !important;
+            justify-content: flex-start !important;
+            align-content: flex-start;
+            padding-right: 1rem !important;
+            column-gap: 1rem !important;
+            gap: 1rem !important;
+            margin-bottom: 1rem !important;
+            margin-right: 0 !important;
+        }
+
+        .offcanvas .nav-item {
+            margin: 0 !important;
+            justify-content: flex-start !important;
+            align-content: flex-start;
+        }
+
+    .nav-item#search-box {
+        display: none !important;
+    }
+}
+.shopping-card-box a {
+    position:relative;
+}
+.shopping-card-box a::after {
+    /*    content: attr(data-shopping-card-count);*/
+    content: "0";
+    position: absolute;
+    top: -.3rem;
+    right:-.5rem;
+    width: 15px;
+    height: 15px;
+    background: var(--accent);
+    color: var(--text-3);
+    font-size: .6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+@media (max-width: 992px) {
+    .shopping-card-box a::after {
+        top: -.3rem;
+        right: -.7rem;
+    }
+}
+
+
+/* End Navbar */
+
+/* Start Footer */
+footer {
+    bottom: auto !important;
+    bottom: 0 !important;
+    left: 0;
+    bottom: 0;
+    background: var(--footer-bg);
+    width: 100%;
+    height: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+footer ul {
+    position: relative;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin:0;
+    padding:0;
+}
+
+.social-icons li,
+.menu li {
+    display: inline;
+    transition: .5s;
+    -webkit-transition: .5s;
+    -moz-transition: .5s;
+    -ms-transition: .5s;
+    -o-transition: .5s;
+}
+
+.social-icons li a,
+.menu li a ,
+ul li {
+    color: var(--text-1);
+    text-decoration: none;
+}
+
+.social-icons li:hover,
+.menu li:hover {
+    color:var(--text-2);
+    transform: translateY(-5px);
+    -webkit-transform: translateY(-5px);
+    -moz-transform: translateY(-5px);
+    -ms-transform: translateY(-5px);
+    -o-transform: translateY(-5px);
+}
+
+
+/* HOVER COLORS (Official brand colors) */
+#facebook:hover svg path {
+    stroke: #1877F2; /* Facebook blue */
+}
+
+#github:hover svg path {
+    stroke: #181717; /* GitHub black */
+}
+
+#linkedin:hover svg path {
+    stroke: #0A66C2; /* LinkedIn blue */
+}
+
+#instagram:hover svg path {
+    stroke: #E1306C; /* Instagram pink-ish */
+}
+
+#youtube:hover svg path {
+    stroke: #FF0000; /* YouTube red */
+}
+
+#x:hover svg path{
+    stroke: #000; /* X is black */
+}
+
+/* End Footer */
+
+/* Start HomePage /Home/Index */
+main {
+    background: inherit;
+}
+
+section {
+    height: 100vh;
+    position: relative;
+}
+
+section .container {
+    position: relative;
+    z-index: 2;
+}
+
+/*Start Section 1*/
+/*End Section 1*/
+
+/*Start Section 2*/
+/*End Section 2*/
+
+/*Start Section 3*/
+/*End Section 3*/
+
+/*Start Section 4*/
+/*End Section 4*/
+
+/*Start Section 5*/
+/*End Section 5*/
+
+
+/* Movement buttons */
+/* Arrow up button */
+#backToTop {
+    position: fixed;
+    bottom: 2%;
+    right: 2%;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1001;
+}
+
+
+/* Help button */
+#helpButton {
+    position: fixed;
+    bottom: 10%; /* Adjusted from 2% to 10% */
+    right: 2%;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1001;
+}
+
+
+    #backToTop.show,
+    #helpButton.show {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+#backToTop.rocket {
+    animation: shake 0.4s ease-in-out infinite alternate, launch_arrow_up 1s ease-in-out;
+}
+
+ 
+#helpButton.rocket {
+    animation: shake 0.4s ease-in-out infinite alternate, launch_help 1s ease-in-out;
+}
+
+/*
+#helpButton svg {
+    width: 24px;
+    height: 24px;
+}*/
+
+/* Down Arrow button in the last of the scection */
+#downArrowButton {
+    display: block;
+    margin: 0 auto;
+    position: absolute;
+    bottom: 2rem; 
+    left: 50%;
+    transform: translateX(-50%);
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+    z-index: 1001;
+    animation: pulse 1.5s infinite;  
+}
+
+#downArrowButton:hover {
+    transform: translateX(-50%) scale(1.1); 
+}
+
+
+
+
+/* Smooth transition to make the button bounce when in view */
+/*#downArrowButton.visible {
+    animation: bounce 1s ease-out forwards;
+}*/
+
+/* Bounce animation to give a subtle bounce effect */
+/*@keyframes bounce {
+    0% {
+        transform: translateY(0) scale(1);
+    }
+
+    25% {
+        transform: translateY(-10px) scale(1.1);
+    }
+
+    50% {
+        transform: translateY(0) scale(1);
+    }
+
+    75% {
+        transform: translateY(-5px) scale(1.05);
+    }
+
+    100% {
+        transform: translateY(0) scale(1);
+    }
+}*/
+
+
+
+
+
+/* End HomePage /Home/Index */
+
+/* Start About Us page */
+/* End About Us page */
+
+/* Start Help page */
+/* End Help page */
+
+/* Start Privacy page */
+/* End Privacy page */

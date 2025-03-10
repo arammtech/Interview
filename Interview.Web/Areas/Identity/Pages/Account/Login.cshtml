@@ -1,0 +1,131 @@
+﻿@page
+@model LoginModel
+
+@{
+    Layout = "_IdentityLayout";
+    ViewData["Title"] = "Log in";
+}
+
+<form class="f-ctr-ctr flex-column" method="post" style="gap: 4.2rem !important;">
+    <div class="row">
+        <div class="col-12 f-ctr-ctr flex-column mb-3">
+            <h1 class="big-text fw-bold tc-3">تسجيل الدخول</h1>
+            <a asp-page="./Register"
+               asp-route-returnUrl="@Model.ReturnUrl"
+               class="tc-acc fs-2 hov-t-acc hov-zoom-in">إنشاء حساب جديد</a>
+        </div>
+    </div>
+
+    <div class="row gy-4 form-container" >
+        <div asp-validation-summary="ModelOnly" class="div-validations" role="alert"></div>
+            <dvi class="col-12">
+              <div class="form-input-box">
+                <div class="input-box">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 8.5C2 5 4 3.5 7 3.5H17C20 3.5 22 5 22 8.5V15.5C22 19 20 20.5 17 20.5H7" stroke="#A27B5C" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                        <path opacity="0.4" d="M17 9L13.87 11.5C12.84 12.32 11.15 12.32 10.12 11.5L7 9" stroke="#A27B5C" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                        <path opacity="0.4" d="M2 16.5H8" stroke="#A27B5C" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                        <path opacity="0.4" d="M2 12.5H5" stroke="#A27B5C" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  <input
+                    asp-for="Input.Email"
+                    placeholder="البريد الإلكتروني"
+                    aria-label="default input example"
+                  />
+                </div>
+                <span asp-validation-for="Input.Email" ></span>
+              </div>
+            </dvi>
+            <dvi class="col-12">
+              <div class="form-input-box">
+                <div class="input-box password-box">
+                    <svg class="showPasswordTrg" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14.53 9.47001L9.47004 14.53C8.82004 13.88 8.42004 12.99 8.42004 12C8.42004 10.02 10.02 8.42001 12 8.42001C12.99 8.42001 13.88 8.82001 14.53 9.47001Z" stroke="#A27B5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M17.82 5.77001C16.07 4.45001 14.07 3.73001 12 3.73001C8.46997 3.73001 5.17997 5.81001 2.88997 9.41001C1.98997 10.82 1.98997 13.19 2.88997 14.6C3.67997 15.84 4.59997 16.91 5.59997 17.77" stroke="#A27B5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path opacity="0.4" d="M8.42004 19.53C9.56004 20.01 10.77 20.27 12 20.27C15.53 20.27 18.82 18.19 21.11 14.59C22.01 13.18 22.01 10.81 21.11 9.39999C20.78 8.87999 20.42 8.38999 20.05 7.92999" stroke="#A27B5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path opacity="0.4" d="M15.5099 12.7C15.2499 14.11 14.0999 15.26 12.6899 15.52" stroke="#A27B5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M9.47 14.53L2 22" stroke="#2C3930" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M22 2L14.53 9.47" stroke="#2C3930" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+
+                  <input
+                    asp-for="Input.Password"
+                    class="passwordInput"
+                    type="password"
+                    placeholder="كلمة المرور"
+                    aria-label="default input example"
+                  />
+                </div>
+                <span asp-validation-for="Input.Password"></span>
+              </div>
+            </dvi>
+
+            <div class="col-12">
+              <div class="f-btw-ctr mb-2 tc-3">
+                <div class="remember-me-box flex-center">
+                  <input asp-for="Input.RememberMe" type="checkbox" />
+                  <label asp-for="Input.RememberMe"> تذكرني </label>
+                </div>
+                <a
+                  id="forgot-password"
+                  asp-page="./ForgotPassword"
+                  class="hov-t-2 hov-zoom-in"
+                  >هل نسيت كلمة المرور؟</a>
+              </div>
+
+              <span
+                asp-validation-for="Input.RememberMe"
+                class="text-danger"
+              ></span>
+            </div>
+
+            <div class="col-12">
+              <button type="submit"
+                  class="btn btn-input btn-lg btn-1 jump">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g opacity="0.4">
+                        <path d="M11.6797 14.62L14.2397 12.06L11.6797 9.5" stroke="#A27B5C" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M4 12.0596H14.17" stroke="#A27B5C" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                    </g>
+                    <path d="M12 4C16.42 4 20 7 20 12C20 17 16.42 20 12 20" stroke="#A27B5C" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                تسجيل الدخول
+              </button>
+            </div>
+
+          </div>
+
+          <div class="row gy-4">
+            <dvi class="col-12">
+                <div class="divider-with-text my-2">
+                    <span>أو</span>
+                </div>
+            </dvi>
+            <div class="col-12 f-ctr-ctr gap-4">
+                <button class="btn btn-lg btn-em fill">
+                    <svg class="ms-3" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21.59 10.18H12.2V13.89H17.71C17.6 14.81 17 16.2 15.67 17.13C14.83 17.72 13.69 18.13 12.2 18.13C9.55995 18.13 7.30996 16.39 6.50996 13.97C6.29996 13.35 6.17995 12.68 6.17995 11.99C6.17995 11.3 6.29995 10.63 6.49995 10.01C6.55995 9.83001 6.62995 9.64 6.70995 9.47C7.65995 7.34 9.75995 5.85999 12.2 5.85999C14.08 5.85999 15.34 6.67001 16.07 7.35001L18.89 4.59C17.16 2.98 14.9 1.98999 12.2 1.98999C8.28995 1.98999 4.90995 4.23 3.26995 7.5C2.58995 8.86 2.19995 10.38 2.19995 11.99C2.19995 13.6 2.58995 15.12 3.26995 16.48L3.27995 16.47V16.48C4.91995 19.75 8.28995 21.99 12.2 21.99C14.9 21.99 17.17 21.1 18.82 19.57C20.71 17.83 21.8 15.26 21.8 12.21C21.8 11.4 21.73 10.8 21.59 10.18Z" stroke="#A27B5C" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    Google
+                </button>
+                <button class="btn btn-lg btn-em fill">
+                    <svg class="ms-3" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M22 2L12 4V11H22V2Z" stroke="#A27B5C" stroke-width="1.5" stroke-miterlimit="10" stroke-linejoin="round" />
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M22 22L12 20V13H22V22Z" stroke="#A27B5C" stroke-width="1.5" stroke-miterlimit="10" stroke-linejoin="round" />
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M10 4.29999L2 6V11H10V4.29999Z" stroke="#A27B5C" stroke-width="1.5" stroke-miterlimit="10" stroke-linejoin="round" />
+                        <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M10 19.7L2 18V13H10V19.7Z" stroke="#A27B5C" stroke-width="1.5" stroke-miterlimit="10" stroke-linejoin="round" />
+                    </svg>
+
+                    Microsoft
+                </button>
+            </div>
+          </div>
+        </form>
+
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/show-password.js" asp-append-version="true"></script>
+}

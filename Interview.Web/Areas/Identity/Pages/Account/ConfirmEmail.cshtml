@@ -1,0 +1,25 @@
+﻿@page
+@model ConfirmEmailModel
+@{
+    Layout = "_IdentityLayout";
+    ViewData["Title"] = "Confirm email";
+}
+<div class="f-ctr-ctr flex-column" method="post" style="gap: 4.2rem !important;">
+    <div class="row">
+        <div class="col-12 f-ctr-ctr">
+            <h1 class="big-text fw-bold tc-3">Model.StatusMessage</h1>
+        </div>
+    </div>
+    <div class="row gy-4 form-container">
+        <div class="col-12">
+            <a asp-area="Customer" asp-controller="Home" asp-action="Index"
+               class="btn btn-input btn-lg btn-1 jump">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.57 5.93L3.5 12L9.57 18.07" stroke="#2C3930" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                    <path opacity="0.4" d="M20.5 12H3.66998" stroke="#2C3930" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                الرئيسية
+            </a>
+        </div>
+        </div>
+</div>

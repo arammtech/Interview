@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+
+<html dir="rtl">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+    <partial name="_StyleLinksPartial"></partial>
+    <link rel="stylesheet" href="~/css/identity.css" asp-append-version="true" />
+
+
+    @RenderSection("Styles", false)
+</head>
+<body dir="rtl" class="">
+    <div id="loading-spinner"></div> <!-- Spinner element -->
+
+    <main role="main" id="content" class="page-height position-relative overflow-hidden f-ctr-ctr" style="display: none;">
+        <div class="bubble-top-right"></div>
+        
+        
+        <div class="container">
+            <div class="row m-0">
+                <div class="col logo-container">
+                    <div>
+                        <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="fw-bold fs-3 hov-zoom-in">
+                            <!-- <img src="/imgs/Logo.svg" alt="" /> -->
+                            ARAMM TECH | ارام تيك
+                        </a>
+                    </div>
+                    <div>
+                        <a id="backButton" asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-sm btn-icon shadow hov-zoom-in">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.57 5.93L3.5 12L9.57 18.07" stroke="#A27B5C" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                                <path opacity="0.4" d="M20.5 12H3.66998" stroke="#8F968D" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+          
+                @RenderBody()
+
+        </div>
+        <div class="bubble-bottom-left"></div>
+    </main>
+
+
+    <!-- Validations JS Scripts -->
+    <partial name="_ValidationScriptsPartial"></partial>
+    <partial name="_ScriptsPartial"></partial>
+    @* <script src="~/js/Identity/identityLaout.js" asp-append-version="true"></script> *@
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

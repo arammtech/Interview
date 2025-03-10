@@ -1,0 +1,20 @@
+﻿@if (TempData["success"] != null)
+{
+    <div id="toastr-success-message" data-message="@TempData["success"]"></div>
+}
+
+@if (TempData["error"] != null)
+{
+    <div id="toastr-error-message" data-message="@TempData["error"]"></div>
+}
+
+@if (TempData["warning"] != null)
+{
+    <div id="toastr-warning-message" data-message="@TempData["warning"]"></div>
+}
+
+@if (TempData["info"] != null)
+{
+    <div id="toastr-info-message" data-message="@TempData["info"]"></div>
+}
+

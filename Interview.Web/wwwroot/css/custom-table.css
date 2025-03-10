@@ -1,0 +1,146 @@
+﻿
+/* ---------------------------
+   Table Styling
+--------------------------- */
+
+/*Search */
+.table-search-box svg {
+    left: 12px;
+    top: 18%;
+}
+
+.table-search-box input:focus,
+.table-search-box input:focus + svg path {
+    stroke: var(--main-color);
+}
+
+.table-search-box + .btn {
+    border: 2px solid var(--main-color);
+}
+
+
+table {
+    border-collapse: separate;
+    border-spacing: 0 8px !important;  
+}
+
+#example_wrapper {
+/*    padding: 1rem;*/
+}
+
+
+table thead {
+    background-color: var(--opacity-color) !important;
+    border-radius: .75rem;
+}
+
+    table thead th {
+        padding-bottom: 12px !important;
+        padding-top: 12px !important;
+        text-align: right !important;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+
+        table thead th:first-child {
+            border-top-right-radius: 8px;
+            padding-right: 30px !important;
+        }
+
+table thead th:nth-child(2) {
+    width: 40% !important;
+}
+
+table thead th:not(:nth-child(2)) {
+    width: 15% !important;
+}
+
+table thead th:last-child {
+    border-top-left-radius: 8px;
+    padding-left: 30px !important;
+}
+
+
+table tbody tr {
+    background-color: var(--opacity-color) !important;
+    border-bottom: .5px solid var(--strok-color);
+}
+/* Zebra-striping for even rows */
+/*.table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}*/
+
+
+.table tbody tr:hover {
+    background-color: var(--gray-color);
+}
+
+table tr td {
+    height: 73px !important;
+    padding-bottom: 5px !important;
+    padding-top: 5px !important;
+    padding-right: 1.5rem !important;
+    align-content: center;
+    align-items: center;
+}
+    table tr td:last-child {
+        padding-right: 0rem !important;
+        padding-left: 1.5rem !important;
+    }
+
+
+    table img {
+        width: 62px;
+        height: 62px;
+        border-radius: .75rem;
+        border: .5px solid var(--strok-color);
+    }
+
+table button {
+    cursor: pointer !important;
+}
+
+/*pagination*/
+ul.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+
+.page-item .page-link {
+    background-color: var(--opacity-color) !important;
+}
+
+.page-item.disabled .page-link {
+    background-color: var(--gray-color) !important;
+}
+
+.page-item.active .page-link {
+    background-color: var(--main-color) !important;
+}
+
+.dt-info {
+    margin:0 !important;
+}
+
+
+/*Entity Cound Select*/
+.dt-length {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    text-align: left;
+    gap: 1rem;
+    margin:10px 0;
+}
+.dt-length label {
+
+}
+
+.dt-length label select {
+    border-radius: .75rem;
+}
+
+ 
