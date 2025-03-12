@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tester", "Tester\Tester.csproj", "{4EDE865F-738C-169A-B2D1-FB516BB2C937}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Muqabalati.Web", "Muqabalati.Web\Muqabalati.Web.csproj", "{AB53AAE9-BBF7-7CE9-9792-12A64CDA84ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Muqabalati.Utilities", "Muqabalati.Utilities\Muqabalati.Utilities.csproj", "{AC105E12-37FB-7EF3-B32D-7327D9F8F729}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Muqabalati.Service", "Muqabalati.Service\Muqabalati.Service.csproj", "{F74ABB8F-A875-0FC0-77B8-F250A2FCA742}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Muqabalati.Repository", "Muqabalati.Repository\Muqabalati.Repository.csproj", "{93775C13-254D-CA70-E259-C29B42A69270}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Muqabalati.Domain", "Muqabalati.Domain\Muqabalati.Domain.csproj", "{829BCDB1-773A-BD11-466E-3DFD4DD56088}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Muqabalati.API", "Muqabalati.API\Muqabalati.API.csproj", "{B7818C6A-C9B4-36AD-4464-B5F89F59165D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4EDE865F-738C-169A-B2D1-FB516BB2C937}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EDE865F-738C-169A-B2D1-FB516BB2C937}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EDE865F-738C-169A-B2D1-FB516BB2C937}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EDE865F-738C-169A-B2D1-FB516BB2C937}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB53AAE9-BBF7-7CE9-9792-12A64CDA84ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB53AAE9-BBF7-7CE9-9792-12A64CDA84ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB53AAE9-BBF7-7CE9-9792-12A64CDA84ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB53AAE9-BBF7-7CE9-9792-12A64CDA84ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC105E12-37FB-7EF3-B32D-7327D9F8F729}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC105E12-37FB-7EF3-B32D-7327D9F8F729}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC105E12-37FB-7EF3-B32D-7327D9F8F729}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC105E12-37FB-7EF3-B32D-7327D9F8F729}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F74ABB8F-A875-0FC0-77B8-F250A2FCA742}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F74ABB8F-A875-0FC0-77B8-F250A2FCA742}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F74ABB8F-A875-0FC0-77B8-F250A2FCA742}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F74ABB8F-A875-0FC0-77B8-F250A2FCA742}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93775C13-254D-CA70-E259-C29B42A69270}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93775C13-254D-CA70-E259-C29B42A69270}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93775C13-254D-CA70-E259-C29B42A69270}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93775C13-254D-CA70-E259-C29B42A69270}.Release|Any CPU.Build.0 = Release|Any CPU
+		{829BCDB1-773A-BD11-466E-3DFD4DD56088}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{829BCDB1-773A-BD11-466E-3DFD4DD56088}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{829BCDB1-773A-BD11-466E-3DFD4DD56088}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{829BCDB1-773A-BD11-466E-3DFD4DD56088}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7818C6A-C9B4-36AD-4464-B5F89F59165D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7818C6A-C9B4-36AD-4464-B5F89F59165D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7818C6A-C9B4-36AD-4464-B5F89F59165D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7818C6A-C9B4-36AD-4464-B5F89F59165D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8164F330-7A54-4066-8203-F65C9D91FBAC}
+	EndGlobalSection
+EndGlobal

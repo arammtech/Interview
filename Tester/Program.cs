@@ -1,19 +1,19 @@
-﻿//See https://aka.ms/new-console-Interview for more information
+﻿//See https://aka.ms/new-console-Muqabalati for more information
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-using Interview.Repository.EntityFrameworkCore.Context;
+using Muqabalati.Repository.EntityFrameworkCore.Context;
 using Microsoft.EntityFrameworkCore;
-using Interview.Domain.Common.IUnitOfWork;
-using Interview.Repository.UnitOfWork;
-using Interview.Service.Interfaces;
-using Interview.Domain.Entities;
-using Interview.Service.Implementations;
-using Interview.Domain.Identity;
+using Muqabalati.Domain.Common.IUnitOfWork;
+using Muqabalati.Repository.UnitOfWork;
+using Muqabalati.Service.Interfaces;
+using Muqabalati.Domain.Entities;
+using Muqabalati.Service.Implementations;
+using Muqabalati.Domain.Identity;
 using Microsoft.AspNetCore.Identity;
 using Bogus;
-using Interview.Service.DTOs.Admin;
-using Interview.Service.EmailService;
-using Interview.Utilities.Identity;
+using Muqabalati.Service.DTOs.Admin;
+using Muqabalati.Service.EmailService;
+using Muqabalati.Utilities.Identity;
 
 var services = new ServiceCollection();
 var buider = new ConfigurationBuilder().AddJsonFile("appsettings.Development.json").Build();

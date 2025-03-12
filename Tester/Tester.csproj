@@ -29,9 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Interview.Domain\Interview.Domain.csproj" />
-    <ProjectReference Include="..\Interview.Repository\Interview.Repository.csproj" />
-    <ProjectReference Include="..\Interview.Service\Interview.Service.csproj" />
+    <ProjectReference Include="..\Muqabalati.Domain\Muqabalati.Domain.csproj" />
+    <ProjectReference Include="..\Muqabalati.Repository\Muqabalati.Repository.csproj" />
+    <ProjectReference Include="..\Muqabalati.Service\Muqabalati.Service.csproj" />
   </ItemGroup>
 
 </Project>
