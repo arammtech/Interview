@@ -24,7 +24,7 @@ namespace Muqabalati.Service.Implementations
                 request.InterviewerName,
                 request.Tone,
                 request.Topic,
-                request.Level,
+                request.SkillLevel,
                 request.Department
             );
 
@@ -32,15 +32,15 @@ namespace Muqabalati.Service.Implementations
                 apiKey,
                 request.QuestionCount,
                 request.Topic,
-                request.Level,
+                request.SkillLevel,
                 request.Department,
                 request.Tone,
-                request.Language
+                request.TerminologyLanguage
             );
 
             var questions = await _geminiService.ParseQuestions(questionsResponse);
 
-            var conclusionText = await _geminiService.GenerateConclusionText(apiKey);
+            var conclusionText = await _geminiService.GenerateConclusionText(apiKey,request.ApplicantName,request.Tone);
 
             // Create the session object
             return new InterviewSessionDto
