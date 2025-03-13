@@ -12,7 +12,7 @@ namespace Muqabalati.Service.DTOs
         public string InterviewerName { get; set; }
         public string Topic { get; set; }
         public string Level { get; set; }
-        public string Department { get; set; }
+        public string Department { get; set; } 
         public string Tone { get; set; }
         public string Language { get; set; }
         public int QuestionCount { get; set; }

@@ -50,10 +50,16 @@ namespace Muqabalati.Web.Controllers
 
              after it I will handle it with js and api
 
-
-
             */
 
+            //request.ApplicantName = "جون";
+            //request.InterviewerName = "محمد";
+            //request.Topic = "Backend c#";
+            //request.Department = "Programming";
+            //request.Level = "Jenior";
+            //request.Tone = "السورية";
+            //request.Language = "الانجليزية";
+            //request.QuestionCount = 3;
 
             // Call the service to generate the JSON session object
             //var session = await _interviewService.GenerateInterviewSessionAsync(request);
@@ -61,7 +67,14 @@ namespace Muqabalati.Web.Controllers
             // Serialize the session object to JSON and return as IActionResult
             //return Json(session);
 
+           
+
+
+
+
             return View();
+
+
         }
 
         // API to return the JSON for the interview session stored in session

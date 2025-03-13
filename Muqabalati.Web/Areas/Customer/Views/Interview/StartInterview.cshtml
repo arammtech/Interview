@@ -1,9 +1,8 @@
 ﻿
 @{
-    // Layout = null;
+    Layout = "_LayoutInterview.cshtml";
     ViewData["Title"] = "StartInterview";
 }
-
 
 
 <main class="h-full bg-1 f-ctr-ctr">
@@ -39,3 +38,50 @@
         </div>
     </section>
 </main>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+
+        var $ = jQuery.noConflict();
+
+        $(document).ready(function () {
+            // Sample InterviewRequestDto data; adjust fields as required
+            var interviewRequest = {
+                // Populate with the properties expected by your InterviewRequestDto
+                // For example:
+                applicantName: "جون",
+                interviewerName : "محمد",
+                topic : "Backend c#",
+                department : "Programming",
+                level : "Jenior",
+                tone : "السورية",
+                language :  "الانجليزية",
+                questionCount : 3
+            };
+
+
+            $.ajax({
+                url: '/api/Customer/interview/start', // Ensure this matches your routing configuration
+                type: 'POST',
+                data: JSON.stringify(interviewRequest),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function (response) {
+                    if (response.success) {
+                        // Print the session data in the textarea in a formatted manner
+                        console.log(response.data);
+
+
+                    } else {
+                        console.error('Unexpected response:', response);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error starting the interview:', status, error);
+                }
+            });
+        });
+    </script>
+}
