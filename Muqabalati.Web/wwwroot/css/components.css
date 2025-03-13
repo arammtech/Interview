@@ -646,7 +646,7 @@ body.dark .wave-opacity-shape-up .shape-fill {
 }
 
 /* Fancy floating circle-bubbles for extra style */
-
+/*
 .circle-bubble {
     position: absolute;
     background: var(--bg-shape);
@@ -676,7 +676,7 @@ body.dark .wave-opacity-shape-up .shape-fill {
         top: 80%;
         left: 30%;
         animation-duration: 15s;
-    }
+    }*/
 
 
 /* Footer Waves*/

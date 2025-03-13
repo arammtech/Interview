@@ -1,0 +1,72 @@
+.circle-bubble {
+    position: relative;
+    background: #6c757d;
+    border-radius: 50%;
+    width: 35rem;
+    height: 35rem;
+    transition: transform 0.05s linear, border-radius 0.3s ease;
+}
+
+.processing {
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.speaking {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: transparent;
+}
+
+    .speaking .dot {
+        width: 12rem;
+        height: 12rem;
+        margin: 0 2px;
+        background-color: #007bff;
+        border-radius: 50%;
+        animation: dotPulse 1s infinite ease-in-out;
+    }
+
+        .speaking .dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .speaking .dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .speaking .dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+@keyframes dotPulse {
+    0%, 100% {
+        opacity: 0.2;
+        transform: translateY(0);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateY(-5px);
+    }
+}
+
+.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
