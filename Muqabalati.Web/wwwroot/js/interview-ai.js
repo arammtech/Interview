@@ -24,6 +24,7 @@ let repeatClickCount = 0; // Tracks "Repeat Question" clicks
 let isPaused = false; // Pause status
 let pauseStartTime = null; // Tracks pause start time
 let savedState = null; // Saves state during pause
+let isWaitingForApiResponse = true; // Track API response state
 
 // Setup Audio Analyzer
 function setupAudioAnalyzer() {
@@ -40,11 +41,25 @@ function setupAudioAnalyzer() {
 
 // Update State Display and Toggle Buttons
 function updateStateDisplay() {
-    if (appState === "يستمع") stateDisplay.textContent = "يستمع";
-    else if (appState === "يفكر") stateDisplay.textContent = "يفكر";
-    else if (appState === "يتكلم") stateDisplay.textContent = "يتكلم";
-    else if (isPaused) stateDisplay.textContent = "متوقف";
-    else stateDisplay.textContent = "جاهز"; // Default to "جاهز" when idle
+    if (appState === "يستمع") {
+        stateDisplay.textContent = "يستمع";
+    } else if (appState === "يفكر") {
+        if (isWaitingForApiResponse) {
+            stateDisplay.textContent = "جاري تجهيز المقابلة"; // Preparing the interview
+        } else if (currentQuestionIndex >= questions.length) {
+            stateDisplay.textContent = "جاري تقييم مقابلتك..."; // Rating your interview...
+        } else {
+            stateDisplay.textContent = "يفكر"; // Default thinking state
+        }
+    } else if (appState === "يتكلم") {
+        stateDisplay.textContent = "يتكلم";
+    } else if (isPaused) {
+        stateDisplay.textContent = "متوقف";
+    } else if (appState === "جاهز" && currentQuestionIndex < questions.length) {
+        stateDisplay.textContent = "اضغط لبدء الإجابة"; // Click to start the answer
+    } else {
+        stateDisplay.textContent = "جاهز"; // Default idle state
+    }
     toggleButtons();
 }
 
@@ -79,6 +94,9 @@ function animateListeningBubble() {
         animationFrameId = requestAnimationFrame(step);
     }
     if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    // Start with minScale (1) when entering listening state
+    bubble.style.transform = "scale(1)";
+    bubble.classList.add("listening");
     animationFrameId = requestAnimationFrame(step);
 }
 
@@ -142,12 +160,24 @@ recognition.onend = () => {
         if (currentQuestionIndex < questions.length - 1) {
             currentQuestionIndex++;
             questionNumDiv.textContent = currentQuestionIndex + 1;
-            updateStateDisplay();
-            await proceedToNextQuestion();
-        } else {
-            await think(2000);
+            await think(2000); // Think for 2 seconds before next question
             if (isPaused) return;
-            await speakText(sessionData?.conclusionText || "حسناً، سأقوم بتقييم مقابلتك الآن، شكراً لاستخدام موقع myInterview!");
+            const question = questions[currentQuestionIndex];
+            const questionText = (question.linkingPhrase ? question.linkingPhrase + ", " : "") + question.originalQuestion;
+            await speakText(questionText); // Speak next question
+        } else {
+            await think(2000); // Think for 2 seconds after last question
+            if (isPaused) return;
+            // Extract conclusionText from the nested structure
+            const conclusionText = sessionData?.conclusionText?.candidates?.[0]?.content?.parts?.[0]?.text || "حسناً، سأقوم بتقييم مقابلتك الآن، شكراً لاستخدام موقع myInterview!";
+            await speakText(conclusionText); // Speak conclusion
+            if (isPaused) return;
+            await think(3000); // Think for 3 seconds with "Rating your interview..." text
+            if (isPaused) return;
+            // Return to normal shape
+            bubble.classList.remove("processing", "speaking", "listening");
+            bubble.style.transform = "scale(1)";
+            bubble.innerHTML = "";
             questionNumDiv.style.display = "none";
             questionTimer.style.display = "none";
         }
@@ -186,7 +216,8 @@ function displayCountdownTimer() {
         appState = "جاهز";
         bubble.classList.remove("processing", "speaking", "listening");
         bubble.innerHTML = `<div class="countdown-number">${countdown}</div>`;
-        updateStateDisplay();
+        stateDisplay.textContent = "بدء المقابلة"; // Starting the interview
+        toggleButtons();
 
         const countdownInterval = setInterval(() => {
             countdown--;
@@ -293,7 +324,9 @@ async function startInterview() {
 
     await displayCountdownTimer(); // Step 1: Countdown 5 to 1
     if (isPaused) return;
-    await speakText(sessionData.introText || "مرحباً، شكراً لانضمامك إلى المقابلة."); // Step 2: Speak intro
+    // Extract introText from the nested structure
+    const introText = sessionData?.candidates?.[0]?.content?.parts?.[0]?.text || "مرحباً، شكراً لانضمامك إلى المقابلة.";
+    await speakText(introText); // Step 2: Speak intro
     if (isPaused) return;
     await think(1000); // Step 3: Think for 1 second
     if (isPaused) return;
@@ -312,9 +345,9 @@ repeatQuestionBtn.onclick = async () => {
 
     repeatClickCount++;
     if (repeatClickCount % 2 === 1) {
-        await speakText(question.rephrasedQuestion || "لم يتم توفير سؤال معاد صياغته.");
+        await speakText(question.rephrasedQuestion || "لم يتم توفير سؤال معاد صياغته."); // First click: Rephrased question
     } else {
-        await speakText(question.explanation || "لم يتم توفير تفسير لهذا السؤال.");
+        await speakText(question.explanation || "لم يتم توفير تفسير لهذا السؤال."); // Second click: Explanation
     }
 };
 
@@ -391,14 +424,20 @@ pauseInterviewBtn.onclick = () => {
 
 // AJAX Call to Fetch Interview Session
 $(document).ready(function () {
+    // Set AI to thinking state while waiting for API response
+    isWaitingForApiResponse = true;
+    appState = "يفكر";
+    bubble.classList.add("processing"); // Thinking shape
+    updateStateDisplay();
+
     var interviewRequest = {
         applicantName: "جون",
         interviewerName: "محمد",
         topic: "Backend c#",
         department: "Programming",
-        level: "Jenior",
+        skillLevel: "Jenior",
         tone: "السورية",
-        language: "الانجليزية",
+        terminologyLanguage: "الانجليزية",
         questionCount: 3
     };
 
@@ -408,7 +447,7 @@ $(document).ready(function () {
         data: JSON.stringify(interviewRequest),
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
-        success: function (response) {
+        success: async function (response) {
             if (response.success) {
                 sessionData = response.data;
                 console.log("Raw sessionData:", sessionData);
@@ -420,27 +459,31 @@ $(document).ready(function () {
 
                 console.log("Session Data:", sessionData);
                 console.log("Processed Questions:", questions);
+
+                // Mark API response as received
+                isWaitingForApiResponse = false;
+
+                // Start the interview process after the response is received
+                await startInterview();
             } else {
                 console.error('Unexpected response:', response);
+                isWaitingForApiResponse = false;
                 updateStateDisplay();
             }
         },
         error: function (xhr, status, error) {
             console.error('Error starting the interview:', status, error);
+            isWaitingForApiResponse = false;
             updateStateDisplay();
         }
     });
 });
 
-// Initial Setup and Automatic Start
+// Initial Setup
 window.addEventListener("load", async () => {
     setupAudioAnalyzer();
-    appState = "جاهز";
     updateStateDisplay();
     toggleButtons();
     speechSynthesis.onvoiceschanged = loadArabicVoice;
     loadArabicVoice();
-
-    // Automatically start the interview after page load
-    await startInterview();
 });
