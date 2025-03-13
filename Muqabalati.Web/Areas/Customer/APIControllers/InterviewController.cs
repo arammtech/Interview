@@ -42,12 +42,17 @@ namespace Muqabalati.Web.Areas.Customer.APIControllers
                 //request.QuestionCount = 3;
 
                 // Generate the interview session data
-                var session = await _interviewService.GenerateInterviewSessionAsync(request);
+                //var session = await _interviewService.GenerateInterviewSessionAsync(request);
 
                 // Store the session JSON in HttpContext.Session
-                HttpContext.Session.SetString(SessionKey, JsonConvert.SerializeObject(session));
+                //HttpContext.Session.SetString(SessionKey, JsonConvert.SerializeObject(session));
 
                 // Return the session data as JSON for client-side use
+
+
+                InterviewSessionDto session = new InterviewSessionDto();
+
+
                 return Ok(new { success = true, data = session });
             }
             catch (System.Exception ex)

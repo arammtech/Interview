@@ -8,9 +8,7 @@
 <main class="h-full bg-1 f-ctr-ctr">
     <section id="interview-page" class="container f-btw-ctr gap-5">
         <div id="actionButtons" class="f-ctr-ctr gap-5 f-col">
-            <button id="playQuestion" class="btn btn-md btn-primary">
-                تشغيل السؤال
-            </button>
+         
             <button id="repeatQuestion" class="btn btn-md btn-primary">
                 إعادة السؤال
             </button>
@@ -20,68 +18,28 @@
             <button id="endAnswer" class="btn btn-md btn-primary">
                 انتهت الإجابة
             </button>
-            <button id="showAnswerText" class="btn btn-md btn-primary">
-                عرض نص الإجابة
+
+            <button id="pauseInterview" class="btn btn-md btn-primary">
+                توقيف المقابلة
             </button>
+
         </div>
 
         <div id="InterviewAi" class="f-ctr-ctr f-col">
             <div id="interviewerAIBubble" class="circle-bubble"></div>
             <h2 id="interviewerAIState" class="display-4 mt-4">جاهز</h2>
-            <textarea id="textTest" class="mt-5 p-5"></textarea>
         </div>
 
         <div class="f-ctr-ctr gap-5 f-col">
-            <div id="questionText" class="btn btn-secondary">عرض السؤال</div>
             <div id="questionNum" class="btn btn-secondary">1</div>
             <div id="questionTimer" class="btn btn-secondary">10s</div>
         </div>
+        
     </section>
 </main>
 
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script>
-
-        var $ = jQuery.noConflict();
-
-        $(document).ready(function () {
-            // Sample InterviewRequestDto data; adjust fields as required
-            var interviewRequest = {
-                // Populate with the properties expected by your InterviewRequestDto
-                // For example:
-                applicantName: "جون",
-                interviewerName : "محمد",
-                topic : "Backend c#",
-                department : "Programming",
-                level : "Jenior",
-                tone : "السورية",
-                language :  "الانجليزية",
-                questionCount : 3
-            };
-
-
-            $.ajax({
-                url: '/api/Customer/interview/start', // Ensure this matches your routing configuration
-                type: 'POST',
-                data: JSON.stringify(interviewRequest),
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                success: function (response) {
-                    if (response.success) {
-                        // Print the session data in the textarea in a formatted manner
-                        console.log(response.data);
-
-
-                    } else {
-                        console.error('Unexpected response:', response);
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error starting the interview:', status, error);
-                }
-            });
-        });
-    </script>
+    <script type="module" src="~/js/interview-ai.js"></script>
 }
