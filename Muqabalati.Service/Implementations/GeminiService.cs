@@ -20,9 +20,16 @@ namespace Muqabalati.Service.Implementations
 
 
 
-        public async Task<string> GenerateIntroText(string apiKey, string applicantName, string interviewerName, string topic, string level, string department)
+        public async Task<string> GenerateIntroText(
+            string apiKey,
+            string applicantName,
+            string interviewerName,
+            string tone,
+            string topic,
+            string level,
+            string department)
         {
-            var introPrompt = GenerateIntroPrompt(applicantName, interviewerName, topic, level, department);
+            var introPrompt = GenerateIntroPrompt(applicantName, interviewerName, tone, topic, level, department);
             return await GenerateContent(apiKey, introPrompt);
         }
 
@@ -91,7 +98,7 @@ namespace Muqabalati.Service.Implementations
         }
 
 
-        private string GenerateIntroPrompt(string applicantName, string interviewerName, string topic, string level, string department)
+        private string GenerateIntroPrompt(string applicantName, string interviewerName, string topic, string tone, string level, string department)
         {
             return $@"
                         صِغ تحية ودية تُستخدم في بداية مقابلة مع متقدم. يجب أن تتضمن التحية:
@@ -102,6 +109,8 @@ namespace Muqabalati.Service.Implementations
                         - أخبره بأن لديه وقتًا معينًا سيظهر في امامة للإجابة على كل سؤال.
 
                         تفاصيل السياق:
+                        - اللغة : العربية
+                        - اللهجة : {tone}
                         - اسم المتقدم: {applicantName}
                         - اسم المحاور: {interviewerName}
                         - الموضوع: {topic}

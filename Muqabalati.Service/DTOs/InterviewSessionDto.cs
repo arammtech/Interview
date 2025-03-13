@@ -11,7 +11,6 @@ namespace Muqabalati.Service.DTOs
         public string ApplicantName { get; set; }
         public string IntroText { get; set; }
         public List<QuestionModel> Questions { get; set; } = new List<QuestionModel>();
-        public List<string> Responses { get; set; } = new List<string>();
         public string ConclusionText { get; set; }
     }
 }

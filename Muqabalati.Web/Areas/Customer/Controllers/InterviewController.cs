@@ -1,72 +1,42 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Muqabalati.Service.Interfaces;
 using Muqabalati.Service.DTOs;
-using Muqabalati.Domain.Global;
-using Muqabalati.Utilities.Global;
 
 namespace Muqabalati.Web.Controllers
 {
     public class InterviewController : Controller
     {
-        private readonly IGeminiService _geminiService;
-        private readonly string _apiKey = "AIzaSyCoDx9WJWnE960DVAPV4ddXv3468cyQg84"; // يجب أن يتم تخزين الـ API Key في إعدادات آمنة
+        private readonly IInterviewService _interviewService;
 
-        public InterviewController(IGeminiService geminiService)
+        public InterviewController(IInterviewService interviewService)
         {
-            _geminiService = geminiService;
+            _interviewService = interviewService;
         }
 
-        // عرض الصفحة الرئيسية
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        // بدء المقابلة
+        // API to return JSON for starting the interview
         [HttpPost]
-        public async Task<IActionResult> StartInterview(QuestionRequest request)
+        public async Task<IActionResult> StartInterview(InterviewRequestDto request)
         {
-            // توليد نص المقدمة
-            string introText = await _geminiService.GenerateIntroText(_apiKey, request.ApplicantName, request.InterviewerName, request.Topic, request.Level, request.Department);
+            // Call the service to generate the JSON session object
+            var session = await _interviewService.GenerateInterviewSessionAsync(request);
 
-            // توليد نص الأسئلة
-            string questionsResponse = await _geminiService.GenerateQuestionText(_apiKey, 2, request.Topic, request.Level, request.Department, request.Tone, request.Language);
-
-            // توليد نص الخاتمة
-            string conclusionText = await _geminiService.GenerateConclusionText(_apiKey);
-
-            // تحليل الأسئلة
-            var questionsList = await _geminiService.ParseQuestions(questionsResponse);
-
-            // إنشاء الجلسة
-            var session = new InterviewSessionDto
-            {
-                ApplicantName = request.ApplicantName,
-                IntroText = introText,
-                Questions = questionsList,
-                ConclusionText = conclusionText
-            };
-           
-            // تخزين الجلسة في Session
-            HttpContext.Session.Set("InterviewSession", session);
-            
-
-            return View("InterviewSession", session);
+            // Serialize the session object to JSON and return as IActionResult
+            return Json(session);
         }
 
-
-        // إنهاء الجلسة وعرض النتيجة
-        public IActionResult FinishInterview()
+        // API to return the JSON for the interview session stored in session
+        [HttpGet]
+        public IActionResult GetInterviewSession()
         {
-            // استرداد الجلسة
-            var session = HttpContext.Session.Get<InterviewSessionDto>("InterviewSession");
-            if (session == null) return RedirectToAction("Index");
-            
-            // عرض صفحة التقييم
-            return View("Result", session);
+            string sessionJson = HttpContext.Session.GetString("InterviewSession");
+
+            if (string.IsNullOrEmpty(sessionJson))
+            {
+                return NotFound(new { message = "Interview session not found." });
+            }
+
+            return Ok(sessionJson);
         }
     }
 }

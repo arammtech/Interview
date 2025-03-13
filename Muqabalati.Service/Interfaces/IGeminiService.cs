@@ -11,8 +11,14 @@ namespace Muqabalati.Service.Interfaces
     {
         Task<string> GenerateContent(string apiKey, string prompt);
 
-        Task<string> GenerateIntroText(string apiKey, string applicantName, string interviewerName, string topic, string level, string department);
-
+        Task<string> GenerateIntroText(
+                    string apiKey,
+                    string applicantName,
+                    string interviewerName,
+                    string tone,
+                    string topic,
+                    string level,
+                    string department);
         Task<string> GenerateQuestionText(string apiKey, int questionNum, string topic, string level, string department, string tone, string language);
 
         Task<string> GenerateConclusionText(string apiKey);
