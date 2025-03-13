@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Muqabalati.Service.Interfaces
 {
-    public interface IGeminiService : IDisposable
+    public interface IGenAIApiService : IDisposable
     {
         Task<string> GenerateContent(string apiKey, string prompt);
 

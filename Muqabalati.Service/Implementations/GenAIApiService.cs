@@ -9,11 +9,11 @@ using Newtonsoft.Json;
 
 namespace Muqabalati.Service.Implementations
 {
-    public class GeminiService : IGeminiService
+    public class GenAIApiService : IGenAIApiService
     {
         private readonly HttpClient _httpClient;
 
-        public GeminiService()
+        public GenAIApiService()
         {
             _httpClient = new HttpClient();
         }
@@ -56,7 +56,7 @@ namespace Muqabalati.Service.Implementations
         }
 
 
-        // Method to send a prompt to the Gemini API and get the response
+        // Method to send a prompt to the GenAIApi API and get the response
         public async Task<string> GenerateContent(string apiKey, string prompt)
         {
             string url = $"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={apiKey}";
@@ -119,7 +119,7 @@ namespace Muqabalati.Service.Implementations
                 * تقديم توجيهات بسيطة ومشجعة حول كيفية الإجابة.
                 * الحفاظ على أسلوب ودي ومهني.
                 * إخباره بأن لديه وقتًا معينًا سيظهر أمامه للإجابة على كل سؤال.
-                * إخباره بأن ""اختبار القيادة الآن سنبدأ الأسئلة أو المقابلة"".
+                * إخباره بأن  سنبدأ الأسئلة أو المقابلة.
 
                 تفاصيل السياق:
 
@@ -203,7 +203,7 @@ namespace Muqabalati.Service.Implementations
 
             try
             {
-                var parsedResponse = JsonConvert.DeserializeObject<GeminiResponse>(jsonResponse);
+                var parsedResponse = JsonConvert.DeserializeObject<GenAIApiResponse>(jsonResponse);
 
                 if (parsedResponse?.Candidates != null && parsedResponse.Candidates.Count > 0)
                 {

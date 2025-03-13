@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Muqabalati.Service.DTOs
 {
-    public class GeminiResponse
+    public class GenAIApiResponse
     {
         public List<Candidate> Candidates { get; set; }
     }
