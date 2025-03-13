@@ -7,29 +7,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Muqabalati.Web</title>
     <script type="importmap"></script>
-    <link rel="stylesheet" href="~/css/interviewAI.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/interview-ai.css" asp-append-version="true" />
 
     <partial name="_StyleLinksPartial"></partial>
 
-    <link rel="stylesheet" href="~/css/notification2.css" asp-append-version="true" />
 
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body >
     @* <div id="loading-spinner"></div> <!-- Spinner element --> *@
 
-    <main role="main" id="content" class="page-height position-relative overflow-hidden f-ctr-ctr" style="display: none;">
+    @* <main role="main" id="content" class="page-height position-relative overflow-hidden f-ctr-ctr" style="display: none;"> *@
         <partial name="_NotificationsPartial" />
         @RenderBody()
-    </main>
+    @* </main> *@
 
 
 
     <partial name="_ScriptsPartial"></partial>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    @* <script src="~/js/interview-ai.js" asp-append-version="true"></script> *@
 
     <!-- Include notification.js as a module -->
-    <script type="module" src="~/js/notifications2.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
