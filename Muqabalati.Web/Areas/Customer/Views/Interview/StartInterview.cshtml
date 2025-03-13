@@ -1,0 +1,41 @@
+﻿
+@{
+    // Layout = null;
+    ViewData["Title"] = "StartInterview";
+}
+
+
+
+<main class="h-full bg-1 f-ctr-ctr">
+    <section id="interview-page" class="container f-btw-ctr gap-5">
+        <div id="actionButtons" class="f-ctr-ctr gap-5 f-col">
+            <button id="playQuestion" class="btn btn-md btn-primary">
+                تشغيل السؤال
+            </button>
+            <button id="repeatQuestion" class="btn btn-md btn-primary">
+                إعادة السؤال
+            </button>
+            <button id="startAnswer" class="btn btn-md btn-primary">
+                ابدأ الإجابة
+            </button>
+            <button id="endAnswer" class="btn btn-md btn-primary">
+                انتهت الإجابة
+            </button>
+            <button id="showAnswerText" class="btn btn-md btn-primary">
+                عرض نص الإجابة
+            </button>
+        </div>
+
+        <div id="InterviewAi" class="f-ctr-ctr f-col">
+            <div id="interviewerAIBubble" class="circle-bubble"></div>
+            <h2 id="interviewerAIState" class="display-4 mt-4">جاهز</h2>
+            <textarea id="textTest" class="mt-5 p-5"></textarea>
+        </div>
+
+        <div class="f-ctr-ctr gap-5 f-col">
+            <div id="questionText" class="btn btn-secondary">عرض السؤال</div>
+            <div id="questionNum" class="btn btn-secondary">1</div>
+            <div id="questionTimer" class="btn btn-secondary">10s</div>
+        </div>
+    </section>
+</main>
