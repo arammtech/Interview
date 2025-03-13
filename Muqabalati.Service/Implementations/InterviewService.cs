@@ -7,18 +7,18 @@ namespace Muqabalati.Service.Implementations
 {
     public class InterviewService : IInterviewService
     {
-        private readonly IGeminiService _geminiService;
+        private readonly IGenAIApiService _GenAIApiService;
 
-        public InterviewService(IGeminiService geminiService)
+        public InterviewService(IGenAIApiService GenAIApiService)
         {
-            _geminiService = geminiService;
+            _GenAIApiService = GenAIApiService;
         }
 
         // Generate a full interview session
         public async Task<InterviewSessionDto> GenerateInterviewSessionAsync(InterviewRequestDto request)
         {
             // Generate all the parts of the interview
-            var introText = await _geminiService.GenerateIntroText(
+            var introText = await _GenAIApiService.GenerateIntroText(
                 apiKey,
                 request.ApplicantName,
                 request.InterviewerName,
@@ -28,7 +28,7 @@ namespace Muqabalati.Service.Implementations
                 request.Department
             );
 
-            var questionsResponse = await _geminiService.GenerateQuestionText(
+            var questionsResponse = await _GenAIApiService.GenerateQuestionText(
                 apiKey,
                 request.QuestionCount,
                 request.Topic,
@@ -38,9 +38,9 @@ namespace Muqabalati.Service.Implementations
                 request.TerminologyLanguage
             );
 
-            var questions = await _geminiService.ParseQuestions(questionsResponse);
+            var questions = await _GenAIApiService.ParseQuestions(questionsResponse);
 
-            var conclusionText = await _geminiService.GenerateConclusionText(apiKey,request.ApplicantName,request.Tone);
+            var conclusionText = await _GenAIApiService.GenerateConclusionText(apiKey,request.ApplicantName,request.Tone);
 
             // Create the session object
             return new InterviewSessionDto
