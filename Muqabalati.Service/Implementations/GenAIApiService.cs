@@ -27,9 +27,10 @@ namespace Muqabalati.Service.Implementations
       string tone,
       string topic,
       string level,
-      string department)
+      string department,
+      string interviewLanguage)
         {
-            var introPrompt = GenerateIntroPrompt(applicantName, interviewerName, tone, topic, level, department);
+            var introPrompt = GenerateIntroPrompt(applicantName, interviewerName, tone, topic, level, department, interviewLanguage);
             return await GenerateContent(apiKey, introPrompt);
         }
 
@@ -40,18 +41,20 @@ namespace Muqabalati.Service.Implementations
             string level,
             string department,
             string tone,
-            string language)
+            string terminologyLanguage,
+            string interviewLanguage)
         {
-            var questionPrompt = GenerateQuestionPrompt(questionNum, topic, level, department, tone, language);
+            var questionPrompt = GenerateQuestionPrompt(questionNum, topic, level, department, tone,terminologyLanguage, interviewLanguage);
             return await GenerateContent(apiKey, questionPrompt);
         }
 
         public async Task<string> GenerateConclusionText(
             string apiKey,
             string applicantName,
-            string tone)
+            string tone,
+            string interviewLanguage)
         {
-            var conclusionPrompt = GenerateConclusionPrompt(applicantName, tone);
+            var conclusionPrompt = GenerateConclusionPrompt(applicantName, tone,interviewLanguage);
             return await GenerateContent(apiKey, conclusionPrompt);
         }
 
@@ -109,56 +112,96 @@ namespace Muqabalati.Service.Implementations
         }
 
 
-        private string GenerateIntroPrompt(string applicantName, string interviewerName, string topic, string tone, string level, string department)
+        private string GenerateIntroPrompt(
+            string applicantName,
+            string interviewerName,
+            string topic, 
+            string tone,
+            string level, 
+            string department, 
+            string interviewLanguage)
         {
             return $@"
-                                      صِغ تحية ودية تُستخدم في بداية مقابلة مع متقدم. يجب أن تتضمن التحية:
+                                  صِغ تحية ودية تُستخدم في بداية مقابلة مع متقدم. يجب أن تتضمن التحية:
 
                 * الترحيب بالمتقدم بشكل لائق.
+
                 * تعريف النظام أو الشخص الذي يجري المقابلة.
+
                 * تقديم توجيهات بسيطة ومشجعة حول كيفية الإجابة.
-                * الحفاظ على أسلوب ودي ومهني.
-                * إخباره بأن لديه وقتًا معينًا سيظهر أمامه للإجابة على كل سؤال.
-                * إخباره بأن  سنبدأ الأسئلة أو المقابلة.
+
+
+                * إخباره بأن لديه وقتًا معينًا سيظهر أمامه للإجابة على كل سؤال. 
+
+                * إخباره بأن لديه  ازرار  في الشاشة لتساعده لاعادة السؤال او للتوضيح او الانتقال الى السؤال التالي بصياغة ودية
+
+                * اخبرة 'الان  المقابلة ستبدا' بصياغة ودية .
+
+
 
                 تفاصيل السياق:
 
-                * اللغة: العربية
+                * اللغة: {interviewLanguage}
+
                 * اللهجة: {tone}
+
                 * اسم المتقدم: {applicantName}
+
                 * اسم المحاور: {interviewerName}
+
                 * الموضوع: {topic}
+
                 * المستوى المطلوب: {level}
+
                 * القسم: {department}
 
+
+
                 النص يجب أن يكون:
-
+                * الحفاظ على أسلوب ودي ومهني.
                 * واضحًا ومباشرًا.
-                * خاليًا من أي رموز أو تعليمات تحتاج إلى معالجة.
+                * خاليًا من أي رموز أو تعليمات تحتاج إلى معالجة و  خاليا من علامات النحو وغيرها من العلامات التنصيص او النقاط او الفواصل او بدء سطر جديد
                 * جاهزًا للاستخدام فورًا مع Web Speech AI.
-
-                        ";
+";
         }
 
-        private string GenerateConclusionPrompt(string applicantName, string tone)
+        private string GenerateConclusionPrompt(
+            string applicantName,
+            string tone,
+            string interviewLanguage)
         {
             return $@"
-صِغ خاتمة ودية تُستخدم لإنهاء مقابلة مع متقدم. يجب أن تتضمن الخاتمة:
+                صِغ خاتمة ودية تُستخدم لإنهاء مقابلة مع متقدم. يجب أن تتضمن الخاتمة:
 
-* شكر المتقدم باسمه ({applicantName}) على وقته وجهوده أثناء المقابلة.
-* الإشارة إلى أنه سيتم نقله إلى صفحة النتائج خلال ثوانٍ قليلة، حيث يمكنه الاطلاع على تقييمه النهائي.
-* الحفاظ على أسلوب ودي ومشجع لإنهاء المقابلة بانطباع إيجابي.
-* استخدام اللهجة: {tone}.
+                * شكر المتقدم باسمه ({applicantName}) على وقته وجهوده أثناء المقابلة.
+                * الإشارة إلى أنه سيتم نقله إلى صفحة النتائج خلال ثوانٍ قليلة، حيث يمكنه الاطلاع على تقييمه النهائي.
+                * الحفاظ على أسلوب ودي ومشجع لإنهاء المقابلة بانطباع إيجابي.
+                * استخدام اللهجة: {tone}.
+                                تفاصيل السياق:
 
-النص يجب أن يكون:
+                * اللغة: {interviewLanguage}
 
-* واضحًا ومباشرًا.
-* خاليًا من أي رموز أو تعليمات تحتاج إلى معالجة.
-* جاهزًا للاستخدام فورًا مع Web Speech AI.
+                * اللهجة: {tone}
+
+                * اسم المتقدم: {applicantName}
+
+
+                النص يجب أن يكون:
+                * الحفاظ على أسلوب ودي ومهني.
+                * واضحًا ومباشرًا.
+                * خاليًا من أي رموز أو تعليمات تحتاج إلى معالجة و  خاليا من علامات النحو وغيرها من العلامات التنصيص او النقاط او الفواصل او بدء سطر جديد
+                * جاهزًا للاستخدام فورًا مع Web Speech AI.
     ";
         }
 
-        private string GenerateQuestionPrompt(int questionNum, string topic, string level, string department, string tone, string language)
+        private string GenerateQuestionPrompt(
+            int questionNum,
+            string topic,
+            string level,
+            string department,
+            string tone,
+            string terminologyLanguage,
+            string interviewLanguage)
         {
             return $@"
         صِغ مجموعة من {questionNum} أسئلة موجهة إلى متقدم في مقابلة. يجب أن تتضمن:
@@ -178,9 +221,11 @@ namespace Muqabalati.Service.Implementations
         * الأسئلة يجب أن تكون واضحة ومباشرة.
         * ذات صلة بالسياق التالي:
             * الموضوع: {topic}.
+            * اللغة : {interviewLanguage};
+            * الموضوع: {topic}.
             * المستوى المطلوب: {level}.
             * القسم: {department}.
-        * مكتوبة بلهجة {tone} مع استخدام المصطلحات التقنية باللغة {language}.
+        * مكتوبة بلهجة {tone} مع استخدام المصطلحات التقنية باللغة {terminologyLanguage}.
         * يجب أن تتبع الأسئلة التنسيق التالي:
             <سؤال>
             1. [كلمة الربط]
@@ -190,10 +235,12 @@ namespace Muqabalati.Service.Implementations
             5. [الوقت المحتمل للإجابة بالدقائق اعد فقط الرقم لكي يمكنني تحولية الى int]
             </سؤال>
 
-        النص الناتج يجب أن يكون:
+                النص يجب أن يكون:
+                * الحفاظ على أسلوب ودي ومهني.
+                * واضحًا ومباشرًا.
+                * خاليًا من أي رموز أو تعليمات تحتاج إلى معالجة و  خاليا من علامات النحو وغيرها من العلامات التنصيص او النقاط او الفواصل او بدء سطر جديد
+                * جاهزًا للاستخدام فورًا مع Web Speech AI.
 
-        * مكتوبًا بطريقة احترافية وجاهزًا للاستخدام مع Web Speech AI.
-        * خاليًا من أي رموز أو تعليمات إضافية.
     ";
         }
 

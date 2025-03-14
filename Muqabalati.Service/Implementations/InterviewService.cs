@@ -25,7 +25,8 @@ namespace Muqabalati.Service.Implementations
                 request.Tone,
                 request.Topic,
                 request.SkillLevel,
-                request.Department
+                request.Department,
+                request.InterviewLanguage
             );
 
             var questionsResponse = await _GenAIApiService.GenerateQuestionText(
@@ -35,12 +36,18 @@ namespace Muqabalati.Service.Implementations
                 request.SkillLevel,
                 request.Department,
                 request.Tone,
-                request.TerminologyLanguage
+                request.TerminologyLanguage,
+                request.InterviewLanguage
             );
 
             var questions = await _GenAIApiService.ParseQuestions(questionsResponse);
 
-            var conclusionText = await _GenAIApiService.GenerateConclusionText(apiKey,request.ApplicantName,request.Tone);
+            var conclusionText = await _GenAIApiService.GenerateConclusionText(
+                apiKey,
+                request.ApplicantName,
+                request.Tone,
+                request.InterviewLanguage
+                );
 
             // Create the session object
             return new InterviewSessionDto
@@ -48,6 +55,7 @@ namespace Muqabalati.Service.Implementations
                 ApplicantName = request.ApplicantName,
                 IntroText = introText,
                 Questions = questions,
+                Tone = request.Tone,
                 ConclusionText = conclusionText
             };
         }
