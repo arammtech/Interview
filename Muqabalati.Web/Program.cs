@@ -66,7 +66,7 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ILog, LogService>();
 builder.Services.AddScoped<IInterviewService, InterviewService>();
-builder.Services.AddScoped<IGeminiService, GeminiService>();
+builder.Services.AddScoped<IGenAIApiService, GenAIApiService>();
 #endregion
 
 #region Session Management
