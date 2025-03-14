@@ -34,6 +34,17 @@ namespace Muqabalati.Service.Implementations
             return await GenerateContent(apiKey, introPrompt);
         }
 
+        public async Task<string> GenerateConclusionText(
+            string apiKey,
+            string applicantName,
+            string tone,
+            string interviewLanguage)
+        {
+            var conclusionPrompt = GenerateConclusionPrompt(applicantName, tone, interviewLanguage);
+            return await GenerateContent(apiKey, conclusionPrompt);
+        }
+
+
         public async Task<string> GenerateQuestionText(
             string apiKey,
             int questionNum,
@@ -47,17 +58,6 @@ namespace Muqabalati.Service.Implementations
             var questionPrompt = GenerateQuestionPrompt(questionNum, topic, level, department, tone,terminologyLanguage, interviewLanguage);
             return await GenerateContent(apiKey, questionPrompt);
         }
-
-        public async Task<string> GenerateConclusionText(
-            string apiKey,
-            string applicantName,
-            string tone,
-            string interviewLanguage)
-        {
-            var conclusionPrompt = GenerateConclusionPrompt(applicantName, tone,interviewLanguage);
-            return await GenerateContent(apiKey, conclusionPrompt);
-        }
-
 
         // Method to send a prompt to the GenAIApi API and get the response
         public async Task<string> GenerateContent(string apiKey, string prompt)
@@ -195,54 +195,84 @@ namespace Muqabalati.Service.Implementations
         }
 
         private string GenerateQuestionPrompt(
-            int questionNum,
-            string topic,
-            string level,
-            string department,
-            string tone,
-            string terminologyLanguage,
-            string interviewLanguage)
+          int questionNum,
+          string topic,
+          string level,
+          string department,
+          string tone,
+          string terminologyLanguage,
+          string interviewLanguage)
         {
             return $@"
-        صِغ مجموعة من {questionNum} أسئلة موجهة إلى متقدم في مقابلة. يجب أن تتضمن:
+                    صِغ مجموعة من {questionNum} أسئلة موجهة إلى متقدم في مقابلة. يجب أن تتضمن ما يلي:
 
-        1. إضافة كلمة تمهيدية قبل كل سؤال لتربطه بالسؤال السابق 
-           (مثل: ""وبعد ذلك، دعنا ننتقل إلى..."" أو ""في نفس السياق، سأسأل..."" 
-           أو ""بالإضافة إلى ذلك،"" إلخ).
-        2. صياغة السؤال الأساسي.
-        3. إعادة صياغة للسؤال بصيغة مختلفة مع الحفاظ على معناه، 
-           مع تقديم أمثلة توضيحية إذا لزم الأمر.
-        4. توضيح أو تفسير للسؤال لمساعدة المتقدم على فهم المطلوب، 
-           مع تقديم أمثلة عملية إذا أمكن.
-        5. تقدير الوقت المحتمل للإجابة على السؤال بالدقائق.
+                    1. إضافة كلمة تمهيدية تربط كل سؤال بالسؤال السابق 
+                       (مثل: ""وبعد ذلك، دعنا ننتقل إلى..."" أو ""في نفس السياق، سأسأل...""أو ""السؤال الاول هو"" أو ""بالإضافة إلى ذلك..."").  
+                       *يرجى تجنب استخدام كلمات أو عبارات تحتوي على إجابات إيجابية أو موافقة، مثل: ""طيب دلوقتي بعد ما اتكلمنا عن خبرتك السابقة"" أو أي كلمة تربط الحديث بخبرة معينة قم بذكر رقم السؤال في البداية مع ذكر كلمة الربط ""السؤال الاول هو"".*
 
-        متطلبات الأسئلة:
+                    2. صياغة السؤال الأساسي بدقة ووضوح.
 
-        * الأسئلة يجب أن تكون واضحة ومباشرة.
-        * ذات صلة بالسياق التالي:
-            * الموضوع: {topic}.
-            * اللغة : {interviewLanguage};
-            * الموضوع: {topic}.
-            * المستوى المطلوب: {level}.
-            * القسم: {department}.
-        * مكتوبة بلهجة {tone} مع استخدام المصطلحات التقنية باللغة {terminologyLanguage}.
-        * يجب أن تتبع الأسئلة التنسيق التالي:
-            <سؤال>
-            1. [كلمة الربط]
-            2. [السؤال الأصلي]
-            3. [إعادة الصياغة مع أمثلة إذا لزم الأمر]
-            4. [التوضيح مع أمثلة عملية إذا أمكن]
-            5. [الوقت المحتمل للإجابة بالدقائق اعد فقط الرقم لكي يمكنني تحولية الى int]
-            </سؤال>
+                    3. إعادة صياغة للسؤال باستخدام كلمات مختلفة مع الحفاظ على معناه.  
+                       *يُفضل إضافة أمثلة توضيحية إذا كان ذلك مناسبًا.*
 
-                النص يجب أن يكون:
-                * الحفاظ على أسلوب ودي ومهني.
-                * واضحًا ومباشرًا.
-                * خاليًا من أي رموز أو تعليمات تحتاج إلى معالجة و  خاليا من علامات النحو وغيرها من العلامات التنصيص او النقاط او الفواصل او بدء سطر جديد
-                * جاهزًا للاستخدام فورًا مع Web Speech AI.
+                    4. تقديم تفسير أو توضيح للسؤال لمساعدة المتقدم على فهم المطلوب.  
+                       *يُفضل إضافة أمثلة عملية إذا كانت متاحة.*
 
-    ";
+                    5. تقدير الوقت المطلوب للإجابة على السؤال بالدقائق.
+
+            متطلبات الأسئلة:
+
+                        * الأسئلة يجب أن تكون واضحة ومباشرة.
+                        * ذات صلة بالسياق التالي:
+                          * الموضوع: {topic}.
+                          * اللغة: {interviewLanguage}.
+                          * المستوى المطلوب: {level}.
+                          * القسم: {department}.
+                        * مكتوبة بلهجة {tone} مع استخدام المصطلحات التقنية باللغة {terminologyLanguage}.
+                        * يجب أن تتبع الأسئلة التنسيق التالي:
+                          <سؤال>
+                          1. [كلمة الربط]
+                          2. [السؤال الأصلي لاتقم باضافة نقط او فواصل في النص]
+                          3. [إعادة الصياغة مع أمثلة إذا لزم الأمر  لاتقم باضافة نقط او فواصل في النص]
+                          4. [ التوضيح مع أمثلة عملية إذا امكن  لاتقم باضافة نقط او فواصل في النص ]
+                          5. [الوقت المحتمل للإجابة بالدقائق اعد فقط الرقم لكي يمكنني تحولية الى int]
+                          </سؤال>
+
+                      النص المطلوب يجب أن يلتزم بالمعايير التالية:
+
+1. **وضوح النص ومباشرته:** 
+   - يجب أن يكون النص بسيطًا وخاليًا من التعقيد.
+
+2. **خلو النص من الرموز والعلامات غير الضرورية:**
+   - لا يُسمح باستخدام علامات التنصيص مثل: ""` أو '""'"".
+   - يجب تجنب النقاط الزائدة أو أي رموز أخرى او علامات النحو مثل الفاصلة وغيرها.
+
+3. **التنسيق المعتمد:**
+   - النص يجب أن يلتزم بالشكل التالي فقط:
+     ```
+     <سؤال>
+     1. [كلمة الربط]
+     2. [السؤال الأصلي]
+     3. [إعادة الصياغة مع أمثلة إذا لزم الأمر]
+     4. [التوضيح مع أمثلة عملية إذا أمكن]
+     5. [الوقت المحتمل للإجابة بالدقائق اعد فقط الرقم لكي يمكنني تحويله إلى int]
+     </سؤال>
+     ```
+
+4. **سهولة الاستخدام:** 
+   - يجب أن يكون النص جاهزًا للاستخدام الفوري دون الحاجة إلى أي معالجة إضافية.
+
+5. **استثناءات التنسيق:**
+   - الاستثناءات الوحيدة المسموح بها هي تنسيقات الفقرات والعناصر داخل إطار: `<سؤال>` كما هو محدد أعلاه.
+
+النص الناتج عن هذه المعايير سيكون ملائمًا لأي تطبيق تقني دون الحاجة إلى معالجة إضافية، وسيسهل العمل معه بشكل مباشر.
+                
+                        لا تحذف هذا الفورمات لكي استطيع فصل الاسئلة مع اجزاءها او الفواصل. 
+                        النص يجب أن يكون جاهزًا للاستخدام فورًا مع Web Speech AI.
+                        ";
         }
+
+        
 
         public async Task<List<QuestionModel>> ParseQuestions(string jsonResponse)
         {
