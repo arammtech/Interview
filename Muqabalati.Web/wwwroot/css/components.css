@@ -1,21 +1,4 @@
-﻿#interview-page {
-    position: relative;
-}
-
-.Interview_btn {
-    padding: 1rem;
-    width: 5rem;
-    text-align: center;
-    background: var(--color-gradient-4);
-    border-radius: var(--radius-1);
-    -webkit-border-radius: var(--radius-1);
-    -moz-border-radius: var(--radius-1);
-    -ms-border-radius: var(--radius-1);
-    -o-border-radius: var(--radius-1);
-}
-
-#questionNum {
-}
+﻿
 
 /* Buttons */
 .btn {
@@ -38,39 +21,38 @@
     -o-transition: 0.3s ease-in-out;
 }
 
-    .btn.opacity:hover {
-        opacity: .8 !important;
-    }
-
-    .btn.btn-sm {
-        height: 3.2rem;
-        width: 10rem;
-    }
-
-    .btn.btn-md {
-        height: 4.4rem;
-        width: 11.8rem;
-    }
-
-    .btn.btn-lg {
-        height: 5.2rem;
-        width: 14.3rem;
-    }
-
 .btn-sm {
     padding: .4rem !important;
     font-size: 1.6rem !important;
+    height: 3.2rem;
+    width: 10rem;
 }
 
 .btn-md {
     padding: .8rem !important;
     font-size: 1.8rem !important;
+    height: 4.4rem;
+    width: 11.8rem;
 }
 
 .btn-lg {
     padding: .8rem !important;
     font-size: 2rem !important;
+    height: 5.2rem;
+    width: 14.3rem;
 }
+
+.btn-icon {
+    width: 4.2rem;
+    height: 4.2rem;
+    padding: .9rem;
+    border-radius: 50% !important;
+    -webkit-border-radius: 50% !important;
+    -moz-border-radius: 50% !important;
+    -ms-border-radius: 50% !important;
+    -o-border-radius: 50% !important;
+}
+
 
 .btn-g1 {
     background: var(--color-gradient-1);
@@ -152,35 +134,7 @@
     color: var(--color-1);
 }
 
-/* 
-.btn-3 {
-  background:var(--color-3);
-  color: var(--color-1);
 
-} */
-
-
-
-/* Buttons */
-/*.btn {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    align-content: center !important;
-    font-weight: bold !important;
-    border: none !important;
-    outline: none !important;
-    border-radius: .4rem !important;
-    -webkit-border-radius: .4rem !important;
-    -moz-border-radius: .4rem !important;
-    -ms-border-radius: .4rem !important;
-    -o-border-radius: .4rem !important;
-    transition:  0.3s ease-in-out;
-    -webkit-transition:  0.3s ease-in-out;
-    -moz-transition:  0.3s ease-in-out;
-    -ms-transition:  0.3s ease-in-out;
-    -o-transition:  0.3s ease-in-out;
-}*/
 
     /* btn btn-lg btn-1      main fill*/
     /* btn btn-lg btn-2      second fill*/

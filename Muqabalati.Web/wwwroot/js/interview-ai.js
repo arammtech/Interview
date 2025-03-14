@@ -88,7 +88,7 @@ function animateListeningBubble() {
         const average = dataArray.reduce((acc, val) => acc + val, 0) / dataArray.length;
         const rawScale = average > 10 ? 1 + average / 100 : 1;
         const minScale = 1;
-        const maxScale = 1.5;
+        const maxScale = 1.4;
         const clampedScale = Math.min(Math.max(rawScale, minScale), maxScale);
         bubble.style.transform = `scale(${clampedScale})`;
         animationFrameId = requestAnimationFrame(step);

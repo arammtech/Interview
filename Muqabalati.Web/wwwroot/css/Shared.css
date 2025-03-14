@@ -12,6 +12,7 @@
     --color-white: #ffffff;
     --color-error: #cf0508;
     --color-aramm: #DB4B4E;
+    --border-gradient-1: linear-gradient(90deg, #F4F4F4 0%, #8E8E8E 100%);
     --bg-t: transparent;
     --shadow-glass: 5px 4px 27px 0px #00000052;
     --radius-1: .4rem;
@@ -59,7 +60,7 @@ body {
     min-height: 100vh;
     font-family: var(--main-font) !important;
     font-size: 1.6rem !important;
-    background: var(--color-white);
+    background-color: #171717 !important;
     overflow-x: hidden;
     animation: gradientAnimation 15s ease infinite;
     -webkit-animation: gradientAnimation 15s ease infinite;
