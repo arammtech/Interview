@@ -15,51 +15,7 @@ using Muqabalati.Service.DTOs.Admin;
 using Muqabalati.Service.EmailService;
 using Muqabalati.Utilities.Identity;
 
-var services = new ServiceCollection();
-var buider = new ConfigurationBuilder().AddJsonFile("appsettings.Development.json").Build();
-string connectionString = new ConfigurationBuilder().AddJsonFile("appsettings.Development.json").Build().GetSection("ConnectionStrings:DefaultConnection").Value;
-services.AddDbContext<AppDbContext>(options =>
-options.UseSqlServer(connectionString));
 
-//Register dependencies
-services.AddSingleton<IUnitOfWork, UnitOfWork>();
-services.AddSingleton<ILog, LogService>();
-
-services.Configure<EmailSettings>(buider.GetSection("EmailConfiguration"));
-services.AddLogging();
-
-services.AddIdentity<ApplicationUser, ApplicationRole>(option =>
-{
-    option.Password.RequiredLength = 4;
-    option.Password.RequireDigit = false;
-    option.Password.RequireNonAlphanumeric = false;
-    option.Password.RequireUppercase = false;
-}).AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
-;
-services.AddScoped<EmailService>();
-services.AddScoped<IEmailVerificationService, EmailVerificationService>();
-services.AddTransient<ITokenService, TokenService>();
-services.AddTransient<MailKitEmailSender>();
-services.AddTransient<SmtpEmailSender>();
-// Assign Defualt Startegy 
-services.AddTransient<IEmailSenderStrategy>(provider =>
-        provider.GetRequiredService<MailKitEmailSender>()
-    );
-
-
-
-ServiceProvider serviceProvider;
-serviceProvider = services.BuildServiceProvider();
-
-services.Configure<DataProtectionTokenProviderOptions>(options =>
-{
-    options.TokenLifespan = TimeSpan.FromSeconds(59);
-});
-
-Console.WriteLine("Email Sender Defualt : Mailkit");
-
-var emailService = serviceProvider.GetRequiredService<EmailService>();
 ApplicationUser GenerateFakeUser()
 {
     var faker = new Faker();
@@ -85,4 +41,20 @@ ApplicationUser GenerateFakeUser()
         LastName = faker.Name.LastName()
     };
 }
+var gemeni = new GenAIApiService();
+var interviewservice = new InterviewService(gemeni);
+var test = await interviewservice.GenerateInterviewSessionAsync(new());
 
+Console.WriteLine(test.IntroText);
+Console.WriteLine("الاسئلة");
+foreach(var q in test.Questions)
+{
+    Console.WriteLine(q.LinkingPhrase);
+    Console.WriteLine(q.OriginalQuestion);
+    Console.WriteLine(q.RephrasedQuestion);
+    Console.WriteLine(q.Explanation);
+    Console.WriteLine("الوقع المتوقع للاجابة" + q.EstimatedTimeMinutes);
+
+}
+
+Console.WriteLine(test.ConclusionText);

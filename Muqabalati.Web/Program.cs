@@ -65,6 +65,8 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ILog, LogService>();
+builder.Services.AddScoped<IInterviewService, InterviewService>();
+builder.Services.AddScoped<IGenAIApiService, GenAIApiService>();
 #endregion
 
 #region Session Management
@@ -102,7 +104,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{Area=Customer}/{controller=Home}/{action=Index}/{id?}");
+    pattern: "{Area=Customer}/{controller=Interview}/{action=StartInterview}/{id?}");
 
 app.MapRazorPages();
 
