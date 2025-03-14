@@ -32,20 +32,17 @@ namespace Muqabalati.Web.Areas.Customer.APIControllers
             try
             {
                 //InterviewRequestDto request = new();
-                //request.ApplicantName = "جون";
-                //request.InterviewerName = "محمد";
-                //request.Topic = "Backend c#";
-                //request.Department = "Programming";
-                //request.Level = "Jenior";
-                //request.Tone = "السورية";
-                //request.Language = "الانجليزية";
-                //request.QuestionCount = 3;
-                 
+
+                var interviewSessionDto = new InterviewSessionDto();
+
                 // Generate the interview session data
-                var session = await _interviewService.GenerateInterviewSessionAsync(request);
+                //var interviewSessionDto = await _interviewService.GenerateInterviewSessionAsync(request);
 
                 // Store the session JSON in HttpContext.Session
-                HttpContext.Session.SetString(SessionKey, JsonConvert.SerializeObject(session));
+
+                HttpContext.Session.SetString(SessionKey, JsonConvert.SerializeObject(interviewSessionDto));
+                string sessionDate = HttpContext.Session.GetString(SessionKey);
+                Console.WriteLine(sessionDate);
 
                 // Return the session data as JSON for client-side use
 
@@ -53,7 +50,7 @@ namespace Muqabalati.Web.Areas.Customer.APIControllers
                 //InterviewSessionDto session = new InterviewSessionDto();
 
 
-                return Ok(new { success = true, data = session });
+                return Ok(new { success = true, data = interviewSessionDto });
             }
             catch (System.Exception ex)
             {
@@ -61,29 +58,28 @@ namespace Muqabalati.Web.Areas.Customer.APIControllers
             }
         }
 
-        /// <summary>
-        /// Retrieves the interview session data from session.
-        /// </summary>
-        [HttpGet("session")]
-        public IActionResult GetInterviewSession()
+        [HttpPost("rate")]
+        public async Task<IActionResult> RateInterview([FromBody] string[] questions)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { message = "Invalid data", errors = ModelState });
+            }
+
             try
             {
-                // Retrieve the session JSON
-                var sessionJson = HttpContext.Session.GetString(SessionKey);
+                // Get the interviewSession form the session
+                // Plus the question 
+                // var session
 
-                if (string.IsNullOrEmpty(sessionJson))
-                {
-                    return NotFound(new { message = "Interview session not found." });
-                }
+                //var rate = await _interviewService.GetRateAsync(session);
 
-                // Deserialize and return the session data
-                var session = JsonConvert.DeserializeObject<InterviewSessionDto>(sessionJson);
-                return Ok(session);
+
+                return Ok(new { success = true});
             }
             catch (System.Exception ex)
             {
-                return StatusCode(500, new { message = "An error occurred while retrieving the interview session.", details = ex.Message });
+                return StatusCode(500, new { message = "An error occurred while starting the interview.", details = ex.Message });
             }
         }
     }

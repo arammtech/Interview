@@ -95,7 +95,7 @@ namespace Muqabalati.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Result(InterviewSessionDto InterviewSessionDTO)
+        public async Task<IActionResult> Result(string[] answers)
         {
             /*
              after the interview ends and click on (take your result)
@@ -109,6 +109,10 @@ namespace Muqabalati.Web.Controllers
              Go to the result page and display result
              
              */
+
+            string sessionData = HttpContext.Session.GetString("fdfdf");
+
+            // 
 
             return View();
         }
