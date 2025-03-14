@@ -27,6 +27,9 @@ namespace Muqabalati.Service.DTOs
                 Explanation = "نريد تقييم مدى قدرتك على التعاون والتواصل في بيئة عمل جماعية."
             }
         }; // قائمة افتراضية للأسئلة
-        public string ConclusionText { get; set; } = "شكراً على وقتك ونتمنى لك التوفيق والان سننقلك الى صفحة النتيجة."; // نص الختام الافتراضي
+        public string ConclusionText { get; set; } = "شكراً على وقتك ونتمنى لك التوفيق والان سننقلك الى صفحة النتيجة."; // نص الختام
+                                                                                                                        //الافتراضي
+
+        public string Tone { get; set; } = "مصري";
     }
 }

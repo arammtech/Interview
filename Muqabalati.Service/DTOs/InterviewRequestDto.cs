@@ -39,6 +39,11 @@
         public string TerminologyLanguage { get; set; } = "الانجليزي";
 
         /// <summary>
+        /// لغة المقابلة
+        /// </summary>
+        public string InterviewLanguage { get; set; } = "العربية";
+
+        /// <summary>
         /// عدد الأسئلة المطلوبة.
         /// </summary>
         public int QuestionCount { get; set; } = 2;

@@ -41,6 +41,20 @@ ApplicationUser GenerateFakeUser()
         LastName = faker.Name.LastName()
     };
 }
-var varibale = GenerateFakeUser();
-var json = new Muqabalati.Service.Genaric.Global().SeriliazeObject(varibale);
-Console.WriteLine(json);
+var gemeni = new GenAIApiService();
+var interviewservice = new InterviewService(gemeni);
+var test = await interviewservice.GenerateInterviewSessionAsync(new());
+
+Console.WriteLine(test.IntroText);
+Console.WriteLine("الاسئلة");
+foreach(var q in test.Questions)
+{
+    Console.WriteLine(q.LinkingPhrase);
+    Console.WriteLine(q.OriginalQuestion);
+    Console.WriteLine(q.RephrasedQuestion);
+    Console.WriteLine(q.Explanation);
+    Console.WriteLine("الوقع المتوقع للاجابة" + q.EstimatedTimeMinutes);
+
+}
+
+Console.WriteLine(test.ConclusionText);
