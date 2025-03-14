@@ -45,20 +45,20 @@ function updateStateDisplay() {
         stateDisplay.textContent = "يستمع";
     } else if (appState === "يفكر") {
         if (isWaitingForApiResponse) {
-            stateDisplay.textContent = "جاري تجهيز المقابلة"; // Preparing the interview
-        } else if (currentQuestionIndex >= questions.length) {
-            stateDisplay.textContent = "جاري تقييم مقابلتك..."; // Rating your interview...
+            stateDisplay.textContent = "جاري تجهيز المقابلة"; 
+        } else if (currentQuestionIndex >= questions.length) { 
+            stateDisplay.textContent = "جاري تقييم مقابلتك..."; 
         } else {
-            stateDisplay.textContent = "يفكر"; // Default thinking state
+            stateDisplay.textContent = "يفكر"; 
         }
     } else if (appState === "يتكلم") {
         stateDisplay.textContent = "يتكلم";
     } else if (isPaused) {
         stateDisplay.textContent = "متوقف";
     } else if (appState === "جاهز" && currentQuestionIndex < questions.length) {
-        stateDisplay.textContent = "اضغط لبدء الإجابة"; // Click to start the answer
+        stateDisplay.textContent = "اضغط لبدء الإجابة"; 
     } else {
-        stateDisplay.textContent = "جاهز"; // Default idle state
+        stateDisplay.textContent = "جاهز"; 
     }
     toggleButtons();
 }
@@ -102,7 +102,7 @@ function animateListeningBubble() {
 
 // Speech Recognition Setup
 const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-recognition.lang = "ar-EG";
+recognition.lang = "ar"; // change this for accent
 recognition.continuous = true;
 recognition.interimResults = false;
 
@@ -148,7 +148,7 @@ recognition.onend = () => {
 
     setTimeout(async () => {
         const text = accumulatedText.trim();
-        answers[currentQuestionIndex] = {
+        answers[currentQuestionIndex - 1] = {
             question: questions[currentQuestionIndex].originalQuestion,
             answer: text,
             timestamp: new Date().toISOString()
@@ -242,8 +242,8 @@ function displayCountdownTimer() {
 // Load Arabic Voice
 function loadArabicVoice() {
     const voices = speechSynthesis.getVoices();
-    arabicVoice = voices.find((voice) => voice.lang === "ar-SA") ||
-        voices.find((voice) => voice.lang === "ar-EG") ||
+    arabicVoice = voices.find((voice) => voice.lang === "ar") ||
+        voices.find((voice) => voice.lang === "ar") ||
         voices[0];
 }
 
@@ -252,7 +252,7 @@ function speakText(text) {
     if (!text) return Promise.resolve();
     return new Promise((resolve) => {
         const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = "ar-EG";
+        utterance.lang = "ar";
         if (arabicVoice) utterance.voice = arabicVoice;
         utterance.rate = 0.9;
 
