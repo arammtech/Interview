@@ -180,8 +180,8 @@ recognition.onend = () => {
         const text = accumulatedText.trim();
         // Corrected: Store answer at the current index
         answers[currentQuestionIndex] = {
-            answer: text,
-            timeTaken: timeTaken // Time in seconds
+            Answer: text,
+            TimeToken: timeTaken // Updated to match AnswerModel
         };
         console.log("Stored answers:", answers); // Optional: Log after each answer
          
@@ -213,11 +213,17 @@ recognition.onend = () => {
             isEvaluating = false;
             if (isPaused) return;
             console.log("Final answers:", answers); // Print answers array
+
+            // Submit answers to the Result action
+            submitAnswers(answers);
+
+            // Clean up UI (optional, since the page will redirect)
             bubble.classList.remove("processing", "speaking", "listening");
             bubble.style.transform = "scale(1)";
             bubble.innerHTML = "";
             questionNumDiv.style.display = "none";
             questionTimer.style.display = "none";
+
         }
     }, 2000);
 };
@@ -550,7 +556,29 @@ $(document).ready(function () {
         }
     });
 });
-Explanation:
+//Explanation:
+
+async function submitAnswers(answers) {
+    try {
+        const response = await fetch('/Customer/Interview/Result', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(answers)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to submit answers: ${response.statusText}`);
+        }
+
+        // Since the server returns a view, the browser will automatically redirect
+        // No additional client-side redirect is needed
+    } catch (error) {
+        console.error('Error submitting answers:', error);
+    }
+}
+
 
 // Initial Setup
 window.addEventListener("load", () => {

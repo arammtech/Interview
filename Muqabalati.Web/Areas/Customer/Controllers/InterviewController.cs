@@ -95,7 +95,7 @@ namespace Muqabalati.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Result(string[] answers)
+        public async Task<IActionResult> Result(List<AnswerModel> answers)
         {
             /*
              after the interview ends and click on (take your result)
