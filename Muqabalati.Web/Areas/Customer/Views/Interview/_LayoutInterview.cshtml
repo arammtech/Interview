@@ -7,10 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Muqabalati.Web</title>
     <script type="importmap"></script>
-    <link rel="stylesheet" href="~/css/interview-ai.css" asp-append-version="true" />
 
     <partial name="_StyleLinksPartial"></partial>
-
 
     @await RenderSectionAsync("Styles", required: false)
 </head>
@@ -22,11 +20,11 @@
     <div class="glow top-right"></div>
     <div class="glow left-middle"></div>
 
-    @* <main role="main" id="content" class="page-height position-relative overflow-hidden f-ctr-ctr" style="display: none;"> *@
+    <main role ="main" id="content" class="h-full f-ctr-ctr">
+
         <partial name="_NotificationsPartial" />
         @RenderBody()
-    @* </main> *@
-
+  </main> 
 
 
     <partial name="_ScriptsPartial"></partial>

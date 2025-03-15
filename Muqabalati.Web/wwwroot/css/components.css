@@ -162,9 +162,18 @@
         -ms-transform: rotate(0deg);
         -o-transform: rotate(0deg);
     }
+    .star_container.middle-top {
+        top: 20%;
+        left: 35%;
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+    }
 
     .star_container.middle-right {
-        bottom: 40%;
+        bottom: 35%;
         right: 30%;
         transform: rotate(0deg);
         -webkit-transform: rotate(0deg);

@@ -13,10 +13,11 @@
     --color-error: #cf0508;
     --color-aramm: #DB4B4E;
     --color-gray: #D9D9D936;
+    --color-gray-2: #ADB2B1;
     --border-gradient-1: linear-gradient(90deg, #F4F4F4 0%, #8E8E8E 100%);
     --bg-t: transparent;
     --shadow-glass: 5px 4px 27px 0px #00000052;
-    --radius-1: .4rem;
+    --radius-1: 1rem;
     --nav-height: 7rem;
     --footer-height: 45rem;
     --lg: 992px;
