@@ -28,27 +28,14 @@ namespace Muqabalati.Web.Areas.Customer.APIControllers
             {
                 return BadRequest(new { message = "Invalid data", errors = ModelState });
             } 
-
-            try
+            try  
             {
-                //InterviewRequestDto request = new();
-
-                var interviewSessionDto = new InterviewSessionDto();
-
-                // Generate the interview session data
-                //var interviewSessionDto = await _interviewService.GenerateInterviewSessionAsync(request);
+                var interviewSessionDto = await _interviewService.GenerateInterviewSessionAsync(request);
 
                 // Store the session JSON in HttpContext.Session
-
                 HttpContext.Session.SetString(SessionKey, JsonConvert.SerializeObject(interviewSessionDto));
                 string sessionDate = HttpContext.Session.GetString(SessionKey);
                 Console.WriteLine(sessionDate);
-
-                // Return the session data as JSON for client-side use
-
-
-                //InterviewSessionDto session = new InterviewSessionDto();
-
 
                 return Ok(new { success = true, data = interviewSessionDto });
             }
@@ -58,29 +45,6 @@ namespace Muqabalati.Web.Areas.Customer.APIControllers
             }
         }
 
-        [HttpPost("rate")]
-        public async Task<IActionResult> RateInterview([FromBody] string[] questions)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(new { message = "Invalid data", errors = ModelState });
-            }
-
-            try
-            {
-                // Get the interviewSession form the session
-                // Plus the question 
-                // var session
-
-                //var rate = await _interviewService.GetRateAsync(session);
-
-
-                return Ok(new { success = true});
-            }
-            catch (System.Exception ex)
-            {
-                return StatusCode(500, new { message = "An error occurred while starting the interview.", details = ex.Message });
-            }
-        }
+       
     }
     }

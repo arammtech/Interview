@@ -4,6 +4,7 @@ const stateDisplay = document.getElementById("interviewerAIState");
 const repeatQuestionBtn = document.getElementById("repeatQuestion");
 const startAnswerBtn = document.getElementById("startAnswer");
 const endAnswerBtn = document.getElementById("endAnswer");
+const skipQuestionBtn = document.getElementById("skipQuestion");
 const pauseInterviewBtn = document.getElementById("pauseInterview");
 const questionNumDiv = document.getElementById("questionNum");
 const questionTimer = document.getElementById("questionTimer");
@@ -73,12 +74,16 @@ function updateStateDisplay() {
         isReady = false;
     } else if (appState === "جاهز" && currentQuestionIndex < questions.length) {
         stateDisplay.textContent = "اضغط لبدء الإجابة";
+        bubble.style.transform = "scale(1)"; // Explicitly reset scale
+        bubble.classList.remove("speaking", "processing", "listening"); // Ensure no classes interfere
     } else {
         stateDisplay.textContent = "جاهز";
+        bubble.style.transform = "scale(1)"; // Explicitly reset scale
+        bubble.classList.remove("speaking", "processing", "listening");
     }
     toggleButtons();
 }
-// Toggle Button States
+
 // Toggle Button States
 function toggleButtons() {
     const isIdle = appState === "جاهز" || isPaused;
@@ -86,6 +91,7 @@ function toggleButtons() {
     repeatQuestionBtn.disabled = !isIdle || currentQuestionIndex >= questionCount || sessionData === null;
     startAnswerBtn.disabled = !isIdle || currentQuestionIndex >= questionCount || sessionData === null;
     endAnswerBtn.disabled = appState !== "يستمع";
+    skipQuestionBtn.disabled = !isIdle || currentQuestionIndex >= questionCount || sessionData === null; // New button state
 
     // SVG for Pause
     const pauseSvg = `<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -101,14 +107,14 @@ function toggleButtons() {
     // Update the pause/resume button with SVG
     pauseInterviewBtn.innerHTML = isPaused ? resumeSvg : pauseSvg;
 }
-
 // Animate Listening Bubble
 function animateListeningBubble() {
     function step() {
         if (appState !== "يستمع" || !source) {
             bubble.style.transform = "scale(1)";
             bubble.classList.remove("listening");
-            animationFrameId = requestAnimationFrame(step);
+            cancelAnimationFrame(animationFrameId); // Stop the loop
+            animationFrameId = null;
             return;
         }
         bubble.classList.add("listening");
@@ -123,7 +129,6 @@ function animateListeningBubble() {
         animationFrameId = requestAnimationFrame(step);
     }
     if (animationFrameId) cancelAnimationFrame(animationFrameId);
-    // Start with minScale (1) when entering listening state
     bubble.style.transform = "scale(1)";
     bubble.classList.add("listening");
     animationFrameId = requestAnimationFrame(step);
@@ -179,20 +184,21 @@ recognition.onend = () => {
     bubble.classList.add("processing");
     bubble.innerHTML = "";
 
-    setTimeout(async () => {
-        const text = accumulatedText.trim();
-        answers[currentQuestionIndex] = {
-            Answer: text,
-            TimeToken: timeTaken
-        };
-        console.log("Stored answers:", answers);
+    const text = accumulatedText ? accumulatedText.trim() : "";
+    answers[currentQuestionIndex] = {
+        Answer: text || "No response provided",
+        TimeToken: isNaN(timeTaken) ? 0 : timeTaken
+    };
+    console.log("Stored answer at index", currentQuestionIndex, ":", answers[currentQuestionIndex]);
 
-        accumulatedText = "";
-        repeatClickCount = 0;
+    accumulatedText = "";
+    repeatClickCount = 0;
+
+    (async () => {
         if (currentQuestionIndex < questions.length - 1) {
             currentQuestionIndex++;
             questionNumDiv.textContent = `${currentQuestionIndex + 1}/${questions.length}`;
-            await think(2000);
+            await think(2000); // Keep this for transitions between questions
             if (isPaused) return;
             const question = questions[currentQuestionIndex];
             const estimatedTimeSeconds = question.estimatedTimeMinutes * 60;
@@ -201,33 +207,28 @@ recognition.onend = () => {
             questionText.textContent = questionTextContent;
             await speakText(questionTextContent);
         } else {
+            // New logic for last question
             questionNumDiv.style.display = "none";
             questionTimer.textContent = "00:00";
             questionText.textContent = "";
-            await think(2000);
-            if (isPaused) return;
             const conclusionText = sessionData?.conclusionText || "حسناً، سأقوم بتقييم مقابلتك الآن، شكراً لاستخدام موقع مقابلتي!";
             await speakText(conclusionText);
             if (isPaused) return;
+
+            // Enter persistent processing state
+            appState = "يفكر";
             isEvaluating = true;
-            await think(3000);
-            isEvaluating = false;
-            if (isPaused) return;
-            console.log("Final answers:", answers);
+            bubble.classList.remove("speaking", "listening");
+            bubble.classList.add("processing"); // Infinite processing animation
+            updateStateDisplay(); // Display "جاري تقييم النتيجة"
 
-            submitAnswers(answers);
-
-            bubble.classList.remove("processing", "speaking", "listening");
-            bubble.style.transform = "scale(1)";
-            bubble.innerHTML = "";
-            questionNumDiv.style.display = "none";
-            questionTimer.style.display = "none";
+            // Wait for server response and redirect
+            await submitAnswers(answers);
         }
         answerStartTime = null;
         isProcessingEnd = false;
-    }, 2000);
+    })();
 };
-
 
 
 recognition.onerror = (event) => {
@@ -378,6 +379,7 @@ function speakText(text) {
                 return;
             }
             appState = "جاهز";
+            bubble.style.transform = "scale(1)"; // Reset scale after speaking
             updateStateDisplay();
             bubble.classList.remove("speaking", "processing", "listening");
             bubble.innerHTML = "";
@@ -456,7 +458,7 @@ async function proceedToNextQuestion() {
         const questionTextContent = (question.linkingPhrase ? question.linkingPhrase + ", " : "") + question.originalQuestion;
         questionText.textContent = questionTextContent;
         await speakText(questionTextContent);
-    }
+    }       
 }
  
 async function startInterview() {
@@ -466,9 +468,9 @@ async function startInterview() {
     await displayCountdownTimer(); // Assuming this shows a 5,4,3,2,1 countdown
     if (isPaused) return;
 
-    const introText = sessionData?.candidates || "مرحباً، شكراً لانضمامك إلى المقابلة.";
+    const introText = sessionData?.introText   || "مرحباً، شكراً لانضمامك إلى المقابلة.";
     await speakText(introText);
-    if (isPaused) return;
+    if (isPaused) return      ;
      
     await think(1000);
     if (isPaused) return;
@@ -478,7 +480,7 @@ async function startInterview() {
     questionNumDiv.textContent = `1/${questions.length}`; // Set question counter
     questionText.textContent = firstQuestionText;
     await speakText(firstQuestionText);
-
+       
     const estimatedTimeSeconds = firstQuestion.estimatedTimeMinutes * 60;
     questionTimer.textContent = formatTime(estimatedTimeSeconds); // Show estimated time
 }
@@ -513,6 +515,74 @@ endAnswerBtn.onclick = () => {
     clearInterval(timer);
     recognition.stop();
 };
+
+skipQuestionBtn.onclick = () => {
+    if (appState !== "جاهز" || currentQuestionIndex >= questions.length || sessionData === null) return;
+
+    // Fill the answer with an empty string (skip)
+    const answerEndTime = new Date().getTime();
+    const timeTaken = answerStartTime ? (answerEndTime - answerStartTime) / 1000 : 0;
+    answers[currentQuestionIndex] = {
+        Answer: "",
+        TimeToken: isNaN(timeTaken) ? 0 : timeTaken
+    };
+    console.log("Skipped answer at index", currentQuestionIndex, ":", answers[currentQuestionIndex]);
+
+    // Mimic the end of the answer (similar to recognition.onend)
+    isProcessingEnd = true;
+    appState = "يفكر";
+    updateStateDisplay();
+    if (source) {
+        source.disconnect();
+        source = null;
+    }
+    if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+    }
+    clearInterval(timer);
+    bubble.classList.remove("listening", "speaking");
+    bubble.classList.add("processing");
+    bubble.innerHTML = "";
+
+    (async () => {
+        accumulatedText = "";
+        repeatClickCount = 0;
+        if (currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            questionNumDiv.textContent = `${currentQuestionIndex + 1}/${questions.length}`;
+            await think(2000); // Keep this for transitions between questions
+            if (isPaused) return;
+            const question = questions[currentQuestionIndex];
+            const estimatedTimeSeconds = question.estimatedTimeMinutes * 60;
+            questionTimer.textContent = formatTime(estimatedTimeSeconds);
+            const questionTextContent = (question.linkingPhrase ? question.linkingPhrase + ", " : "") + question.originalQuestion;
+            questionText.textContent = questionTextContent;
+            await speakText(questionTextContent);
+        } else {
+            // New logic for last question
+            questionNumDiv.style.display = "none";
+            questionTimer.textContent = "00:00";
+            questionText.textContent = "";
+            const conclusionText = sessionData?.conclusionText || "حسناً، سأقوم بتقييم مقابلتك الآن، شكراً لاستخدام موقع مقابلتي!";
+            await speakText(conclusionText);
+            if (isPaused) return;
+
+            // Enter persistent processing state
+            appState = "يفكر";
+            isEvaluating = true;
+            bubble.classList.remove("speaking", "listening");
+            bubble.classList.add("processing"); // Infinite processing animation
+            updateStateDisplay(); // Display "جاري تقييم النتيجة"
+
+            // Wait for server response and redirect
+            await submitAnswers(answers);
+        }
+        answerStartTime = null;
+        isProcessingEnd = false;
+    })();
+};;
+
 
 // Pause Interview Handler
 pauseInterviewBtn.onclick = () => {
@@ -639,29 +709,54 @@ $(document).ready(function () {
 async function submitAnswers(answers) {
     if (!answers || answers.length === 0) {
         console.error('No answers to submit:', answers);
-        return; // Prevent sending empty or undefined data
+        stateDisplay.textContent = "خطأ: لا توجد إجابات لإرسالها";
+        appState = "جاهز";
+        updateStateDisplay();
+        return;
     }
+
+    const cleanedAnswers = answers
+        .filter(answer => answer && typeof answer === 'object')
+        .map(answer => ({
+            Answer: typeof answer.Answer === 'string' && answer.Answer.trim() ? answer.Answer : "No response provided",
+            TimeToken: typeof answer.TimeToken === 'number' && !isNaN(answer.TimeToken) && answer.TimeToken > 0 ? answer.TimeToken : 1
+        }));
+
+    if (cleanedAnswers.length === 0) {
+        console.error('No valid answers to submit after cleaning:', answers);
+        stateDisplay.textContent = "خطأ: لا توجد إجابات صالحة";
+        appState = "جاهز";
+        updateStateDisplay();
+        return;
+    }
+
+    console.log("Final cleaned answers before send:", JSON.stringify(cleanedAnswers, null, 2));
     try {
-        console.log("Sending answers:", answers); // Debug log to verify data
-        const response = await fetch('/Customer/Interview/Result', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(answers)
+        const response = await $.ajax({
+            url: '/Customer/Interview/Result',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(cleanedAnswers),
+            xhrFields: {
+                withCredentials: true // Include cookies if needed
+            }
         });
 
-        if (!response.ok) {
-            const errorText = await response.text(); // Get detailed error message
-            throw new Error(`Failed to submit answers: ${response.status} - ${errorText}`);
-        }
-        console.log("sent! answers");
-        // No redirect needed; server will handle view rendering
-    } catch (error) {
-        console.error('Error submitting answers:', error);
+        console.log("Submission successful, server response:", response);
+        // Redirect directly
+        window.location.href = '/Customer/Interview/InterviewResult';
+    } catch (xhr, status, error) {
+        const errorText = xhr.responseText || 'Unknown error';
+        console.log("Server response details:", {
+            status: xhr.status,
+            statusText: xhr.statusText,
+            body: errorText
+        });
+        stateDisplay.textContent = `خطأ في تقييم النتيجة: ${xhr.status} - ${errorText}`;
+        appState = "جاهز";
+        updateStateDisplay();
     }
 }
-
 // Initial Setup
 window.addEventListener("load", () => {
     setupAudioAnalyzer();

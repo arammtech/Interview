@@ -24,7 +24,7 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection3"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 
@@ -105,6 +105,7 @@ app.MapStaticAssets();
 app.MapControllerRoute(
     name: "default",
     pattern: "{Area=Customer}/{controller=Interview}/{action=StartInterview}/{id?}");
+    //pattern: "{Area=Customer}/{controller=Interview}/{action=InterviewResult}/{id?}");
 
 app.MapRazorPages();
 
