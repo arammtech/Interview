@@ -88,14 +88,13 @@ namespace Muqabalati.Web.Controllers
         {
             if (TempData["InterviewReport"] is string ratingJson)
             {
-                // Deserialize the rating from TempData
                 var report = JsonConvert.DeserializeObject<InterviewReportDto>(ratingJson);
-                //return View(report); // Pass rating to the Result view
-                return View("InterviewResult", report); // Pass rating to the Result view
+            
+                return View("InterviewResult", report); 
             }
             else
             {
-                return View("InterviewIsOver","");
+                return View("InterviewIsOver", "المقابلة لقد انتهت");
             }
         }
 
