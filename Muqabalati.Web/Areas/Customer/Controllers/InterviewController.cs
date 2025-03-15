@@ -17,28 +17,21 @@ namespace Muqabalati.Web.Controllers
         }
 
         [HttpGet]
+        public IActionResult InterviewGenerator()
+        {
+            // new dto and send
+            return View();
+        }
+        [HttpGet]
         public async Task<IActionResult> Create()
         {
-            /* DTO InterviewRequestDto (contains the parameters)
-             Add interview form:
-             go to the page that asks the user to choose their demands witha an empty dto to fill
-           */
-
             InterviewRequestDto interviewDto = new();
 
             return View(interviewDto);
         }
 
-        // API to return JSON for starting the interview
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        [HttpGet]
-        public async Task<IActionResult> StartInterview(InterviewRequestDto request)
-        {
-            return View();
-        }
-
          
+        // move this to the api controller
         [HttpPost]
         public async Task<IActionResult> Result([FromBody]  List<AnswerModel> answers)
         {
@@ -77,7 +70,6 @@ namespace Muqabalati.Web.Controllers
 
                 var questions = session.Questions.Select(q => q.OriginalQuestion).ToArray();
 
-                // استدعاء خدمة InterviewService لتوليد التقرير
                 var report = await _interviewService.GenerateInterviewReport(answers, questions);
 
                 TempData["InterviewReport"] = JsonConvert.SerializeObject(report);
@@ -111,7 +103,8 @@ namespace Muqabalati.Web.Controllers
 
         }
 
-
+      
+        
 
     }
 }
