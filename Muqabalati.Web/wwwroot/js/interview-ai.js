@@ -180,12 +180,12 @@ recognition.onend = () => {
     bubble.innerHTML = "";
 
     setTimeout(async () => {
-        const text = accumulatedText.trim();
+        const text = accumulatedText ? accumulatedText.trim() : "";
         answers[currentQuestionIndex] = {
-            Answer: text,
-            TimeToken: timeTaken
+            Answer: text || "No response provided",
+            TimeToken: isNaN(timeTaken) ? 0 : timeTaken
         };
-        console.log("Stored answers:", answers);
+        console.log("Stored answer at index", currentQuestionIndex, ":", answers[currentQuestionIndex]);
 
         accumulatedText = "";
         repeatClickCount = 0;
@@ -213,9 +213,9 @@ recognition.onend = () => {
             await think(3000);
             isEvaluating = false;
             if (isPaused) return;
-            console.log("Final answers:", answers);
+            console.log("Final answers before submission:", answers);
 
-            submitAnswers(answers);
+            await submitAnswers(answers);
 
             bubble.classList.remove("processing", "speaking", "listening");
             bubble.style.transform = "scale(1)";
@@ -227,8 +227,6 @@ recognition.onend = () => {
         isProcessingEnd = false;
     }, 2000);
 };
-
-
 
 recognition.onerror = (event) => {
     stateDisplay.textContent = "خطأ: " + event.error;
@@ -456,7 +454,7 @@ async function proceedToNextQuestion() {
         const questionTextContent = (question.linkingPhrase ? question.linkingPhrase + ", " : "") + question.originalQuestion;
         questionText.textContent = questionTextContent;
         await speakText(questionTextContent);
-    }
+    }       
 }
  
 async function startInterview() {
@@ -466,9 +464,9 @@ async function startInterview() {
     await displayCountdownTimer(); // Assuming this shows a 5,4,3,2,1 countdown
     if (isPaused) return;
 
-    const introText = sessionData?.candidates || "مرحباً، شكراً لانضمامك إلى المقابلة.";
+    const introText = sessionData?.introText   || "مرحباً، شكراً لانضمامك إلى المقابلة.";
     await speakText(introText);
-    if (isPaused) return;
+    if (isPaused) return      ;
      
     await think(1000);
     if (isPaused) return;
@@ -478,7 +476,7 @@ async function startInterview() {
     questionNumDiv.textContent = `1/${questions.length}`; // Set question counter
     questionText.textContent = firstQuestionText;
     await speakText(firstQuestionText);
-
+       
     const estimatedTimeSeconds = firstQuestion.estimatedTimeMinutes * 60;
     questionTimer.textContent = formatTime(estimatedTimeSeconds); // Show estimated time
 }
@@ -639,29 +637,53 @@ $(document).ready(function () {
 async function submitAnswers(answers) {
     if (!answers || answers.length === 0) {
         console.error('No answers to submit:', answers);
-        return; // Prevent sending empty or undefined data
+        return;
     }
-    try {
-        console.log("Sending answers:", answers); // Debug log to verify data
-        const response = await fetch('/Customer/Interview/Result', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(answers)
-        });
 
-        if (!response.ok) {
-            const errorText = await response.text(); // Get detailed error message
-            throw new Error(`Failed to submit answers: ${response.status} - ${errorText}`);
-        }
-        console.log("sent! answers");
-        // No redirect needed; server will handle view rendering
+    const cleanedAnswers = answers
+        .filter(answer => answer && typeof answer === 'object')
+        .map(answer => ({
+            Answer: typeof answer.Answer === 'string' && answer.Answer.trim() ? answer.Answer : "No response provided",
+            TimeToken: typeof answer.TimeToken === 'number' && !isNaN(answer.TimeToken) && answer.TimeToken > 0 ? answer.TimeToken : 1
+        }));
+
+    if (cleanedAnswers.length === 0) {
+        console.error('No valid answers to submit after cleaning:', answers);
+        return;
+    }
+
+    console.log("Final cleaned answers before send:", JSON.stringify(cleanedAnswers, null, 2));
+    try { 
+
+       // make here the answers to send 
+                                 
+        
+         
+        await $.ajax( {             
+            url: '/Customer/Interview/Result',
+            type: 'POST',
+            contentType: 'application/json',   
+            data: JSON.stringify(cleanedAnswers),  
+            success: function (data) {              
+                console.log("Submission successful, server will redirect:", data);
+                // No need to handle redirection here; server handles it
+
+                window.location.href = '/Customer/Interview/InterviewResult';
+            },  
+            error: function (xhr, status, error) {
+                const errorText = xhr.responseText || 'Unknown error';
+                console.log("Server response details:", {
+                    status: xhr.status,     
+                    statusText: xhr.statusText,
+                    body: errorText
+                });
+                throw new Error(`Failed to submit answers: ${xhr.status} - ${errorText}`);
+            }
+        });
     } catch (error) {
         console.error('Error submitting answers:', error);
     }
 }
-
 // Initial Setup
 window.addEventListener("load", () => {
     setupAudioAnalyzer();
