@@ -129,7 +129,7 @@ namespace Muqabalati.Service.Implementations
                 var report = await _genAIApiService.GenerateReportAsync(apiKey, answers, questions);
 
                 report.IsPassed = report.GPA > 50;
-
+                report.TotalQuestions = questions.Length;
                 return report;
             }
             catch (Exception ex)
