@@ -1,21 +1,24 @@
 :root {
-    --main-font: "Almarai", serif;
+    --main-font: "Rubik", sans-serif;
     --color-1: #364C84;
     --color-2: #95B1EE;
     --color-3: #E7F1A8;
     --color-4: #FFFDF5;
     --color-bg: #F4F4F4;
-    --color-gradient-1: linear-gradient(45deg, #364C84, #4a6aa9);
+    --color-gradient-1: #364C84B2;
     --color-gradient-2: linear-gradient(45deg, #95B1EE, #B1C8F2);
     --color-gradient-3: linear-gradient(45deg, #E7F1A8, #C2D98A);
     --color-gradient-4: linear-gradient(45deg, #FFFDF5, #F6F1E1);
     --color-white: #ffffff;
+    --color-success: #c5f218;
     --color-error: #cf0508;
     --color-aramm: #DB4B4E;
+    --color-gray: #D9D9D936;
+    --color-gray-2: #ADB2B1;
     --border-gradient-1: linear-gradient(90deg, #F4F4F4 0%, #8E8E8E 100%);
     --bg-t: transparent;
     --shadow-glass: 5px 4px 27px 0px #00000052;
-    --radius-1: .4rem;
+    --radius-1: 1rem;
     --nav-height: 7rem;
     --footer-height: 45rem;
     --lg: 992px;
@@ -61,7 +64,7 @@ body {
     font-family: var(--main-font) !important;
     font-size: 1.6rem !important;
     background-color: #171717 !important;
-    overflow-x: hidden;
+    overflow: hidden;
     animation: gradientAnimation 15s ease infinite;
     -webkit-animation: gradientAnimation 15s ease infinite;
 }

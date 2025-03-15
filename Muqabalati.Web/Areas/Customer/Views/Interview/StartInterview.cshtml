@@ -4,6 +4,10 @@
     ViewData["Title"] = "StartInterview";
 }
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/interview-ai.css" asp-append-version="true" />
+
+}
 
 <div class="start_container down">
     <svg width="37"
@@ -15,12 +19,8 @@
               fill="#364C84" />
     </svg>
 </div>
-<div class="glow top-left"></div>
-<div class="glow bottom-left"></div>
-<div class="glow top-right"></div>
-<div class="glow left-middle"></div>
 
-<main class="h-full f-ctr-ctr">
+
     <section id="interview-page" class="container">
         <div class="controls glass">
             <div class="timer-container">
@@ -115,7 +115,6 @@
         </div>
 
     </section>
-</main>
 
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

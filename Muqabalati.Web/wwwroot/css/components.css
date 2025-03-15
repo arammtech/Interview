@@ -54,9 +54,14 @@
 }
 
 
+.btn-gray {
+    background: var(--color-gray) !important;
+    color: var(--color-4) !important;
+}
+
 .btn-g1 {
-    background: var(--color-gradient-1);
-    color: var(--color-4);
+    background: var(--color-gradient-1) !important;
+    color: var(--color-4) !important;
 }
 
 .btn-g2 {
@@ -133,6 +138,127 @@
     background: var(--color-4);
     color: var(--color-1);
 }
+
+/* Glow */
+.glow {
+    position: absolute;
+    width: 1500px;
+    height: 1500px;
+    background: radial-gradient( closest-side, #364c843e, rgba(17, 17, 17, 0) );
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    z-index: -2;
+}
+
+    .glow.top-left {
+        top: -50%;
+        left: -20%;
+    }
+
+    .glow.top-middle {
+        top: -40%;
+        left: 60%;
+        transform: translateX(-50%);
+    }
+
+    .glow.top-right {
+        top: -50%;
+        right: -20%;
+    }
+
+    .glow.bottom-left {
+        bottom: -100%;
+        left: -20%;
+    }
+
+    .glow.left-middle {
+        display: none;
+        top: 750px;
+        left: -1000px;
+        transform: translateY(-50%);
+    }
+
+@media (max-width: 1200px) {
+    .glow {
+        display: none;
+    }
+
+        .glow.left-middle {
+            display: block;
+            left: -500px;
+        }
+}
+
+@media (max-width: 1000px) {
+    .glow.left-middle {
+        left: -1000px;
+    }
+}
+
+
+
+/* Stars  */
+.star_container {
+    position: absolute;
+}
+
+.star_container.down {
+    bottom: 5%;
+    left: 30%;
+    transform: rotate(-50deg);
+    -webkit-transform: rotate(-50deg);
+    -moz-transform: rotate(-50deg);
+    -ms-transform: rotate(-50deg);
+    -o-transform: rotate(-50deg);
+}
+    .star_container.top {
+        top: 20%;
+        left: 20%;
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+    }
+    .star_container.middle-top {
+        top: 20%;
+        left: 35%;
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+    }
+
+    .star_container.middle-right {
+        bottom: 35%;
+        right: 30%;
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+    }
+#InterviewAi .star_container {
+    position: absolute;
+    bottom: 0%;
+    right: -20%;
+    transform: rotate(-10deg);
+    -webkit-transform: rotate(-10deg);
+    -moz-transform: rotate(-10deg);
+    -ms-transform: rotate(-10deg);
+    -o-transform: rotate(-10deg);
+}
+
+    #InterviewAi .star_container:nth-of-type(1) {
+        top: 0%;
+        left: -20%;
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+    }
 
 
 

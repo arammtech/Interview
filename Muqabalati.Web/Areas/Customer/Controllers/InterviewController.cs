@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Muqabalati.Service.Interfaces;
 using Muqabalati.Service.DTOs;
+using Newtonsoft.Json;
 
 namespace Muqabalati.Web.Controllers
 {
@@ -16,107 +17,93 @@ namespace Muqabalati.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Create()
+        public IActionResult InterviewGenerator()
         {
-            /* DTO InterviewRequestDto (contains the parameters)
-             Add interview form:
-             go to the page that asks the user to choose their demands witha an empty dto to fill
-           */
-
-            InterviewRequestDto interviewDto = new(); 
+            // new dto and send
+            return View();
+        }
+       
+        [HttpGet]
+        public async Task<IActionResult> StartInterview()
+        {
+            InterviewRequestDto interviewDto = new();
 
             return View(interviewDto);
         }
 
-        // API to return JSON for starting the interview
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        [HttpGet]
-        public async Task<IActionResult> StartInterview(InterviewRequestDto request)
-        {
 
-            /*
-             comes:  DTO Interview (contains the parameters)
-             
-             Take Interview demands from user 
-
-             add interview 
-
-             send the interviewDTO to service the api and receive the InterviewSessionDTO  (questions....)
-
-             Take the InterviewSessionDTO (inside it the questions) 
-
-             display the page of ai 
-
-             after it I will handle it with js and api
-
-            */
-
-            //request.ApplicantName = "جون";
-            //request.InterviewerName = "محمد";
-            //request.Topic = "Backend c#";
-            //request.Department = "Programming";
-            //request.Level = "Jenior";
-            //request.Tone = "السورية";
-            //request.Language = "الانجليزية";
-            //request.QuestionCount = 3;
-
-            // Call the service to generate the JSON session object
-            //var session = await _interviewService.GenerateInterviewSessionAsync(request);
-
-            // Serialize the session object to JSON and return as IActionResult
-            //return Json(session);
-
-           
-
-
-
-
-            return View();
-
-
-        }
-
-        // API to return the JSON for the interview session stored in session
-        [HttpGet]
-        public IActionResult GetInterviewSession()
-        {
-            string sessionJson = HttpContext.Session.GetString("InterviewSession");
-
-            if (string.IsNullOrEmpty(sessionJson))
-            {
-                return NotFound(new { message = "Interview session not found." });
-            }
-
-            return Ok(sessionJson);
-        }
-
-     
-
+        // // // // // move this to the api controller
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Result(List<AnswerModel> answers)
+        public async Task<IActionResult> Result([FromBody]  List<AnswerModel> answers)
         {
-            /*
-             after the interview ends and click on (take your result)
+            //List<AnswerModel> answers1 = new List<AnswerModel>
+            //{
+            //    new AnswerModel { Answer = "A software development framework developed by Microsoft" },
+            //    new AnswerModel { Answer = "An integrated environment for managing and automating tasks in IT" },
+            //    new AnswerModel { Answer = "It is a markup language used for creating web pages", },
+            //    new()
+            //};
 
-             Take the InterviewSessionDTO
+            //string[] questions1 =
+            //{
+            //      "What is .Net, and what is its purpose?",
+            //        "What is PowerShell, and why is it useful in IT management?",
+            //        "What is HTML, and what is its role in web development?",
+            //        "What is JS, and what is its role in web development?"
 
-             send it to ai 
+            //};
 
-             get the result from ai
+            try
+            {
+                string interviewSessionJson = HttpContext.Session.GetString("InterviewSession");
 
-             Go to the result page and display result
-             
-             */
+                if (string.IsNullOrEmpty(interviewSessionJson))
+                {
+                    return BadRequest("Interview session not found.");
+                }
 
-            string sessionData = HttpContext.Session.GetString("fdfdf");
+                var session = JsonConvert.DeserializeObject<InterviewSessionDto>(interviewSessionJson);
 
-            // 
+                if (session == null || session.Questions == null)
+                {
+                    return BadRequest("Invalid interview session data.");
+                }
 
-            return View();
+                var questions = session.Questions.Select(q => q.OriginalQuestion).ToArray();
+
+                var report = await _interviewService.GenerateInterviewReport(answers, questions);
+
+                TempData["InterviewReport"] = JsonConvert.SerializeObject(report);
+                
+                return Ok(new { success = true, data = report });
+            }
+            catch
+            {
+                return View("Error");
+            }
         }
 
+        [HttpGet]
+        public IActionResult InterviewResult()
+        {
+            if (TempData["InterviewReport"] is string ratingJson)
+            {
+                // Deserialize the rating from TempData
+                var report = JsonConvert.DeserializeObject<InterviewReportDto>(ratingJson);
+                //return View(report); // Pass rating to the Result view
+                return View("InterviewResult", report); // Pass rating to the Result view
+            }
+            else
+            {
+                return View("InterviewIsOver","");
+            }
+        }
 
+        [HttpGet]
+        public IActionResult InterviewIsOver(string reason)
+        {
+            return View(reason);
+        }
+        
     }
 }
