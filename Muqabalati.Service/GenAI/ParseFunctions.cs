@@ -91,7 +91,7 @@ namespace Muqabalati.Service.GenAI
                                     }
                                     else
                                     {
-                                        Console.WriteLine("Invalid recommendation format found.");
+                                     //   Console.WriteLine("Invalid recommendation format found.");
                                     }
                                 }
                             }
@@ -99,7 +99,7 @@ namespace Muqabalati.Service.GenAI
                     }
                     else
                     {
-                        Console.WriteLine("No valid <تقييم> sections found in the response.");
+                      //  Console.WriteLine("No valid <تقييم> sections found in the response.");
                     }
                 }
                 else
@@ -109,11 +109,11 @@ namespace Muqabalati.Service.GenAI
             }
             catch (JsonException ex)
             {
-                Console.WriteLine($"JSON Error: {ex.Message}");
+                //Console.WriteLine($"JSON Error: {ex.Message}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Unexpected Error: {ex.Message}");
+                //Console.WriteLine($"Unexpected Error: {ex.Message}");
             }
 
             return report;
