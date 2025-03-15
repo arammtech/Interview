@@ -24,7 +24,7 @@ namespace Muqabalati.Web.Controllers
              go to the page that asks the user to choose their demands witha an empty dto to fill
            */
 
-            InterviewRequestDto interviewDto = new(); 
+            InterviewRequestDto interviewDto = new();
 
             return View(interviewDto);
         }
@@ -55,7 +55,7 @@ namespace Muqabalati.Web.Controllers
             return Ok(sessionJson);
         }
 
-     
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -78,9 +78,26 @@ namespace Muqabalati.Web.Controllers
             }
 
             var questions = session.Questions.Select(q => q.OriginalQuestion).ToArray();
+            List<AnswerModel> answers1 = new List<AnswerModel>
+            {
+                new AnswerModel { Answer = "A software development framework developed by Microsoft" },
+                new AnswerModel { Answer = "An integrated environment for managing and automating tasks in IT" },
+                new AnswerModel { Answer = "It is a markup language used for creating web pages", },
+                new()
+            };
+
+            string[] questions1 =
+            {
+                  "What is .Net, and what is its purpose?",
+                    "What is PowerShell, and why is it useful in IT management?",
+                    "What is HTML, and what is its role in web development?",
+                    "What is JS, and what is its role in web development?"
+
+            };
+
 
             // استدعاء خدمة InterviewService لتوليد التقرير
-            var report = await _interviewService.GenerateInterviewReport( answers, questions);
+            var report = await _interviewService.GenerateInterviewReport(answers1, questions1);
 
             return View("Result", report);
 
