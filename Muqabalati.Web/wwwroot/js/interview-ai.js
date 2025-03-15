@@ -705,13 +705,9 @@ $(document).ready(function () {
     });
 });
 //Explanation:
-
 async function submitAnswers(answers) {
     if (!answers || answers.length === 0) {
         console.error('No answers to submit:', answers);
-        stateDisplay.textContent = "خطأ: لا توجد إجابات لإرسالها";
-        appState = "جاهز";
-        updateStateDisplay();
         return;
     }
 
@@ -724,39 +720,36 @@ async function submitAnswers(answers) {
 
     if (cleanedAnswers.length === 0) {
         console.error('No valid answers to submit after cleaning:', answers);
-        stateDisplay.textContent = "خطأ: لا توجد إجابات صالحة";
-        appState = "جاهز";
-        updateStateDisplay();
         return;
     }
-
+        
     console.log("Final cleaned answers before send:", JSON.stringify(cleanedAnswers, null, 2));
     try {
-        const response = await $.ajax({
+        await $.ajax({
             url: '/Customer/Interview/Result',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(cleanedAnswers),
-            xhrFields: {
-                withCredentials: true // Include cookies if needed
+            success: function (data) {
+                console.log("Submission successful, server will redirect:", data);
+
+                window.location.href = '/Customer/Interview/InterviewResult';
+            },
+            error: function (xhr, status, error) {
+                const errorText = xhr.responseText || 'Unknown error';
+                console.log("Server response details:", {
+                    status: xhr.status,
+                    statusText: xhr.statusText,
+                    body: errorText
+                });
+                throw new Error(`Failed to submit answers: ${xhr.status} - ${errorText}`);
             }
         });
-
-        console.log("Submission successful, server response:", response);
-        // Redirect directly
-        window.location.href = '/Customer/Interview/InterviewResult';
-    } catch (xhr, status, error) {
-        const errorText = xhr.responseText || 'Unknown error';
-        console.log("Server response details:", {
-            status: xhr.status,
-            statusText: xhr.statusText,
-            body: errorText
-        });
-        stateDisplay.textContent = `خطأ في تقييم النتيجة: ${xhr.status} - ${errorText}`;
-        appState = "جاهز";
-        updateStateDisplay();
+    } catch (error) {
+        console.error('Error submitting answers:', error);
     }
 }
+
 // Initial Setup
 window.addEventListener("load", () => {
     setupAudioAnalyzer();
