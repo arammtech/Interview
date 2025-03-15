@@ -8,7 +8,7 @@ namespace Muqabalati.Service.DTOs
 {
     public class AnswerModel
     {
-        public string Answer { get; set; }
+        public string Answer { get; set; } = string.Empty;
         public float TimeToken { get; set; }
 
     }

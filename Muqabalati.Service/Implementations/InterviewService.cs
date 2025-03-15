@@ -5,6 +5,8 @@ using Muqabalati.Service.DTOs;
 using Muqabalati.Service.Interfaces;
 using Newtonsoft.Json;
 using static Muqabalati.Utilities.Global.GlobalSettings;
+using static Muqabalati.Service.GenAI.ParseFunctions;
+
 
 namespace Muqabalati.Service.Implementations
 {
@@ -59,7 +61,7 @@ namespace Muqabalati.Service.Implementations
                 await Task.WhenAll(introTask, questionsTask, conclusionTask);
 
                 // Parse questions (dependent on questionsTask result)
-                var questions = await _genAIApiService.ParseQuestions(await questionsTask);
+                var questions = await ParseQuestions(await questionsTask);
 
                 // Deserialize the intro text response
                 var introtextResponse = JsonConvert.DeserializeObject<GenAIApiResponse>(await introTask);
@@ -117,5 +119,24 @@ namespace Muqabalati.Service.Implementations
             if (request.QuestionCount <= 0)
                 throw new ArgumentException("Question count must be greater than zero.", nameof(request.QuestionCount));
         }
+
+
+        public async Task<InterviewReportDto> GenerateInterviewReport( List<AnswerModel> answers, string[] questions)
+        {
+            try
+            {
+                // إنشاء التقرير بناءً على الإجابات والأسئلة
+                var report = await _genAIApiService.GenerateReportAsync(apiKey, answers, questions);
+
+                return report;
+            }
+            catch (Exception ex)
+            {
+                // تسجيل الخطأ والتعامل معه
+                Console.WriteLine($"Error generating interview report: {ex.Message}");
+                throw; // أو إرجاع تقرير فارغ أو مع رسالة خطأ
+            }
+        }
+
     }
 }

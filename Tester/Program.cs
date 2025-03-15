@@ -14,6 +14,7 @@ using Bogus;
 using Muqabalati.Service.DTOs.Admin;
 using Muqabalati.Service.EmailService;
 using Muqabalati.Utilities.Identity;
+using Muqabalati.Service.DTOs;
 
 
 ApplicationUser GenerateFakeUser()
@@ -58,3 +59,34 @@ foreach(var q in test.Questions)
 }
 
 Console.WriteLine(test.ConclusionText);
+
+
+
+//List<AnswerModel> answers = new List<AnswerModel>
+//{
+//    new AnswerModel { Answer = "A software development framework developed by Microsoft" },
+//    new AnswerModel { Answer = "An integrated environment for managing and automating tasks in IT" },
+//    new AnswerModel { Answer = "It is a markup language used for creating web pages", }
+//};
+
+//string[] questions =
+//{
+//    "What is .Net, and what is its purpose?",
+//    "What is PowerShell, and why is it useful in IT management?",
+//    "What is HTML, and what is its role in web development?",
+//    "What is JS, and what is its role in web development?"
+
+//};
+
+//// استدعاء الخدمة
+//var report = await interviewService.GenerateInterviewReport(answers, questions);
+
+//// عرض النتائج
+//Console.WriteLine($"Correct Answers: {report.CorrectAnswers}");
+//Console.WriteLine($"Fail Answers: {report.FailAnswers}");
+//Console.WriteLine($"GPA: {report.GPA}");
+//Console.WriteLine("Recommendations:");
+//foreach (var recommendation in report.Recommendations)
+//{
+//    Console.WriteLine($"- {recommendation.Recommendation} (Source: {recommendation.Source})");
+//}
