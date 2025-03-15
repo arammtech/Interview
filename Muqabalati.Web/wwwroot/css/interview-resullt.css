@@ -49,13 +49,16 @@
         letter-spacing: 0%;
         text-align: right;
         vertical-align: middle;
-        color: #CEE730;
     }
 
-    .result-info .status {
-        color: #c5f218;
-        margin-top: 5px;
+
+    .passed {
+        color: var(--color-success) !important;
     }
+
+.failed {
+    color: var(--color-error) !important;
+}
 
 .circle-container {
     display: flex;
@@ -67,7 +70,7 @@
     position: relative;
     width: 21.4rem;
     height: 21.4rem;
-    border: 13.17px solid #A5C529;
+    border: 13.17px solid ;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -77,6 +80,17 @@
     -ms-border-radius: 50%;
     -o-border-radius: 50%;
 }
+
+
+
+    .circle.passed {
+        border-color: #A5C529 !important;
+    }
+
+    .circle.failed {
+        border-color: var(--color-error) !important;
+    }
+
 
     .circle > span:first-of-type {
         position: absolute;
@@ -98,6 +112,10 @@
     letter-spacing: -2%;
     text-align: center;
 }
+    .percentage.passed {
+        color: var(--color-3) !important;
+    }
+
 
 .answers-stats {
     display: flex;
