@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Muqabalati.Service.Interfaces;
 using Muqabalati.Service.DTOs;
+using Newtonsoft.Json;
 
 namespace Muqabalati.Web.Controllers
 {
@@ -23,7 +24,7 @@ namespace Muqabalati.Web.Controllers
              go to the page that asks the user to choose their demands witha an empty dto to fill
            */
 
-            InterviewRequestDto interviewDto = new(); 
+            InterviewRequestDto interviewDto = new();
 
             return View(interviewDto);
         }
@@ -34,43 +35,6 @@ namespace Muqabalati.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> StartInterview(InterviewRequestDto request)
         {
-
-            /*
-             comes:  DTO Interview (contains the parameters)
-             
-             Take Interview demands from user 
-
-             add interview 
-
-             send the interviewDTO to service the api and receive the InterviewSessionDTO  (questions....)
-
-             Take the InterviewSessionDTO (inside it the questions) 
-
-             display the page of ai 
-
-             after it I will handle it with js and api
-
-            */
-
-            //request.ApplicantName = "جون";
-            //request.InterviewerName = "محمد";
-            //request.Topic = "Backend c#";
-            //request.Department = "Programming";
-            //request.Level = "Jenior";
-            //request.Tone = "السورية";
-            //request.Language = "الانجليزية";
-            //request.QuestionCount = 3;
-
-            // Call the service to generate the JSON session object
-            //var session = await _interviewService.GenerateInterviewSessionAsync(request);
-
-            // Serialize the session object to JSON and return as IActionResult
-            //return Json(session);
-
-           
-
-
-
 
             return View();
 
@@ -91,30 +55,52 @@ namespace Muqabalati.Web.Controllers
             return Ok(sessionJson);
         }
 
-     
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Result(List<AnswerModel> answers)
         {
-            /*
-             after the interview ends and click on (take your result)
 
-             Take the InterviewSessionDTO
 
-             send it to ai 
+            string interviewSessionJson = HttpContext.Session.GetString("InterviewSession");
 
-             get the result from ai
+            if (string.IsNullOrEmpty(interviewSessionJson))
+            {
+                return BadRequest("Interview session not found.");
+            }
 
-             Go to the result page and display result
-             
-             */
+            var session = JsonConvert.DeserializeObject<InterviewSessionDto>(interviewSessionJson);
 
-            string sessionData = HttpContext.Session.GetString("fdfdf");
+            if (session == null || session.Questions == null)
+            {
+                return BadRequest("Invalid interview session data.");
+            }
 
-            // 
+            var questions = session.Questions.Select(q => q.OriginalQuestion).ToArray();
+            List<AnswerModel> answers1 = new List<AnswerModel>
+            {
+                new AnswerModel { Answer = "A software development framework developed by Microsoft" },
+                new AnswerModel { Answer = "An integrated environment for managing and automating tasks in IT" },
+                new AnswerModel { Answer = "It is a markup language used for creating web pages", },
+                new()
+            };
 
-            return View();
+            string[] questions1 =
+            {
+                  "What is .Net, and what is its purpose?",
+                    "What is PowerShell, and why is it useful in IT management?",
+                    "What is HTML, and what is its role in web development?",
+                    "What is JS, and what is its role in web development?"
+
+            };
+
+
+            // استدعاء خدمة InterviewService لتوليد التقرير
+            var report = await _interviewService.GenerateInterviewReport(answers1, questions1);
+
+            return View("Result", report);
+
         }
 
 

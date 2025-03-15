@@ -34,6 +34,10 @@ namespace Muqabalati.Service.Interfaces
                     string applicantName,
                     string tone,
                     string interviewLanguage);
-        Task<List<QuestionModel>> ParseQuestions(string jsonResponse);
+
+        Task<InterviewReportDto> GenerateReportAsync(
+            string apiKey,
+            List<AnswerModel> answers,
+            string[] questions);
     }
 }
