@@ -128,6 +128,8 @@ namespace Muqabalati.Service.Implementations
                 // إنشاء التقرير بناءً على الإجابات والأسئلة
                 var report = await _genAIApiService.GenerateReportAsync(apiKey, answers, questions);
 
+                report.IsPassed = report.GPA > 50;
+
                 return report;
             }
             catch (Exception ex)
