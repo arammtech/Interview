@@ -30,6 +30,10 @@ let isFailed = false; // If the request failed state
 let isReady = false; // 
 let isEvaluating = false;
 let answerStartTime = null;
+let isProcessingEnd = false; 
+let voiceGender = "female"; // Default to male, can be changed to "female"
+let accent = "ar-EG"; // Default to Saudi Arabic, modifiable for other accents
+let voicesLoadedPromise = null;
 
 // Setup Audio Analyzer
 function setupAudioAnalyzer() {
@@ -47,17 +51,17 @@ function setupAudioAnalyzer() {
 // Update State Display and Toggle Buttons
 function updateStateDisplay() {
     if (isFailed) {
-        stateDisplay.textContent = "فشل في بدء المقابلة"; 
+        stateDisplay.textContent = "فشل في بدء المقابلة";
     } else if (appState === "يستمع") {
         stateDisplay.textContent = "يستمع";
     } else if (appState === "يفكر") {
-        
-        if (isWaitingForApiResponse) {
+        if (isEvaluating) {
+            stateDisplay.textContent = "جاري تقييم النتيجة"; // Show during evaluation
+        } else if (isWaitingForApiResponse) {
             stateDisplay.textContent = "جاري تجهيز المقابلة";
         } else if (currentQuestionIndex >= questions.length) {
             stateDisplay.textContent = "جاري تقييم مقابلتك...";
-        }
-        else {
+        } else {
             stateDisplay.textContent = "يفكر";
         }
     } else if (appState === "يتكلم") {
@@ -67,15 +71,13 @@ function updateStateDisplay() {
     } else if (isReady) {
         stateDisplay.textContent = "بدء المقابلة";
         isReady = false;
-    }
-    else if (appState === "جاهز" && currentQuestionIndex < questions.length) {
+    } else if (appState === "جاهز" && currentQuestionIndex < questions.length) {
         stateDisplay.textContent = "اضغط لبدء الإجابة";
     } else {
         stateDisplay.textContent = "جاهز";
     }
     toggleButtons();
 }
-
 // Toggle Button States
 // Toggle Button States
 function toggleButtons() {
@@ -153,14 +155,15 @@ recognition.onresult = (event) => {
     accumulatedText += result + " ";
 };
 
+
 recognition.onend = () => {
-    if (isPaused) {
-        console.log("Recognition stopped due to pause");
+    if (isPaused || isProcessingEnd) {
+        console.log("Recognition stopped due to pause or already processing");
         return;
     }
-    const answerEndTime = new Date().getTime(); // Record end time in milliseconds
-    const timeTaken = (answerEndTime - answerStartTime) / 1000; // Calculate duration in seconds
-
+    isProcessingEnd = true;
+    const answerEndTime = new Date().getTime();
+    const timeTaken = answerStartTime ? (answerEndTime - answerStartTime) / 1000 : 0;
     appState = "يفكر";
     updateStateDisplay();
     if (source) {
@@ -173,60 +176,60 @@ recognition.onend = () => {
     }
     clearInterval(timer);
     bubble.classList.remove("listening", "speaking");
-    bubble.classList.add("processing"); // Thinking shape
+    bubble.classList.add("processing");
     bubble.innerHTML = "";
 
     setTimeout(async () => {
         const text = accumulatedText.trim();
-        // Corrected: Store answer at the current index
         answers[currentQuestionIndex] = {
             Answer: text,
-            TimeToken: timeTaken // Updated to match AnswerModel
+            TimeToken: timeTaken
         };
-        console.log("Stored answers:", answers); // Optional: Log after each answer
-         
+        console.log("Stored answers:", answers);
+
         accumulatedText = "";
         repeatClickCount = 0;
         if (currentQuestionIndex < questions.length - 1) {
             currentQuestionIndex++;
             questionNumDiv.textContent = `${currentQuestionIndex + 1}/${questions.length}`;
-            await think(2000); // Think before next question
+            await think(2000);
             if (isPaused) return;
             const question = questions[currentQuestionIndex];
             const estimatedTimeSeconds = question.estimatedTimeMinutes * 60;
             questionTimer.textContent = formatTime(estimatedTimeSeconds);
             const questionTextContent = (question.linkingPhrase ? question.linkingPhrase + ", " : "") + question.originalQuestion;
             questionText.textContent = questionTextContent;
-            await speakText(questionTextContent); // Speak next question
+            await speakText(questionTextContent);
         } else {
-            // End of interview
             questionNumDiv.style.display = "none";
             questionTimer.textContent = "00:00";
             questionText.textContent = "";
-            await think(2000); // Think after last question
+            await think(2000);
             if (isPaused) return;
-            const conclusionText = sessionData?.conclusionText || " حسناً، سأقوم بتقييم مقابلتك الآن، شكراً لاستخدام موقع مقابلتي!";
-            await speakText(conclusionText); // Speak conclusion
+            const conclusionText = sessionData?.conclusionText || "حسناً، سأقوم بتقييم مقابلتك الآن، شكراً لاستخدام موقع مقابلتي!";
+            await speakText(conclusionText);
             if (isPaused) return;
             isEvaluating = true;
-            await think(3000); // Think for 3 seconds with "جاري تقييم النتيجة"
+            await think(3000);
             isEvaluating = false;
             if (isPaused) return;
-            console.log("Final answers:", answers); // Print answers array
+            console.log("Final answers:", answers);
 
-            // Submit answers to the Result action
             submitAnswers(answers);
 
-            // Clean up UI (optional, since the page will redirect)
             bubble.classList.remove("processing", "speaking", "listening");
             bubble.style.transform = "scale(1)";
             bubble.innerHTML = "";
             questionNumDiv.style.display = "none";
             questionTimer.style.display = "none";
-
         }
+        answerStartTime = null;
+        isProcessingEnd = false;
     }, 2000);
 };
+
+
+
 recognition.onerror = (event) => {
     stateDisplay.textContent = "خطأ: " + event.error;
     appState = "جاهز";
@@ -299,23 +302,67 @@ function displayCountdownTimer() {
 // Load Arabic Voice
 function loadArabicVoice() {
     const voices = speechSynthesis.getVoices();
-    arabicVoice = voices.find((voice) => voice && voice.lang && voice.lang.startsWith("ar")) || (voices.length > 0 ? voices[0] : null);
+    arabicVoice = voices.find(voice =>
+        voice.lang === accent &&
+        voice.name.toLowerCase().includes(voiceGender === "male" ? "male" : "female")
+    ) || voices.find(voice => voice.lang === accent) ||
+        voices.find(voice => voice.lang.startsWith("ar")) ||
+        (voices.length > 0 ? voices[0] : null);
 
-    if (arabicVoice && arabicVoice.lang && !arabicVoice.lang.startsWith("ar")) {
-        console.warn("No Arabic voice found. Falling back to default voice: ", arabicVoice.lang);
-    } else if (!arabicVoice) {
+    if (arabicVoice) {
+        console.log(`Loaded voice: ${arabicVoice.name}, lang: ${arabicVoice.lang}, gender hint: ${voiceGender}`);
+    } else {
         console.error("No voices available for speech synthesis.");
     }
 }
 
-// Speak Text
+
+
+
+// Speak Text with Customization
 function speakText(text) {
     if (!text) return Promise.resolve();
-    return new Promise((resolve) => {
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = "ar"; // Force Arabic language
-        if (arabicVoice) utterance.voice = arabicVoice; // Use selected Arabic voice
-        utterance.rate = 0.9;
+    return new Promise(async (resolve) => {
+        if (!arabicVoice) {
+            console.warn("Arabic voice not loaded yet, waiting...");
+            await waitForVoices();
+            if (!arabicVoice) {
+                console.error("No voice available to speak text:", text);
+                resolve();
+                return;
+            }
+        }
+
+        const cleanText = text.replace(/[.,?\n]/g, "").trim();
+        const words = cleanText.split(" ");
+        let utteranceText = "";
+        for (let word of words) {
+            const isEnglish = /[a-zA-Z]/.test(word);
+            if (isEnglish) {
+                utteranceText += word + " ";
+            } else {
+                utteranceText += word + " ";
+            }
+        }
+        utteranceText = utteranceText.trim();
+
+        const voices = speechSynthesis.getVoices();
+        let selectedVoice = voices.find(voice =>
+            voice.lang === accent &&
+            voice.name.toLowerCase().includes(voiceGender === "male" ? "male" : "female")
+        ) || voices.find(voice => voice.lang === accent) || arabicVoice;
+
+        if (!selectedVoice) {
+            console.warn(`No ${voiceGender} voice found for ${accent}. Falling back to loaded Arabic voice: ${arabicVoice?.name}`);
+            selectedVoice = arabicVoice;
+        }
+
+        const utterance = new SpeechSynthesisUtterance(utteranceText);
+        utterance.lang = accent;
+        utterance.voice = selectedVoice;
+        utterance.volume = 1.0;
+        utterance.rate = 0.8;
+        utterance.pitch = voiceGender === "female" ? 1.2 : 0.9; // Adjust pitch for gender
 
         utterance.onstart = () => {
             appState = "يتكلم";
@@ -337,9 +384,39 @@ function speakText(text) {
             resolve();
         };
 
+        utterance.onerror = (event) => {
+            console.error("Speech synthesis error:", event.error);
+            resolve();
+        };
+
         speechSynthesis.speak(utterance);
     });
 }
+
+// Wait for voices to load
+function waitForVoices() {
+    if (!voicesLoadedPromise) {
+        voicesLoadedPromise = new Promise((resolve) => {
+            const checkVoices = () => {
+                const voices = speechSynthesis.getVoices();
+                if (voices.length > 0) {
+                    console.log("Available voices:", voices.map(voice => ({
+                        name: voice.name,
+                        lang: voice.lang,
+                        default: voice.default
+                    })));
+                    loadArabicVoice();
+                    resolve();
+                    return;
+                }
+                speechSynthesis.onvoiceschanged = checkVoices;
+            };
+            checkVoices();
+        });
+    }
+    return voicesLoadedPromise;
+}
+
 
 
 // Think with Pause Support
@@ -385,6 +462,7 @@ async function proceedToNextQuestion() {
 async function startInterview() {
     if (!sessionData) return;
 
+    await waitForVoices(); // Ensure voices are loaded
     await displayCountdownTimer(); // Assuming this shows a 5,4,3,2,1 countdown
     if (isPaused) return;
 
@@ -559,7 +637,12 @@ $(document).ready(function () {
 //Explanation:
 
 async function submitAnswers(answers) {
+    if (!answers || answers.length === 0) {
+        console.error('No answers to submit:', answers);
+        return; // Prevent sending empty or undefined data
+    }
     try {
+        console.log("Sending answers:", answers); // Debug log to verify data
         const response = await fetch('/Customer/Interview/Result', {
             method: 'POST',
             headers: {
@@ -569,22 +652,20 @@ async function submitAnswers(answers) {
         });
 
         if (!response.ok) {
-            throw new Error(`Failed to submit answers: ${response.statusText}`);
+            const errorText = await response.text(); // Get detailed error message
+            throw new Error(`Failed to submit answers: ${response.status} - ${errorText}`);
         }
-
-        // Since the server returns a view, the browser will automatically redirect
-        // No additional client-side redirect is needed
+        console.log("sent! answers");
+        // No redirect needed; server will handle view rendering
     } catch (error) {
         console.error('Error submitting answers:', error);
     }
 }
-
 
 // Initial Setup
 window.addEventListener("load", () => {
     setupAudioAnalyzer();
     updateStateDisplay();
     toggleButtons();
-    speechSynthesis.onvoiceschanged = loadArabicVoice; // Register event listener
-    loadArabicVoice(); // Initial call (might fail if voices aren't ready yet)
+    waitForVoices(); // Replace direct loadArabicVoice call
 });
