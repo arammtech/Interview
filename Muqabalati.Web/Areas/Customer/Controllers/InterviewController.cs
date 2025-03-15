@@ -22,16 +22,17 @@ namespace Muqabalati.Web.Controllers
             // new dto and send
             return View();
         }
+       
         [HttpGet]
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> StartInterview()
         {
             InterviewRequestDto interviewDto = new();
 
             return View(interviewDto);
         }
 
-         
-        // move this to the api controller
+
+        // // // // // move this to the api controller
         [HttpPost]
         public async Task<IActionResult> Result([FromBody]  List<AnswerModel> answers)
         {
@@ -85,26 +86,24 @@ namespace Muqabalati.Web.Controllers
         [HttpGet]
         public IActionResult InterviewResult()
         {
-            //if (TempData["InterviewReport"] is string ratingJson)
-            //{
-            //    // Deserialize the rating from TempData
-            //    var report = JsonConvert.DeserializeObject<InterviewReportDto>(ratingJson);
-            //    //return View(report); // Pass rating to the Result view
-            //    return View("Result", report); // Pass rating to the Result view
-            //}
-            //else
-            //{
-            //    return View("Create");
-
-            //}
-
-
-            return View("Result"); // Pass rating to the Result view
-
+            if (TempData["InterviewReport"] is string ratingJson)
+            {
+                // Deserialize the rating from TempData
+                var report = JsonConvert.DeserializeObject<InterviewReportDto>(ratingJson);
+                //return View(report); // Pass rating to the Result view
+                return View("InterviewResult", report); // Pass rating to the Result view
+            }
+            else
+            {
+                return View("InterviewIsOver","");
+            }
         }
 
-      
+        [HttpGet]
+        public IActionResult InterviewIsOver(string reason)
+        {
+            return View(reason);
+        }
         
-
     }
 }

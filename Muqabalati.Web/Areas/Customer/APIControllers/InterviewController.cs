@@ -45,29 +45,6 @@ namespace Muqabalati.Web.Areas.Customer.APIControllers
             }
         }
 
-        [HttpPost("rate")]
-        public async Task<IActionResult> RateInterview([FromBody] string[] questions)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(new { message = "Invalid data", errors = ModelState });
-            }
-
-            try
-            {
-                // Get the interviewSession form the session
-                // Plus the question 
-                // var session
-
-                //var rate = await _interviewService.GetRateAsync(session);
-
-
-                return Ok(new { success = true});
-            }
-            catch (System.Exception ex)
-            {
-                return StatusCode(500, new { message = "An error occurred while starting the interview.", details = ex.Message });
-            }
-        }
+       
     }
     }

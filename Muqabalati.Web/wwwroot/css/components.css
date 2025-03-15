@@ -139,6 +139,64 @@
     color: var(--color-1);
 }
 
+/* Glow */
+.glow {
+    position: absolute;
+    width: 1500px;
+    height: 1500px;
+    background: radial-gradient( closest-side, #364c843e, rgba(17, 17, 17, 0) );
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    z-index: -2;
+}
+
+    .glow.top-left {
+        top: -50%;
+        left: -20%;
+    }
+
+    .glow.top-middle {
+        top: -40%;
+        left: 60%;
+        transform: translateX(-50%);
+    }
+
+    .glow.top-right {
+        top: -50%;
+        right: -20%;
+    }
+
+    .glow.bottom-left {
+        bottom: -100%;
+        left: -20%;
+    }
+
+    .glow.left-middle {
+        display: none;
+        top: 750px;
+        left: -1000px;
+        transform: translateY(-50%);
+    }
+
+@media (max-width: 1200px) {
+    .glow {
+        display: none;
+    }
+
+        .glow.left-middle {
+            display: block;
+            left: -500px;
+        }
+}
+
+@media (max-width: 1000px) {
+    .glow.left-middle {
+        left: -1000px;
+    }
+}
+
+
+
 /* Stars  */
 .star_container {
     position: absolute;
