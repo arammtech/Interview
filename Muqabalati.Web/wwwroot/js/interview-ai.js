@@ -726,6 +726,10 @@ $(document).ready(function () {
 
 // Initial Setup
 prepareInterviewBtn.addEventListener("click", () => {
+    prepareInterviewBtn.style.display = "none";
+    bubble.style.display = "flex";
+    questionText.style.display = "block";
+    stateDisplay.style.display = "flex";
     var interviewRequest = {
         applicantName: "جون",
         interviewerName: "سامر",
@@ -738,12 +742,12 @@ prepareInterviewBtn.addEventListener("click", () => {
         interviewLanguage: "العربية"
     };
 
-    prepareInterview(interviewRequest);
     setupAudioAnalyzer();
     updateStateDisplay();
     toggleButtons();
     waitForVoices();
-    prepareInterviewBtn.style.display =  "none";
-    questionText.style.display = true;
-    stateDisplay.style.display = true;
+
+
+    prepareInterview(interviewRequest);
+
 });

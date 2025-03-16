@@ -2,7 +2,7 @@
 
 /* Buttons */
 .btn {
-    display: flex !important;
+    display: flex ;
     justify-content: center !important;
     align-items: center !important;
     align-content: center !important;
