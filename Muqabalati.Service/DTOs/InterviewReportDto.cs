@@ -14,6 +14,7 @@ namespace Muqabalati.Service.DTOs
         public bool IsPassed { get; set; }
         public int GPA { get; set; }
 
+        public int TotalQuestions { get; set; }
         public List<RecommendationDto>? Recommendations { get; set; } = new List<RecommendationDto>();
 
     }
