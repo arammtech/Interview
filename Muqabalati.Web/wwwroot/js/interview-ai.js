@@ -23,18 +23,23 @@ let sessionData = null; // Stores API response
 let questions = []; // Populated from API
 let answers = []; // Stores user answers
 let repeatClickCount = 0; // Tracks "Repeat Question" clicks
-let isPaused = false; // Pause status
-let pauseStartTime = null; // Tracks pause start time 
-let savedState = null; // Saves state during pause
 let isWaitingForApiResponse = true; // Track API response state
 let isFailed = false; // If the request failed state
 let isReady = false; // 
 let isEvaluating = false;
 let answerStartTime = null;
-let isProcessingEnd = false; 
+let isProcessingEnd = false;
 let voiceGender = "female"; // Default to male, can be changed to "female"
 let accent = "ar-EG"; // Default to Saudi Arabic, modifiable for other accents
 let voicesLoadedPromise = null;
+
+// Removed Variables: isPaused, pauseStartTime, savedState
+
+// Speech Recognition Setup
+const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+recognition.lang = "ar-SA"; // Arabic language
+recognition.continuous = true;
+recognition.interimResults = true;
 
 // Setup Audio Analyzer
 function setupAudioAnalyzer() {
@@ -67,8 +72,6 @@ function updateStateDisplay() {
         }
     } else if (appState === "يتكلم") {
         stateDisplay.textContent = "يتكلم";
-    } else if (isPaused) {
-        stateDisplay.textContent = "متوقف";
     } else if (isReady) {
         stateDisplay.textContent = "بدء المقابلة";
         isReady = false;
@@ -86,27 +89,18 @@ function updateStateDisplay() {
 
 // Toggle Button States
 function toggleButtons() {
-    const isIdle = appState === "جاهز" || isPaused;
+    const isIdle = appState === "جاهز";
     const questionCount = Array.isArray(questions) ? questions.length : 0;
     repeatQuestionBtn.disabled = !isIdle || currentQuestionIndex >= questionCount || sessionData === null;
     startAnswerBtn.disabled = !isIdle || currentQuestionIndex >= questionCount || sessionData === null;
     endAnswerBtn.disabled = appState !== "يستمع";
     skipQuestionBtn.disabled = !isIdle || currentQuestionIndex >= questionCount || sessionData === null; // New button state
 
-    // SVG for Pause
-    const pauseSvg = `<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M9.14 21.75H5.51C3.65 21.75 2.75 20.89 2.75 19.11V4.89C2.75 3.11 3.65 2.25 5.51 2.25H9.14C11 2.25 11.9 3.11 11.9 4.89V19.11C11.9 20.89 11 21.75 9.14 21.75ZM5.51 3.75C4.43 3.75 4.25 4.02 4.25 4.89V19.11C4.25 19.98 4.42 20.25 5.51 20.25H9.14C10.22 20.25 10.4 19.98 10.4 19.11V4.89C10.4 4.02 10.23 3.75 9.14 3.75H5.51Z" fill="#F4F4F4"/>
-        <path d="M19.4901 21.75H15.8601C14.0001 21.75 13.1001 20.89 13.1001 19.11V4.89C13.1001 3.11 14.0001 2.25 15.8601 2.25H19.4901C21.3501 2.25 22.2501 3.11 22.2501 4.89V19.11C22.2501 20.89 21.3501 21.75 19.4901 21.75ZM15.8601 3.75C14.7801 3.75 14.6001 4.02 14.6001 4.89V19.11C14.6001 19.98 14.7701 20.25 15.8601 20.25H19.4901C20.5701 20.25 20.7501 19.98 20.7501 19.11V4.89C20.7501 4.02 20.5801 3.75 19.4901 3.75H15.8601Z" fill="#F4F4F4"/>
-    </svg>`;
-
-    // SVG for Resume
-    const resumeSvg = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M4 11.9999V8.43989C4 4.01989 7.13 2.2099 10.96 4.4199L14.05 6.1999L17.14 7.9799C20.97 10.1899 20.97 13.8099 17.14 16.0199L14.05 17.7999L10.96 19.5799C7.13 21.7899 4 19.9799 4 15.5599V11.9999Z" stroke="#F4F4F4" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>`;
-
-    // Update the pause/resume button with SVG
-    pauseInterviewBtn.innerHTML = isPaused ? resumeSvg : pauseSvg;
+    // Remove pause/resume SVG logic since pause is disabled
+    pauseInterviewBtn.disabled = true; // Disable the pause button
+    pauseInterviewBtn.innerHTML = ""; // Clear the button content
 }
+
 // Animate Listening Bubble
 function animateListeningBubble() {
     function step() {
@@ -134,11 +128,6 @@ function animateListeningBubble() {
     animationFrameId = requestAnimationFrame(step);
 }
 
-// Speech Recognition Setup
-const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-recognition.lang = "ar"; // change this for accent
-recognition.continuous = true;
-recognition.interimResults = false;
 
 recognition.onstart = () => {
     appState = "يستمع";
@@ -160,10 +149,9 @@ recognition.onresult = (event) => {
     accumulatedText += result + " ";
 };
 
-
 recognition.onend = () => {
-    if (isPaused || isProcessingEnd) {
-        console.log("Recognition stopped due to pause or already processing");
+    if (isProcessingEnd) {
+        console.log("Recognition stopped due to already processing");
         return;
     }
     isProcessingEnd = true;
@@ -199,7 +187,6 @@ recognition.onend = () => {
             currentQuestionIndex++;
             questionNumDiv.textContent = `${currentQuestionIndex + 1}/${questions.length}`;
             await think(2000); // Keep this for transitions between questions
-            if (isPaused) return;
             const question = questions[currentQuestionIndex];
             const estimatedTimeSeconds = question.estimatedTimeMinutes * 60;
             questionTimer.textContent = formatTime(estimatedTimeSeconds);
@@ -213,7 +200,6 @@ recognition.onend = () => {
             questionText.textContent = "";
             const conclusionText = sessionData?.conclusionText || "حسناً، سأقوم بتقييم مقابلتك الآن، شكراً لاستخدام موقع مقابلتي!";
             await speakText(conclusionText);
-            if (isPaused) return;
 
             // Enter persistent processing state
             appState = "يفكر";
@@ -229,7 +215,6 @@ recognition.onend = () => {
         isProcessingEnd = false;
     })();
 };
-
 
 recognition.onerror = (event) => {
     stateDisplay.textContent = "خطأ: " + event.error;
@@ -266,7 +251,7 @@ function formatTime(seconds) {
     return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 }
 
-// Set default timer display (call this when initializing or waiting for a response)
+// Set default timer display
 questionTimer.textContent = "00:00";
 
 // Display Countdown Timer (5, 4, 3, 2, 1)
@@ -282,10 +267,6 @@ function displayCountdownTimer() {
 
         const countdownInterval = setInterval(() => {
             countdown--;
-            if (isPaused) {
-                clearInterval(countdownInterval);
-                return;
-            }
             bubble.innerHTML = `<div class="countdown-number">${countdown}</div>`;
             if (countdown <= 0) {
                 clearInterval(countdownInterval);
@@ -316,9 +297,6 @@ function loadArabicVoice() {
         console.error("No voices available for speech synthesis.");
     }
 }
-
-
-
 
 // Speak Text with Customization
 function speakText(text) {
@@ -374,10 +352,6 @@ function speakText(text) {
         };
 
         utterance.onend = () => {
-            if (isPaused) {
-                console.log("Speaking stopped due to pause");
-                return;
-            }
             appState = "جاهز";
             bubble.style.transform = "scale(1)"; // Reset scale after speaking
             updateStateDisplay();
@@ -419,8 +393,6 @@ function waitForVoices() {
     return voicesLoadedPromise;
 }
 
-
-
 // Think with Pause Support
 function think(duration) {
     return new Promise((resolve) => {
@@ -430,10 +402,6 @@ function think(duration) {
         bubble.classList.add("processing"); // Thinking shape
         const startTime = Date.now();
         function checkTime() {
-            if (isPaused) {
-                console.log("Thinking paused");
-                return;
-            }
             const elapsed = Date.now() - startTime;
             if (elapsed >= duration) {
                 bubble.classList.remove("processing", "speaking", "listening");
@@ -450,37 +418,29 @@ function think(duration) {
 async function proceedToNextQuestion() {
     if (currentQuestionIndex < questions.length) {
         await think(2000); // Think for 2 seconds
-        if (isPaused) return;
-
         const question = questions[currentQuestionIndex];
         const estimatedTimeSeconds = question.estimatedTimeMinutes * 60; // Convert minutes to seconds
         questionTimer.textContent = formatTime(estimatedTimeSeconds); // Display initial time in MM:SS
         const questionTextContent = (question.linkingPhrase ? question.linkingPhrase + ", " : "") + question.originalQuestion;
         questionText.textContent = questionTextContent;
         await speakText(questionTextContent);
-    }       
+    }
 }
- 
+
 async function startInterview() {
     if (!sessionData) return;
 
     await waitForVoices(); // Ensure voices are loaded
     await displayCountdownTimer(); // Assuming this shows a 5,4,3,2,1 countdown
-    if (isPaused) return;
-
-    const introText = sessionData?.introText   || "مرحباً، شكراً لانضمامك إلى المقابلة.";
+    const introText = sessionData?.introText || "مرحباً، شكراً لانضمامك إلى المقابلة.";
     await speakText(introText);
-    if (isPaused) return      ;
-     
     await think(1000);
-    if (isPaused) return;
 
     const firstQuestion = questions[0];
     const firstQuestionText = (firstQuestion.linkingPhrase ? firstQuestion.linkingPhrase + ", " : "") + firstQuestion.originalQuestion;
     questionNumDiv.textContent = `1/${questions.length}`; // Set question counter
     questionText.textContent = firstQuestionText;
     await speakText(firstQuestionText);
-       
     const estimatedTimeSeconds = firstQuestion.estimatedTimeMinutes * 60;
     questionTimer.textContent = formatTime(estimatedTimeSeconds); // Show estimated time
 }
@@ -552,7 +512,6 @@ skipQuestionBtn.onclick = () => {
             currentQuestionIndex++;
             questionNumDiv.textContent = `${currentQuestionIndex + 1}/${questions.length}`;
             await think(2000); // Keep this for transitions between questions
-            if (isPaused) return;
             const question = questions[currentQuestionIndex];
             const estimatedTimeSeconds = question.estimatedTimeMinutes * 60;
             questionTimer.textContent = formatTime(estimatedTimeSeconds);
@@ -566,7 +525,6 @@ skipQuestionBtn.onclick = () => {
             questionText.textContent = "";
             const conclusionText = sessionData?.conclusionText || "حسناً، سأقوم بتقييم مقابلتك الآن، شكراً لاستخدام موقع مقابلتي!";
             await speakText(conclusionText);
-            if (isPaused) return;
 
             // Enter persistent processing state
             appState = "يفكر";
@@ -581,71 +539,12 @@ skipQuestionBtn.onclick = () => {
         answerStartTime = null;
         isProcessingEnd = false;
     })();
-};;
-
-
-// Pause Interview Handler
-pauseInterviewBtn.onclick = () => {
-    if (!isPaused) {
-        isPaused = true;
-        pauseStartTime = new Date();
-        savedState = {
-            appState,
-            currentQuestionIndex,
-            timeLeft,
-            accumulatedText,
-            repeatClickCount,
-            answers: [...answers]
-        };
-        console.log("Pausing interview:", savedState);
-
-        // Stop all actions based on current state and set to idle
-        if (appState === "يستمع") {
-            clearInterval(timer);
-            recognition.stop();
-        } else if (appState === "يتكلم") {
-            speechSynthesis.cancel();
-        } else if (appState === "يفكر") {
-            bubble.classList.remove("processing");
-        }
-
-        // Reset bubble to idle state (non-moving)
-        bubble.classList.remove("speaking", "processing", "listening");
-        bubble.style.transform = "scale(1)"; // Stop any scaling animation
-        if (animationFrameId) {
-            cancelAnimationFrame(animationFrameId);
-            animationFrameId = null;
-        }
-        appState = "جاهز"; // Force idle state
-        updateStateDisplay();
-    } else {
-        const pauseEndTime = new Date();
-        const pauseDuration = (pauseEndTime - pauseStartTime) / 1000 / 60; // In minutes
-        if (pauseDuration > 20) {
-            console.log("Pause duration exceeded 20 minutes, redirecting...");
-            window.location.href = "/Customer/Home/Index";
-            return;
-        }
-
-        appState = savedState.appState;
-        currentQuestionIndex = savedState.currentQuestionIndex;
-        timeLeft = savedState.timeLeft;
-        accumulatedText = savedState.accumulatedText;
-        repeatClickCount = savedState.repeatClickCount;
-        answers = [...savedState.answers];
-        savedState = null;
-        isPaused = false;
-        console.log("Resuming interview:", { appState, currentQuestionIndex, timeLeft, accumulatedText });
-
-        // Do not trigger any AI actions; just re-enable buttons
-        updateStateDisplay();
-    }
 };
 
 // AJAX Call to Fetch Interview Session
 $(document).ready(function () {
     // Initial data
-    questionNumDiv.textContent = ""; 
+    questionNumDiv.textContent = "";
     questionTimer.textContent = "00:00";
     questionText.textContent = "";
     isWaitingForApiResponse = true;
@@ -704,7 +603,7 @@ $(document).ready(function () {
         }
     });
 });
-//Explanation:
+
 async function submitAnswers(answers) {
     if (!answers || answers.length === 0) {
         console.error('No answers to submit:', answers);
@@ -722,7 +621,7 @@ async function submitAnswers(answers) {
         console.error('No valid answers to submit after cleaning:', answers);
         return;
     }
-        
+
     console.log("Final cleaned answers before send:", JSON.stringify(cleanedAnswers, null, 2));
     try {
         await $.ajax({
@@ -732,7 +631,6 @@ async function submitAnswers(answers) {
             data: JSON.stringify(cleanedAnswers),
             success: function (data) {
                 console.log("Submission successful, server will redirect:", data);
-
                 window.location.href = '/Customer/Interview/InterviewResult';
             },
             error: function (xhr, status, error) {
