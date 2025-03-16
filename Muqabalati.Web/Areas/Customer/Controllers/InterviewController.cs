@@ -24,6 +24,35 @@ namespace Muqabalati.Web.Controllers
         }
        
         [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            InterviewReportDto report = new()
+            {
+                IsPassed = true,
+                GPA = 80,
+                CorrectAnswers = 4,
+                FailAnswers = 1,
+                Recommendations = new List<RecommendationDto>
+                {
+                     new RecommendationDto
+                         {
+                            Recommendation = "في نفس السياق، يمكننا أن نناقش في نفس السياق، يمكننا أن نناقش في نفس السياق، يمكننا أن نناقش في نفس السياق، يمكننا أن نناقش ",
+                            Source = "كيف تعمل ضمن فريق؟"
+                     },
+                      new RecommendationDto
+                         {
+                            Recommendation = "في نفس السياق، يمكننا أن نناقش:",
+                            Source = "كيف تعمل ضمن فريق؟"
+                     }
+                }
+                ,
+                TotalQuestions = 5
+
+            };
+            return View(report);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> StartInterview()
         {
             InterviewRequestDto interviewDto = new();

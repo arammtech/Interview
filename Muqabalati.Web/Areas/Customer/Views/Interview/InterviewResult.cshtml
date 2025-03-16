@@ -113,9 +113,8 @@
         {
               <div class="recomendation">
             <div class="content col">
-                    @recommendation.Recommendation . (Source:@recommendation.Source)
+                    @(recommendation.Recommendation + "....")<a href="@recommendation.Source" class="show-more ">لتفاصيل أكثر</a>
             </div>
-            <a href="#" class="show-more col-1 ">عرض المزيد</a>
         </div>
         }
     </div>
