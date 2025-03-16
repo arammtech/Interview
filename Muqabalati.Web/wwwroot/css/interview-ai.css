@@ -311,42 +311,13 @@
     font-weight: 500;
     color: var(--color-bg);
 }
-
-/* Glass and Light-Glow affect*/
-body {
-    background-color: #171717 !important;
-    position: relative !important;
-    overflow: hidden;
+.disabled-button {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
 }
-
-.glass {
-    position: absolute;
-    background: radial-gradient(rgba(113, 113, 113, 0.176), rgba(255, 255, 255, 0));
-/*    #17171736*/
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
-    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.25);
-    /*transform: rotate(-15deg); */
-}
-
-/* Start  */
-.star_container.down {
-    bottom: 0%;
-}
-
-body > .start_container svg {
-    position: absolute;
-    bottom: 5%;
-    left: 30%;
-    transform: rotate(-50deg);
-    -webkit-transform: rotate(-50deg);
-    -moz-transform: rotate(-50deg);
-    -ms-transform: rotate(-50deg);
-    -o-transform: rotate(-50deg);
-}
-
-#InterviewAi .star_container {
-    position: absolute;
+/* Stars  */
+#InterviewAi .star_container.top-left {
     bottom: 0%;
     right: -20%;
     transform: rotate(-10deg);

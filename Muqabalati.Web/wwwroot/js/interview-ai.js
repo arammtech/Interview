@@ -51,7 +51,13 @@ function setupAudioAnalyzer() {
 
 // Update State Display and Toggle Buttons
 function updateStateDisplay() {
-    if (isFailed) {
+    if (isPaused) {
+        if (appState === "يستمع" || (appState === "جاهز" && currentQuestionIndex < questions.length)) {
+            stateDisplay.textContent = "متوقف";
+        } else {
+            stateDisplay.textContent = pausedStateDisplayText || stateDisplay.textContent;
+        }
+    } else if (isFailed) {
         stateDisplay.textContent = "فشل في بدء المقابلة";
     } else if (appState === "يستمع") {
         stateDisplay.textContent = "يستمع";
@@ -63,12 +69,10 @@ function updateStateDisplay() {
         } else if (currentQuestionIndex >= questions.length) {
             stateDisplay.textContent = "جاري تقييم مقابلتك...";
         } else {
-            stateDisplay.textContent = "يفكر";
-        }
+            stateDisplay.textContent = "يفكر";   
+        }   
     } else if (appState === "يتكلم") {
         stateDisplay.textContent = "يتكلم";
-    } else if (isPaused) {
-        stateDisplay.textContent = "متوقف";
     } else if (isReady) {
         stateDisplay.textContent = "بدء المقابلة";
         isReady = false;
@@ -81,32 +85,68 @@ function updateStateDisplay() {
         bubble.style.transform = "scale(1)"; // Explicitly reset scale
         bubble.classList.remove("speaking", "processing", "listening");
     }
-    toggleButtons();
+    toggleButtons(); // Call toggleButtons to update button states
 }
-
 // Toggle Button States
 function toggleButtons() {
-    const isIdle = appState === "جاهز" || isPaused;
+    const isIdle = appState === "جاهز" && currentQuestionIndex < questions.length;
     const questionCount = Array.isArray(questions) ? questions.length : 0;
-    repeatQuestionBtn.disabled = !isIdle || currentQuestionIndex >= questionCount || sessionData === null;
-    startAnswerBtn.disabled = !isIdle || currentQuestionIndex >= questionCount || sessionData === null;
-    endAnswerBtn.disabled = appState !== "يستمع";
-    skipQuestionBtn.disabled = !isIdle || currentQuestionIndex >= questionCount || sessionData === null; // New button state
 
-    // SVG for Pause
-    const pauseSvg = `<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M9.14 21.75H5.51C3.65 21.75 2.75 20.89 2.75 19.11V4.89C2.75 3.11 3.65 2.25 5.51 2.25H9.14C11 2.25 11.9 3.11 11.9 4.89V19.11C11.9 20.89 11 21.75 9.14 21.75ZM5.51 3.75C4.43 3.75 4.25 4.02 4.25 4.89V19.11C4.25 19.98 4.42 20.25 5.51 20.25H9.14C10.22 20.25 10.4 19.98 10.4 19.11V4.89C10.4 4.02 10.23 3.75 9.14 3.75H5.51Z" fill="#F4F4F4"/>
-        <path d="M19.4901 21.75H15.8601C14.0001 21.75 13.1001 20.89 13.1001 19.11V4.89C13.1001 3.11 14.0001 2.25 15.8601 2.25H19.4901C21.3501 2.25 22.2501 3.11 22.2501 4.89V19.11C22.2501 20.89 21.3501 21.75 19.4901 21.75ZM15.8601 3.75C14.7801 3.75 14.6001 4.02 14.6001 4.89V19.11C14.6001 19.98 14.7701 20.25 15.8601 20.25H19.4901C20.5701 20.25 20.7501 19.98 20.7501 19.11V4.89C20.7501 4.02 20.5801 3.75 19.4901 3.75H15.8601Z" fill="#F4F4F4"/>
-    </svg>`;
+    // Update 2: Disable pause button during evaluation and preparation
+    const canPause = (appState === "يتكلم" || appState === "يفكر" || appState === "يستمع" || isIdle) && !isEvaluating && !isWaitingForApiResponse;
 
-    // SVG for Resume
-    const resumeSvg = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M4 11.9999V8.43989C4 4.01989 7.13 2.2099 10.96 4.4199L14.05 6.1999L17.14 7.9799C20.97 10.1899 20.97 13.8099 17.14 16.0199L14.05 17.7999L10.96 19.5799C7.13 21.7899 4 19.9799 4 15.5599V11.9999Z" stroke="#F4F4F4" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>`;
+    // Helper function to apply button states with a delay
+    const applyButtonStates = () => {
+        if (isPaused) {
+            // When paused, disable all buttons except pause (resume) button
+            repeatQuestionBtn.disabled = true;
+            startAnswerBtn.disabled = true;
+            skipQuestionBtn.disabled = true;
+            endAnswerBtn.disabled = appState !== "يستمع"; // Keep enabled if listening (from previous logic)
+            pauseInterviewBtn.disabled = false;
 
-    // Update the pause/resume button with SVG
-    pauseInterviewBtn.innerHTML = isPaused ? resumeSvg : pauseSvg;
+            // Update 3: Add visual feedback
+            repeatQuestionBtn.classList.add("disabled-button");
+            startAnswerBtn.classList.add("disabled-button");
+            skipQuestionBtn.classList.add("disabled-button");
+            endAnswerBtn.classList.toggle("disabled-button", appState !== "يستمع");
+            pauseInterviewBtn.classList.remove("disabled-button");
+        } else {
+            // When not paused, enable buttons based on state
+            // Update 1: Enable repeatQuestionBtn during listening state
+            repeatQuestionBtn.disabled = !(isIdle || appState === "يستمع") || currentQuestionIndex >= questionCount || sessionData === null;
+            startAnswerBtn.disabled = !isIdle || currentQuestionIndex >= questionCount || sessionData === null;
+            endAnswerBtn.disabled = appState !== "يستمع";
+            skipQuestionBtn.disabled = !isIdle || currentQuestionIndex >= questionCount || sessionData === null;
+            pauseInterviewBtn.disabled = !canPause;
+
+            // Update 3: Add visual feedback
+            repeatQuestionBtn.classList.toggle("disabled-button", !(isIdle || appState === "يستمع") || currentQuestionIndex >= questionCount || sessionData === null);
+            startAnswerBtn.classList.toggle("disabled-button", !isIdle || currentQuestionIndex >= questionCount || sessionData === null);
+            endAnswerBtn.classList.toggle("disabled-button", appState !== "يستمع");
+            skipQuestionBtn.classList.toggle("disabled-button", !isIdle || currentQuestionIndex >= questionCount || sessionData === null);
+            pauseInterviewBtn.classList.toggle("disabled-button", !canPause);
+        }
+
+        // SVG for Pause
+        const pauseSvg = `<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9.14 21.75H5.51C3.65 21.75 2.75 20.89 2.75 19.11V4.89C2.75 3.11 3.65 2.25 5.51 2.25H9.14C11 2.25 11.9 3.11 11.9 4.89V19.11C11.9 20.89 11 21.75 9.14 21.75ZM5.51 3.75C4.43 3.75 4.25 4.02 4.25 4.89V19.11C4.25 19.98 4.42 20.25 5.51 20.25H9.14C10.22 20.25 10.4 19.98 10.4 19.11V4.89C10.4 4.02 10.23 3.75 9.14 3.75H5.51Z" fill="#F4F4F4"/>
+            <path d="M19.4901 21.75H15.8601C14.0001 21.75 13.1001 20.89 13.1001 19.11V4.89C13.1001 3.11 14.0001 2.25 15.8601 2.25H19.4901C21.3501 2.25 22.2501 3.11 22.2501 4.89V19.11C22.2501 20.89 21.3501 21.75 19.4901 21.75ZM15.8601 3.75C14.7801 3.75 14.6001 4.02 14.6001 4.89V19.11C14.6001 19.98 14.7701 20.25 15.8601 20.25H19.4901C20.5701 20.25 20.7501 19.98 20.7501 19.11V4.89C20.7501 4.02 20.5801 3.75 19.4901 3.75H15.8601Z" fill="#F4F4F4"/>
+        </svg>`;
+
+        // SVG for Resume
+        const resumeSvg = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 11.9999V8.43989C4 4.01989 7.13 2.2099 10.96 4.4199L14.05 6.1999L17.14 7.9799C20.97 10.1899 20.97 13.8099 17.14 16.0199L14.05 17.7999L10.96 19.5799C7.13 21.7899 4 19.9799 4 15.5599V11.9999Z" stroke="#F4F4F4" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>`;
+
+        // Update the pause/resume button with SVG
+        pauseInterviewBtn.innerHTML = isPaused ? resumeSvg : pauseSvg;
+    };
+
+    // Update 4: Add a 200ms delay for toggling button states
+    setTimeout(applyButtonStates, 200);
 }
+
 // Animate Listening Bubble
 function animateListeningBubble() {
     function step() {
