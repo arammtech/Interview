@@ -71,7 +71,7 @@
                                     stroke-linejoin="round" />
                             </svg>   
                         </span>    
-                        <span>10 / <span class="answers-count">@Model.CorrectAnswers</span></span>
+                        <span>@Model.TotalQuestions / <span class="answers-count">@Model.CorrectAnswers</span></span>
                     </div>
                     <div class="wrong-answers">
                         <span class="label">
@@ -92,7 +92,7 @@
                                       stroke-linejoin="round" />
                             </svg>
                         </span>
-                        <span>10 / <span class="answers-count">@Model.FailAnswers</span></span>
+                        <span>@Model.TotalQuestions / <span class="answers-count">@Model.FailAnswers</span></span>
                     </div>
                 </div>
             </div>

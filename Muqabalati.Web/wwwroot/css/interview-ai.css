@@ -262,13 +262,14 @@
             content: attr(data-action);
             position: absolute;
             top: 0;
-            left: -6.2rem;
-            width: 6rem;
+            left: -8rem;
+            width: 8rem;
             min-height: 4rem;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
+            padding:.5rem 1rem;
       /* Glow */
             background: radial-gradient(rgba(113, 113, 113, 0.176), rgba(255, 255, 255, 0));
             backdrop-filter: blur(2px);
