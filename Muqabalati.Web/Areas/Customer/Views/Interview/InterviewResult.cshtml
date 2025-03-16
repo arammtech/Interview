@@ -8,8 +8,6 @@
     <link rel="stylesheet" href="~/css/interview-resullt.css" asp-append-version="true" />
 
 }
-<h1>@Model.IsPassed</h1>
-<h1>@Model.GPA</h1>
 
 <div class="star_container down">
     <svg width="37"
@@ -46,10 +44,10 @@
     <div class="rate-sec row">
         <div class="result col">
             <div class="circle-container">
-                    <div class="circle @(Model.IsPassed ? "passed" : "failed") ">
-                        <span>النتيجة</span>
-                    <span class="percentage @(Model.IsPassed ? "passed" : "failed")">@(Model.GPA)%</span>
-                    </div>
+                <div class="circle @(Model.IsPassed ? "passed" : "failed") ">
+                    <span>النتيجة</span>
+                <span class="percentage @(Model.IsPassed ? "passed" : "failed")">@(Model.GPA)%</span>
+                </div>
             </div>
             <div class="result-info">
                 <h1 class=" @(Model.IsPassed ? "passed" : "failed")">مرفوض</h1>
@@ -57,22 +55,22 @@
                     <div class="correct-answers">
                         <span class="label">
                             الإجابات الصحيحة
-                            <svg width="24"
-                                 height="24"
-                                 viewBox="0 0 24 24"
-                                 fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path d="M7.48047 18.35L10.5805 20.75C10.9805 21.15 11.8805 21.35 12.4805 21.35H16.2805C17.4805 21.35 18.7805 20.45 19.0805 19.25L21.4805 11.95C21.9805 10.55 21.0805 9.34997 19.5805 9.34997H15.5805C14.9805 9.34997 14.4805 8.84997 14.5805 8.14997L15.0805 4.94997C15.2805 4.04997 14.6805 3.04997 13.7805 2.74997C12.9805 2.44997 11.9805 2.84997 11.5805 3.44997L7.48047 9.54997"
-                                      stroke="#E7F1A8"
-                                      stroke-width="1.5"
-                                      stroke-miterlimit="10" />
-                                <path d="M2.37988 18.35V8.55002C2.37988 7.15002 2.97988 6.65002 4.37988 6.65002H5.37988C6.77988 6.65002 7.37988 7.15002 7.37988 8.55002V18.35C7.37988 19.75 6.77988 20.25 5.37988 20.25H4.37988C2.97988 20.25 2.37988 19.75 2.37988 18.35Z"
-                                      stroke="#E7F1A8"
-                                      stroke-width="1.5"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round" />
-                            </svg>
-                        </span>
+                        <svg width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7.48047 18.35L10.5805 20.75C10.9805 21.15 11.8805 21.35 12.4805 21.35H16.2805C17.4805 21.35 18.7805 20.45 19.0805 19.25L21.4805 11.95C21.9805 10.55 21.0805 9.34997 19.5805 9.34997H15.5805C14.9805 9.34997 14.4805 8.84997 14.5805 8.14997L15.0805 4.94997C15.2805 4.04997 14.6805 3.04997 13.7805 2.74997C12.9805 2.44997 11.9805 2.84997 11.5805 3.44997L7.48047 9.54997"
+                                    stroke="#E7F1A8"
+                                    stroke-width="1.5"
+                                    stroke-miterlimit="10" />
+                            <path d="M2.37988 18.35V8.55002C2.37988 7.15002 2.97988 6.65002 4.37988 6.65002H5.37988C6.77988 6.65002 7.37988 7.15002 7.37988 8.55002V18.35C7.37988 19.75 6.77988 20.25 5.37988 20.25H4.37988C2.97988 20.25 2.37988 19.75 2.37988 18.35Z"
+                                    stroke="#E7F1A8"
+                                    stroke-width="1.5"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>   
+                        </span>    
                         <span>10 / <span class="answers-count">@Model.CorrectAnswers</span></span>
                     </div>
                     <div class="wrong-answers">
@@ -114,10 +112,9 @@
         @foreach (RecommendationDto recommendation in Model.Recommendations)
         {
               <div class="recomendation">
-            <div class="content">
-                    @recommendation.Recommendation . (Source:@recommendation.Source)
+            <div class="content col">
+                    @(recommendation.Recommendation + "....")<a href="@recommendation.Source" class="show-more ">لتفاصيل أكثر</a>
             </div>
-            <a href="#" class="show-more">عرض المزيد</a>
         </div>
         }
     </div>
