@@ -24,6 +24,35 @@ namespace Muqabalati.Web.Controllers
         }
        
         [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            InterviewReportDto report = new()
+            {
+                IsPassed = true,
+                GPA = 80,
+                CorrectAnswers = 4,
+                FailAnswers = 1,
+                Recommendations = new List<RecommendationDto>
+                {
+                     new RecommendationDto
+                         {
+                            Recommendation = "في نفس السياق، يمكننا أن نناقش في نفس السياق، يمكننا أن نناقش في نفس السياق، يمكننا أن نناقش في نفس السياق، يمكننا أن نناقش ",
+                            Source = "كيف تعمل ضمن فريق؟"
+                     },
+                      new RecommendationDto
+                         {
+                            Recommendation = "في نفس السياق، يمكننا أن نناقش:",
+                            Source = "كيف تعمل ضمن فريق؟"
+                     }
+                }
+                ,
+                TotalQuestions = 5
+
+            };
+            return View(report);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> StartInterview()
         {
             InterviewRequestDto interviewDto = new();
@@ -88,14 +117,13 @@ namespace Muqabalati.Web.Controllers
         {
             if (TempData["InterviewReport"] is string ratingJson)
             {
-                // Deserialize the rating from TempData
                 var report = JsonConvert.DeserializeObject<InterviewReportDto>(ratingJson);
-                //return View(report); // Pass rating to the Result view
-                return View("InterviewResult", report); // Pass rating to the Result view
+            
+                return View("InterviewResult", report); 
             }
             else
             {
-                return View("InterviewIsOver","");
+                return View("InterviewIsOver", "المقابلة لقد انتهت");
             }
         }
 

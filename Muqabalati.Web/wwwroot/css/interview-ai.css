@@ -312,20 +312,19 @@
     color: var(--color-bg);
 }
 
-/* Glass and Light-Glow affect*/
-body {
-    background-color: #171717 !important;
-    position: relative !important;
-    overflow: hidden;
-}
 
-.glass {
-    position: absolute;
-    background: radial-gradient(rgba(113, 113, 113, 0.176), rgba(255, 255, 255, 0));
-/*    #17171736*/
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
-    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.25);
+
+/* Stars  */
+
+    #InterviewAi .star_container.top-left {
+        bottom: 0%;
+        right: -20%;
+        transform: rotate(-10deg);
+        -webkit-transform: rotate(-10deg);
+        -moz-transform: rotate(-10deg);
+        -ms-transform: rotate(-10deg);
+        -o-transform: rotate(-10deg);
+    }
     /*transform: rotate(-15deg); */
 }
 
@@ -356,7 +355,7 @@ body > .start_container svg {
     -o-transform: rotate(-10deg);
 }
 
-    #InterviewAi .star_container:nth-of-type(1) {
+    #InterviewAi .star_container.down-right {
         top: 0%;
         left: -20%;
         transform: rotate(0deg);
@@ -365,3 +364,4 @@ body > .start_container svg {
         -ms-transform: rotate(0deg);
         -o-transform: rotate(0deg);
     }
+

@@ -44,72 +44,48 @@ ApplicationUser GenerateFakeUser()
 }
 var gemeni = new GenAIApiService();
 var interviewservice = new InterviewService(gemeni);
-//var test = await interviewservice.GenerateInterviewSessionAsync(new());
+var test = await interviewservice.GenerateInterviewSessionAsync(new());
 
-//Console.WriteLine(test.IntroText);
-//Console.WriteLine("الاسئلة");
-//foreach(var q in test.Questions)
-//{
-//    Console.WriteLine(q.LinkingPhrase);
-//    Console.WriteLine(q.OriginalQuestion);
-//    Console.WriteLine(q.RephrasedQuestion);
-//    Console.WriteLine(q.Explanation);
-//    Console.WriteLine("الوقع المتوقع للاجابة" + q.EstimatedTimeMinutes);
-
-//}
-
-//Console.WriteLine(test.ConclusionText);
-
-
-
-string[] questions =
+Console.WriteLine(test.IntroText);
+Console.WriteLine("الاسئلة");
+foreach (var q in test.Questions)
 {
-    "إيه هو \".Net\" وبيستخدم في إيه؟",
-    "إيه هو \"PowerShell\" وفايدته إيه في إدارة تكنولوجيا المعلومات؟",
-    "\"HTML\" ده إيه ودوره في تطوير الويب؟",
-    "إيه هو \"JavaScript\" ودوره في تطوير المواقع؟",
-    "إيه فائدة الفارة في الكومبيوتر؟",
-    "الإنترنت بيشتغل إزاي؟",
-    "إيه هو السيرفر وبيعمل إيه؟",
-    "الكيبورد بيستخدم في إيه؟",
-    "يعني إيه الذكاء الاصطناعي؟",
-    "إيه الفرق بين الموبايل والتابلت؟",
-    "الجهاز بتاع WiFi بيعمل إيه؟",
-    "الباور بانك بيستخدم في إيه؟",
-    "يعني إيه سوفت وير؟",
-    "يعني إيه \"SSD\"؟",
-    "الرام (RAM) بتعمل إيه؟"
-};
+    Console.WriteLine(q.LinkingPhrase);
+    Console.WriteLine(q.OriginalQuestion);
+    Console.WriteLine(q.RephrasedQuestion);
+    Console.WriteLine(q.Explanation);
+    Console.WriteLine("الوقع المتوقع للاجابة" + q.EstimatedTimeMinutes);
+
+}
+
+Console.WriteLine(test.ConclusionText);
+
+
 
 List<AnswerModel> answers = new List<AnswerModel>
 {
-    new AnswerModel { Answer = "إطار عمل تطوير برمجيات تم تطويره بواسطة مايكروسوفت." }, // صحيح
-    new AnswerModel { Answer = "برنامج بيقدّم بيئة متكاملة لإدارة وتنفيذ المهام في تكنولوجيا المعلومات." }, // صحيح
-    new AnswerModel { Answer = "لغة برمجة لتصميم التطبيقات الذكية." }, // خطأ
-    new AnswerModel { Answer = "لغة برمجة بتُستخدم لتفعيل التفاعلية في المواقع." }, // صحيح
-    new AnswerModel { Answer = "لتحريك الملفات تلقائيًا على الشاشة." }, // خطأ
-    new AnswerModel { Answer = "باستخدام كابلات بحرية وأقمار صناعية لنقل البيانات." }, // صحيح
-    new AnswerModel { Answer = "مكان لتخزين الصور بس." }, // خطأ
-    new AnswerModel { Answer = "لإدخال البيانات في الكمبيوتر." }, // صحيح
-    new AnswerModel { Answer = "إنه القدرة على حل المعادلات الرياضية فقط." }, // خطأ
-    new AnswerModel { Answer = "التابلت بيجي بشاشة أكبر من الموبايل عادةً." }, // صحيح
-    new AnswerModel { Answer = "بيشغل برامج الكومبيوتر." }, // خطأ
-    new AnswerModel { Answer = "لشحن الأجهزة المحمولة." }, // صحيح
-    new AnswerModel { Answer = "البرامج اللي بتشتغل على أجهزة الكمبيوتر." }, // صحيح
-    new AnswerModel { Answer = "هو نوع من أنواع الأقراص المدمجة القديمة." }, // خطأ
-    new AnswerModel { Answer = "هي الذاكرة اللي بتساعد الجهاز يعالج البيانات بسرعة." }  // صحيح
+    new AnswerModel { Answer = "A software development framework developed by Microsoft" },
+    new AnswerModel { Answer = "An integrated environment for managing and automating tasks in IT" },
+    new AnswerModel { Answer = "It is a markup language used for creating web pages", },
+    new()
 };
 
-// استدعاء الخدمة
-var report = await interviewservice.GenerateInterviewReport(answers, questions);
+string[] questions =
+{
+    "What is .Net, and what is its purpose?",
+    "What is PowerShell, and why is it useful in IT management?",
+    "What is HTML, and what is its role in web development?",
+    "What is JS, and what is its role in web development?"
+
+};
+
+//// استدعاء الخدمة
+//var report = await interviewservice.GenerateInterviewReport(answers, questions);
 
 // عرض النتائج
-Console.WriteLine($"TotalQuestions: {report.TotalQuestions}");
 Console.WriteLine($"Correct Answers: {report.CorrectAnswers}");
 Console.WriteLine($"Fail Answers: {report.FailAnswers}");
 Console.WriteLine($"GPA: {report.GPA}");
-Console.WriteLine($"IsPassed: {report.IsPassed}");
-
 Console.WriteLine("Recommendations:");
 foreach (var recommendation in report.Recommendations)
 {

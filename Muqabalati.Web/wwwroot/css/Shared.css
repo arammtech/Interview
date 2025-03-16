@@ -11,7 +11,7 @@
     --color-gradient-4: linear-gradient(45deg, #FFFDF5, #F6F1E1);
     --color-white: #ffffff;
     --color-success: #c5f218;
-    --color-error: #cf0508;
+    --color-error: #F5999A;
     --color-aramm: #DB4B4E;
     --color-gray: #D9D9D936;
     --color-gray-2: #ADB2B1;
@@ -59,14 +59,14 @@ html {
 
 body {
     direction: rtl;
-    position: relative;
+    background-color: #171717 !important;
+    position: relative !important;
     min-height: 100vh;
     font-family: var(--main-font) !important;
     font-size: 1.6rem !important;
-    background-color: #171717 !important;
     overflow: hidden;
-    animation: gradientAnimation 15s ease infinite;
-    -webkit-animation: gradientAnimation 15s ease infinite;
+/*    animation: gradientAnimation 15s ease infinite;
+    -webkit-animation: gradientAnimation 15s ease infinite;*/
 }
 
 
