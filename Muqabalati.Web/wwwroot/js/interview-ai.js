@@ -6,6 +6,7 @@ const startAnswerBtn = document.getElementById("startAnswer");
 const endAnswerBtn = document.getElementById("endAnswer");
 const skipQuestionBtn = document.getElementById("skipQuestion");
 const pauseInterviewBtn = document.getElementById("pauseInterview");
+const prepareInterviewBtn = document.getElementById("prepareInterview");
 const questionNumDiv = document.getElementById("questionNum");
 const questionTimer = document.getElementById("questionTimer");
 const questionText = document.getElementById("questionText");
@@ -611,28 +612,9 @@ pauseInterviewBtn.onclick = () => {
     toggleButtons();
 };
 
-// AJAX Call to Fetch Interview Session
-$(document).ready(function () {
-    questionNumDiv.textContent = "";
-    questionTimer.textContent = "00:00";
-    questionText.textContent = "";
-    isWaitingForApiResponse = true;
-    appState = "يفكر";
-    bubble.classList.add("processing");
-    updateStateDisplay();
 
-    var interviewRequest = {
-        applicantName: "جون",
-        interviewerName: "سامر",
-        topic: "Backend c#",
-        department: "Programming",
-        skillLevel: "Jenior",
-        tone: "السورية",
-        terminologyLanguage: "الانجليزية",
-        questionCount: 2,
-        interviewLanguage: "العربية"
-    };
 
+async function prepareInterview(interviewRequest) {
     $.ajax({
         url: '/api/Customer/interview/start',
         type: 'POST',
@@ -671,7 +653,8 @@ $(document).ready(function () {
             updateStateDisplay();
         }
     });
-});
+}
+
 
 async function submitAnswers(answers) {
     if (!answers || answers.length === 0) {
@@ -717,14 +700,45 @@ async function submitAnswers(answers) {
     }
 }
 
+
+// AJAX Call to Fetch Interview Session
+$(document).ready(function () {
+    questionNumDiv.textContent = "";
+    questionTimer.textContent = "00:00";
+    questionText.textContent = "";
+    isWaitingForApiResponse = true;
+    appState = "يفكر";
+    bubble.classList.add("processing");
+    updateStateDisplay();
+
+    prepareInterviewBtn.style.display = "block";
+    bubble.style.display = "none";
+    questionText.style.display = "none";
+    stateDisplay.style.display = "none";
+
+
+});
+
 // Initial Setup
-window.addEventListener("load", () => {
+prepareInterviewBtn.addEventListener("click", () => {
+    var interviewRequest = {
+        applicantName: "جون",
+        interviewerName: "سامر",
+        topic: "Backend c#",
+        department: "Programming",
+        skillLevel: "Jenior",
+        tone: "السورية",
+        terminologyLanguage: "الانجليزية",
+        questionCount: 2,
+        interviewLanguage: "العربية"
+    };
+
+    prepareInterview(interviewRequest);
     setupAudioAnalyzer();
     updateStateDisplay();
     toggleButtons();
     waitForVoices();
-});
-
-document.addEventListener("click", () => {
-    //setupAudioAnalyzer();
+    prepareInterviewBtn.style.display =  "none";
+    questionText.style.display = true;
+    stateDisplay.style.display = true;
 });
