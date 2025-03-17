@@ -262,13 +262,14 @@
             content: attr(data-action);
             position: absolute;
             top: 0;
-            left: -6.2rem;
-            width: 6rem;
+            left: -8rem;
+            width: 8rem;
             min-height: 4rem;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
+            padding:.5rem 1rem;
       /* Glow */
             background: radial-gradient(rgba(113, 113, 113, 0.176), rgba(255, 255, 255, 0));
             backdrop-filter: blur(2px);
@@ -312,19 +313,20 @@
     color: var(--color-bg);
 }
 
+#prepareInterview {
+    z-index:2;
 
-
+}
 /* Stars  */
-
-    #InterviewAi .star_container.top-left {
-        bottom: 0%;
-        right: -20%;
-        transform: rotate(-10deg);
-        -webkit-transform: rotate(-10deg);
-        -moz-transform: rotate(-10deg);
-        -ms-transform: rotate(-10deg);
-        -o-transform: rotate(-10deg);
-    }
+#InterviewAi .star_container.top-left {
+    bottom: 0%;
+    right: -20%;
+    transform: rotate(-10deg);
+    -webkit-transform: rotate(-10deg);
+    -moz-transform: rotate(-10deg);
+    -ms-transform: rotate(-10deg);
+    -o-transform: rotate(-10deg);
+}
     /*transform: rotate(-15deg); */
 }
 
