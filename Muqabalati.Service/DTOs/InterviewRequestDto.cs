@@ -16,7 +16,7 @@
         /// <summary>
         /// موضوع المقابلة (مثل موضوع تقني محدد).
         /// </summary>
-        public string Topic { get; set; } = "BACKEND C#";
+        public string Topic { get; set; } = ".Net Developer";
 
         /// <summary>
         /// مستوى المهارات المطلوب (مثال: مبتدئ، متوسط، خبير).
@@ -46,6 +46,6 @@
         /// <summary>
         /// عدد الأسئلة المطلوبة.
         /// </summary>
-        public int QuestionCount { get; set; } = 2;
+        public int QuestionCount { get; set; } =5;
     }
 }
