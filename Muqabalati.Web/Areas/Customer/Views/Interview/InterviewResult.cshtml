@@ -50,7 +50,7 @@
                 </div>
             </div>
             <div class="result-info">
-                <h1 class=" @(Model.IsPassed ? "passed" : "failed")">مرفوض</h1>
+                <h1 class=" @(Model.IsPassed ? "passed" : "failed")">@(Model.IsPassed ? "مقبول" : "مرفوض")</h1>
                 <div class="answers-stats">
                     <div class="correct-answers">
                         <span class="label">
@@ -113,7 +113,12 @@
         {
               <div class="recomendation">
             <div class="content col">
-                    @(recommendation.Recommendation + "....")<a href="@recommendation.Source" class="show-more ">لتفاصيل أكثر</a>
+                    @if (!string.IsNullOrEmpty(recommendation.Source))
+                    {
+                        <span>.....</span>
+                        <a href="@recommendation.Source" class="show-more" target="_blank" rel="noopener noreferrer">لتفاصيل أكثر</a>
+                    }
+     
             </div>
         </div>
         }
