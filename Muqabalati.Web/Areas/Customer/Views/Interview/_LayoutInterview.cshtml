@@ -20,7 +20,10 @@
     <div class="glow top-right"></div>
     <div class="glow left-middle"></div>
 
-    <main role ="main" id="content" class="h-full f-ctr-ctr">
+    @await RenderSectionAsync("Header", required: false)
+
+
+    <main role ="main" id="content" class="h-full f-ctr-ctr f-col">
 
         <partial name="_NotificationsPartial" />
         @RenderBody()

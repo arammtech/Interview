@@ -1,1 +1,193 @@
 ﻿
+/* aiGeneratorPage */
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem !important;
+}
+
+#aiGeneratorPage {
+    width: 74.8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 13.9rem;
+}
+
+.top-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 8.3rem;
+    width: 74.8rem;
+}
+
+.header {
+    background: linear-gradient(90deg, #364C84 0%, #95B1EE 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.promt-input {
+    display: flex;
+    flex-direction: column;
+    width: 74.8rem !important;
+    height: 10.7rem;
+    gap: 1.3rem;
+    background: linear-gradient(90deg, #4c505a 0%, #4c505ae1 100%);
+    border: 3px solid #BBBBBB;
+    border-radius: var(--radius-1);
+    -webkit-border-radius: var(--radius-1);
+    -moz-border-radius: var(--radius-1);
+    -ms-border-radius: var(--radius-1);
+    -o-border-radius: var(--radius-1);
+}
+
+
+.input {
+    background: transparent;
+    width: 100%;
+    height: 5.4rem;
+    padding: 2.4rem 1.6rem;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+    .input input {
+        background: transparent;
+        text-align: center;
+        color: var(--color-dark);
+        font-weight: 700;
+        font-size: 1.4rem;
+        line-height: 100%;
+        letter-spacing: 0%;
+        width: 69rem !important;
+        height: 1.7rem;
+    }
+
+    .input button:hover svg path {
+        opacity:.8;
+    }
+
+.options {
+    gap: 3.6rem;
+    align-items: center;
+    justify-content: space-between;
+    background: #7c7e83;
+    backdrop-filter: blur(27px);
+    height: 4rem;
+    border-bottom-right-radius: var(--radius-1);
+    border-bottom-left-radius: var(--radius-1);
+    padding: .5rem 1.6rem !important;
+}
+
+.interview-options {
+    display: flex;
+    justify-content: flex-start;
+    gap: 1.8rem;
+}
+
+.interviewTypes {
+    display: flex;
+    gap: 1.2rem;
+}
+
+    .interviewTypes .type svg {
+        cursor:pointer;
+       
+    }
+        .interviewTypes .type svg path {
+            stroke: var(--color-gray-4);
+            transition: color .3s ease-in-out;
+            -webkit-transition: color .3s ease-in-out;
+            -moz-transition: color .3s ease-in-out;
+            -ms-transition: color .3s ease-in-out;
+            -o-transition: color .3s ease-in-out;
+        }
+
+        .interviewTypes .type svg:hover path,
+        .interviewTypes .type.active svg path {
+            stroke: var(--color-bg);
+        }
+
+.topic-chars {
+    color: #17171780;
+    font-weight: 400;
+    font-size: 1.2rem;
+    line-height: 100%;
+    letter-spacing: 0%;
+}
+
+
+.suggested-jops {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2.6rem;
+}
+
+.suggestions-title {
+    color: var(--color-bg);
+    font-weight: 700;
+    font-size: 1.8rem;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
+}
+
+.suggestions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 74.8rem;
+    height: 6.4rem;
+    gap: 1rem;
+}
+
+.suggestion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-bg);
+    font-weight: 400;
+    font-size: 1.4rem;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.21) 0%, rgba(153, 153, 153, 0.21) 100%);
+    height: 2.7rem;
+    padding: .5rem;
+    border-radius: var(--radius-2);
+    -webkit-border-radius: var(--radius-2);
+    -moz-border-radius: var(--radius-2);
+    -ms-border-radius: var(--radius-2);
+    -o-border-radius: var(--radius-2);
+    transition: opacity .3s ease-in-out;
+    cursor: pointer;
+}
+
+    .suggestion:hover ,
+    .suggestion.active   {
+       opacity:.8;
+    }
+
+
+.more-jops {
+    color: var(--color-bg);
+    font-weight: 500;
+    font-size: 1.2rem;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
+}
+
+    .more-jops:hover {
+        color: var(--color-bg) !important;
+        opacity:.8;
+    } 

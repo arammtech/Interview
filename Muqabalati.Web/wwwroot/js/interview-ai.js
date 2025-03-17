@@ -737,6 +737,6 @@ prepareInterviewBtn.addEventListener("click", () => {
     waitForVoices();
     pauseInterviewBtn.disabled = true;
 
-    prepareInterview(interviewRequest);
+    prepareInterview();
 
 });
