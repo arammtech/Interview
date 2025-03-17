@@ -17,31 +17,31 @@ using Muqabalati.Utilities.Identity;
 using Muqabalati.Service.DTOs;
 
 
-ApplicationUser GenerateFakeUser()
-{
-    var faker = new Faker();
+//ApplicationUser GenerateFakeUser()
+//{
+//    var faker = new Faker();
 
-    return new ApplicationUser
-    {
-        Id = faker.Random.Int(0, int.MaxValue),
-        UserName = faker.Internet.UserName(),
-        NormalizedUserName = faker.Internet.UserName().ToUpper(),
-        Email = faker.Internet.Email(),
-        NormalizedEmail = faker.Internet.Email().ToUpper(),
-        EmailConfirmed = faker.Random.Bool(),
-        PasswordHash = faker.Internet.Password(),
-        SecurityStamp = faker.Random.Guid().ToString(),
-        ConcurrencyStamp = faker.Random.Guid().ToString(),
-        PhoneNumber = faker.Phone.PhoneNumber(),
-        PhoneNumberConfirmed = faker.Random.Bool(),
-        TwoFactorEnabled = faker.Random.Bool(),
-        LockoutEnd = faker.Random.Bool() ? DateTimeOffset.UtcNow.AddDays(7) : null,
-        LockoutEnabled = faker.Random.Bool(),
-        AccessFailedCount = faker.Random.Int(0, 5),
-        FirstName = faker.Name.FirstName(),
-        LastName = faker.Name.LastName()
-    };
-}
+//    return new ApplicationUser
+//    {
+//        Id = faker.Random.Int(0, int.MaxValue),
+//        UserName = faker.Internet.UserName(),
+//        NormalizedUserName = faker.Internet.UserName().ToUpper(),
+//        Email = faker.Internet.Email(),
+//        NormalizedEmail = faker.Internet.Email().ToUpper(),
+//        EmailConfirmed = faker.Random.Bool(),
+//        PasswordHash = faker.Internet.Password(),
+//        SecurityStamp = faker.Random.Guid().ToString(),
+//        ConcurrencyStamp = faker.Random.Guid().ToString(),
+//        PhoneNumber = faker.Phone.PhoneNumber(),
+//        PhoneNumberConfirmed = faker.Random.Bool(),
+//        TwoFactorEnabled = faker.Random.Bool(),
+//        LockoutEnd = faker.Random.Bool() ? DateTimeOffset.UtcNow.AddDays(7) : null,
+//        LockoutEnabled = faker.Random.Bool(),
+//        AccessFailedCount = faker.Random.Int(0, 5),
+//        FirstName = faker.Name.FirstName(),
+//        LastName = faker.Name.LastName()
+//    };
+//}
 var gemeni = new GenAIApiService();
 var interviewservice = new InterviewService(gemeni);
 var test = await interviewservice.GenerateInterviewSessionAsync(new());
@@ -50,15 +50,66 @@ Console.WriteLine(test.IntroText);
 Console.WriteLine("الاسئلة");
 foreach (var q in test.Questions)
 {
+    Console.WriteLine("=================================================");
     Console.WriteLine(q.LinkingPhrase);
     Console.WriteLine(q.OriginalQuestion);
     Console.WriteLine(q.RephrasedQuestion);
     Console.WriteLine(q.Explanation);
     Console.WriteLine("الوقع المتوقع للاجابة" + q.EstimatedTimeMinutes);
+    Console.WriteLine("=================================================");
+
 
 }
 
-Console.WriteLine(test.ConclusionText);
+//var test1 = await interviewservice.GenerateInterviewSessionAsync(new());
+
+//Console.WriteLine(" 2 الاسئلة");
+//foreach (var q in test1.Questions)
+//{
+//    Console.WriteLine("=================================================");
+//    Console.WriteLine(q.LinkingPhrase);
+//    Console.WriteLine(q.OriginalQuestion);
+//    Console.WriteLine(q.RephrasedQuestion);
+//    Console.WriteLine(q.Explanation);
+//    Console.WriteLine("الوقع المتوقع للاجابة" + q.EstimatedTimeMinutes);
+//    Console.WriteLine("=================================================");
+
+//}
+
+
+//var test3 = await interviewservice.GenerateInterviewSessionAsync(new());
+
+//Console.WriteLine(" 3 الاسئلة");
+//foreach (var q in test3.Questions)
+//{
+//    Console.WriteLine("=================================================");
+//    Console.WriteLine(q.LinkingPhrase);
+//    Console.WriteLine(q.OriginalQuestion);
+//    Console.WriteLine(q.RephrasedQuestion);
+//    Console.WriteLine(q.Explanation);
+//    Console.WriteLine("الوقع المتوقع للاجابة" + q.EstimatedTimeMinutes);
+//    Console.WriteLine("=================================================");
+
+//}
+
+
+
+//var test4 = await interviewservice.GenerateInterviewSessionAsync(new());
+
+//Console.WriteLine(" 4 الاسئلة");
+//foreach (var q in test4.Questions)
+//{
+//    Console.WriteLine("=================================================");
+//    Console.WriteLine(q.LinkingPhrase);
+//    Console.WriteLine(q.OriginalQuestion);
+//    Console.WriteLine(q.RephrasedQuestion);
+//    Console.WriteLine(q.Explanation);
+//    Console.WriteLine("الوقع المتوقع للاجابة" + q.EstimatedTimeMinutes);
+//    Console.WriteLine("=================================================");
+
+//}
+
+//Console.WriteLine(test.ConclusionText);
 
 
 
@@ -79,10 +130,12 @@ Console.WriteLine(test.ConclusionText);
 
 //};
 
-//// استدعاء الخدمة
+////// استدعاء الخدمة
 //var report = await interviewservice.GenerateInterviewReport(answers, questions);
 
 //// عرض النتائج
+//Console.WriteLine($" Ispassed: {report.IsPassed}");
+
 //Console.WriteLine($"Correct Answers: {report.CorrectAnswers}");
 //Console.WriteLine($"Fail Answers: {report.FailAnswers}");
 //Console.WriteLine($"GPA: {report.GPA}");
