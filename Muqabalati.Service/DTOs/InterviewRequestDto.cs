@@ -47,5 +47,11 @@
         /// عدد الأسئلة المطلوبة.
         /// </summary>
         public int QuestionCount { get; set; } = 2;
+
+
+        public List<string>? Topics = new List<string>
+            {
+                "Machine Learning Engineer","Software Developer",".Net Developer","Full-Stack Developer","UI/UX Designer","Graphic Designer","Full-Stack Developer"
+            };
     }
 }

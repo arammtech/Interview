@@ -10,6 +10,8 @@ namespace Muqabalati.Web.Controllers
     public class InterviewController : Controller
     {
         private readonly IInterviewService _interviewService;
+        private const string SessionKey = "InterviewSession";
+
 
         public InterviewController(IInterviewService interviewService)
         {
@@ -19,45 +21,44 @@ namespace Muqabalati.Web.Controllers
         [HttpGet]
         public IActionResult InterviewGenerator()
         {
-            // new dto and send
-            return View();
-        }
-       
-        [HttpGet]
-        public async Task<IActionResult> Create()
-        {
-            InterviewReportDto report = new()
-            {
-                IsPassed = true,
-                GPA = 80,
-                CorrectAnswers = 4,
-                FailAnswers = 1,
-                Recommendations = new List<RecommendationDto>
-                {
-                     new RecommendationDto
-                         {
-                            Recommendation = "في نفس السياق، يمكننا أن نناقش في نفس السياق، يمكننا أن نناقش في نفس السياق، يمكننا أن نناقش في نفس السياق، يمكننا أن نناقش ",
-                            Source = "كيف تعمل ضمن فريق؟"
-                     },
-                      new RecommendationDto
-                         {
-                            Recommendation = "في نفس السياق، يمكننا أن نناقش:",
-                            Source = "كيف تعمل ضمن فريق؟"
-                     }
-                }
-                ,
-                TotalQuestions = 5
+            InterviewRequestDto request = new();
+            request.Topics = ["Machine Learning Engineer", "Software Developer", ".Net Developer", "Full-Stack Developer", "UI/UX Designer", "Graphic Designer", "Full-Stack Developer"];
 
-            };
-            return View(report);
+            return View(request);
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> InterviewGenerator(InterviewRequestDto request)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var interviewSessionDto = await _interviewService.GenerateInterviewSessionAsync(request);
+
+                    // Store the session JSON in HttpContext.Session
+                    HttpContext.Session.SetString(SessionKey, JsonConvert.SerializeObject(interviewSessionDto));
+
+                    return View("StartInterview");
+
+                }
+                catch (System.Exception ex)
+                {
+                    return View("Error");
+                }
+            }
+
+            request.Topics = new List<string> { "Machine Learning Engineer", "Software Developer", ".Net Developer", "Full-Stack Developer", "UI/UX Designer", "Graphic Designer", "Full-Stack Developer" };
+            return View(request);
+            
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> StartInterview()
         {
-            InterviewRequestDto interviewDto = new();
-
-            return View(interviewDto);
+            return View();
         }
 
 

@@ -1,9 +1,24 @@
-﻿@{
+﻿@model InterviewRequestDto
+@{
     Layout = "_LayoutInterview.cshtml";
     ViewData["Title"] = "Interview Result";
 }
 
 @section Styles {
-    @* <link rel="stylesheet" href="~/css/interview-generator.css" asp-append-version="true" /> *@
+    <link rel="stylesheet" href="~/css/interview-generator.css" asp-append-version="true" />
 
+}
+
+<form method="post">
+    <input asp-for="InterviewLanguage"/>
+
+    <button type="submit">fdfdfddf</button>
+</form>
+
+
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script type="module" src="~/js/interview-generator.js"></script>
 }
