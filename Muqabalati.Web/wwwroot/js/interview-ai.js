@@ -685,8 +685,7 @@ async function submitAnswers(answers) {
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(cleanedAnswers),
-            success: function (data) {
-                console.log("Submission successful, server will redirect:", data);
+            success: function () {
                 window.location.href = '/Customer/Interview/InterviewResult';
             },
             error: function (xhr, status, error) {

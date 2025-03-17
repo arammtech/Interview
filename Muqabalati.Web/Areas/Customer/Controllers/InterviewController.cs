@@ -105,7 +105,7 @@ namespace Muqabalati.Web.Controllers
 
                 TempData["InterviewReport"] = JsonConvert.SerializeObject(report);
                 
-                return Ok(new { success = true, data = report });
+                return Ok(new { success = true });
             }
             catch
             {
