@@ -18,14 +18,12 @@ namespace Muqabalati.Service.Interfaces
                     string tone,
                     string topic,
                     string level,
-                    string department,
                     string interviewLanguage);
         Task<string> GenerateQuestionText(
                     string apiKey,
                     int questionNum,
                     string topic,
                     string level,
-                    string department,
                     string tone,
                     string terminologyLanguage,
                     string interviewLanguage);

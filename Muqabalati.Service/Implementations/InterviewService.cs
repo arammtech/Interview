@@ -35,7 +35,6 @@ namespace Muqabalati.Service.Implementations
                     request.Tone,
                     request.Topic,
                     request.SkillLevel,
-                    request.Department,
                     request.InterviewLanguage
                 );
 
@@ -44,7 +43,6 @@ namespace Muqabalati.Service.Implementations
                     request.QuestionCount,
                     request.Topic,
                     request.SkillLevel,
-                    request.Department,
                     request.Tone,
                     request.TerminologyLanguage,
                     request.InterviewLanguage
@@ -99,7 +97,6 @@ namespace Muqabalati.Service.Implementations
             catch (Exception ex)
             {
                 // Log the exception (implementation depends on your logging framework)
-                Console.Error.WriteLine($"Error generating interview session: {ex.Message}");
                 throw new InvalidOperationException("An error occurred while generating the interview session.", ex);
             }
         }
@@ -135,7 +132,6 @@ namespace Muqabalati.Service.Implementations
             catch (Exception ex)
             {
                 // تسجيل الخطأ والتعامل معه
-                Console.WriteLine($"Error generating interview report: {ex.Message}");
                 throw; // أو إرجاع تقرير فارغ أو مع رسالة خطأ
             }
         }

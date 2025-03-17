@@ -24,11 +24,6 @@
         public string SkillLevel { get; set; } = "Junior";
 
         /// <summary>
-        /// القسم الذي تنتمي إليه المقابلة (مثل البرمجة).
-        /// </summary>
-        public string Department { get; set; } = "Programming";
-
-        /// <summary>
         /// اللهجة أو الأسلوب الذي سيتم به توجيه الأسئلة.
         /// </summary>
         public string Tone { get; set; } = "مصرية";

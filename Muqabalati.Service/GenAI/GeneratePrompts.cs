@@ -54,7 +54,6 @@ namespace Muqabalati.Service.GenAI
                   string topic,
                   string tone,
                   string level,
-                  string department,
                   string interviewLanguage)
         {
             return $@"
@@ -76,6 +75,7 @@ namespace Muqabalati.Service.GenAI
 
 
                 تفاصيل السياق:
+                * اسم الشركة : مقابلتي
 
                 * اللغة: {interviewLanguage}
 
@@ -152,7 +152,6 @@ namespace Muqabalati.Service.GenAI
           int questionNum,
           string topic,
           string level,
-          string department,
           string tone,
           string terminologyLanguage,
           string interviewLanguage)

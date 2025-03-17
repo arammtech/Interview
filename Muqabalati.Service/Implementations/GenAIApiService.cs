@@ -43,10 +43,9 @@ namespace Muqabalati.Service.Implementations
       string tone,
       string topic,
       string level,
-      string department,
       string interviewLanguage)
         {
-            var introPrompt = GenerateIntroPrompt(applicantName, interviewerName, tone, topic, level, department, interviewLanguage);
+            var introPrompt = GenerateIntroPrompt(applicantName, interviewerName, tone, topic, level,interviewLanguage);
             return await GenerateContent(apiKey, introPrompt);
         }
 
@@ -66,12 +65,11 @@ namespace Muqabalati.Service.Implementations
             int questionNum,
             string topic,
             string level,
-            string department,
             string tone,
             string terminologyLanguage,
             string interviewLanguage)
         {
-            var questionPrompt = GenerateQuestionPrompt(questionNum, topic, level, department, tone,terminologyLanguage, interviewLanguage);
+            var questionPrompt = GenerateQuestionPrompt(questionNum, topic, level, tone,terminologyLanguage, interviewLanguage);
             return await GenerateContent(apiKey, questionPrompt);
         }
 
