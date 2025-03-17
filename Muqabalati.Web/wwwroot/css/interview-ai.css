@@ -314,11 +314,29 @@
 }
 
 #prepareInterview {
-    z-index:2;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px 40px;
+    background: var(--color-gradient-1);
+    color: var(--color-bg);
+    border-radius: 10px;
+    font-size: 24px;
+    z-index: 1000;
+    transition: opacity .3 ease-in-out;
+    -webkit-transition: opacity .3 ease-in-out;
+    -moz-transition: opacity .3 ease-in-out;
+    -ms-transition: opacity .3 ease-in-out;
+    -o-transition: opacity .3 ease-in-out;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
 
+#prepareInterview:hover {
+    opacity:.8;
 }
 /* Stars  */
-#InterviewAi .star_container.top-left {
+/*#InterviewAi .star_container.top-left {
     bottom: 0%;
     right: -20%;
     transform: rotate(-10deg);
@@ -326,27 +344,12 @@
     -moz-transform: rotate(-10deg);
     -ms-transform: rotate(-10deg);
     -o-transform: rotate(-10deg);
-}
+}*/
     /*transform: rotate(-15deg); */
-}
 
 /* Start  */
-.star_container.down {
-    bottom: 0%;
-}
 
-body > .start_container svg {
-    position: absolute;
-    bottom: 5%;
-    left: 30%;
-    transform: rotate(-50deg);
-    -webkit-transform: rotate(-50deg);
-    -moz-transform: rotate(-50deg);
-    -ms-transform: rotate(-50deg);
-    -o-transform: rotate(-50deg);
-}
-
-#InterviewAi .star_container {
+/*#InterviewAi .star_container {
     position: absolute;
     bottom: 0%;
     right: -20%;
@@ -365,5 +368,5 @@ body > .start_container svg {
         -moz-transform: rotate(0deg);
         -ms-transform: rotate(0deg);
         -o-transform: rotate(0deg);
-    }
+    }*/
 
