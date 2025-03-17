@@ -34,6 +34,7 @@ let voiceGender = "female"; // Default to female for a softer, more human tone
 let accent = "ar-EG"; // Egyptian Arabic for a natural, widely understood accent
 let voicesLoadedPromise = null;
 let isPaused = false;
+let pausedStateDisplayText = "متوقف";
 
 // Speech Recognition Setup
 const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
@@ -619,11 +620,10 @@ pauseInterviewBtn.onclick = () => {
 
 
 
-async function prepareInterview(interviewRequest) {
+async function prepareInterview() {
     $.ajax({
         url: '/api/Customer/interview/start',
         type: 'POST',
-        data: JSON.stringify(interviewRequest),
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         success: async function (response) {
@@ -659,7 +659,6 @@ async function prepareInterview(interviewRequest) {
         }
     });
 }
-
 
 async function submitAnswers(answers) {
     if (!answers || answers.length === 0) {
@@ -715,6 +714,7 @@ $(document).ready(function () {
     appState = "يفكر";
     bubble.classList.add("processing");
     updateStateDisplay();
+    pauseInterviewBtn.disabled = true;
 
     prepareInterviewBtn.style.display = "block";
     bubble.style.display = "none";
@@ -730,23 +730,12 @@ prepareInterviewBtn.addEventListener("click", () => {
     bubble.style.display = "flex";
     questionText.style.display = "block";
     stateDisplay.style.display = "flex";
-    var interviewRequest = {
-        applicantName: "جون",
-        interviewerName: "سامر",
-        topic: "Backend c#",
-        department: "Programming",
-        skillLevel: "Jenior",
-        tone: "السورية",
-        terminologyLanguage: "الانجليزية",
-        questionCount: 2,
-        interviewLanguage: "العربية"
-    };
 
     setupAudioAnalyzer();
     updateStateDisplay();
     toggleButtons();
     waitForVoices();
-
+    pauseInterviewBtn.disabled = true;
 
     prepareInterview(interviewRequest);
 
