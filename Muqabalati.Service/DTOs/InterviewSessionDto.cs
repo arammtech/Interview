@@ -34,5 +34,6 @@ namespace Muqabalati.Service.DTOs
                                                                                                                         //الافتراضي
 
         public string Tone { get; set; } = "مصري";
+
     }
 }

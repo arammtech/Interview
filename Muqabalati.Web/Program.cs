@@ -104,7 +104,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{Area=Customer}/{controller=Interview}/{action=StartInterview}/{id?}");
+    pattern: "{Area=Customer}/{controller=Interview}/{action=InterviewGenerator}/{id?}");
 //pattern: "{Area=Customer}/{controller=Interview}/{action=Create}/{id?}");
 
 app.MapRazorPages();

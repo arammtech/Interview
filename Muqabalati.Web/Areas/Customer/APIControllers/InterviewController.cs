@@ -22,7 +22,7 @@ namespace Muqabalati.Web.Areas.Customer.APIControllers
         /// Starts the interview session by generating data and saving it to session.
         /// </summary>
         [HttpPost("start")]
-        public async Task<IActionResult> StartInterview([FromBody] InterviewRequestDto request)
+        public async Task<IActionResult> StartInterview()
         {
             if (!ModelState.IsValid)
             {
@@ -30,12 +30,14 @@ namespace Muqabalati.Web.Areas.Customer.APIControllers
             } 
             try  
             {
-                var interviewSessionDto = await _interviewService.GenerateInterviewSessionAsync(request);
+                string interviewSessionJson = HttpContext.Session.GetString(SessionKey);
 
-                // Store the session JSON in HttpContext.Session
-                HttpContext.Session.SetString(SessionKey, JsonConvert.SerializeObject(interviewSessionDto));
-                string sessionDate = HttpContext.Session.GetString(SessionKey);
-                Console.WriteLine(sessionDate);
+                if (string.IsNullOrEmpty(interviewSessionJson))
+                {
+                    return BadRequest("Interview session not found.");
+                }
+
+                var interviewSessionDto = JsonConvert.DeserializeObject<InterviewSessionDto>(interviewSessionJson);
 
                 return Ok(new { success = true, data = interviewSessionDto });
             }
@@ -44,8 +46,6 @@ namespace Muqabalati.Web.Areas.Customer.APIControllers
                 return StatusCode(500, new { message = "An error occurred while starting the interview.", details = ex.Message });
             }
         }
-
-
 
 
        
