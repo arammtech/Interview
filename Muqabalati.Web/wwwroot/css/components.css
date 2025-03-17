@@ -237,8 +237,8 @@
         -o-transform: rotate(0deg);
     }
     .star_container.middle-top {
-        top: 20%;
-        left: 35%;
+        top: 15%;
+        left: 30%;
         transform: rotate(0deg);
         -webkit-transform: rotate(0deg);
         -moz-transform: rotate(0deg);
