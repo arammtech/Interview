@@ -26,7 +26,7 @@
         /// <summary>
         /// اللهجة أو الأسلوب الذي سيتم به توجيه الأسئلة.
         /// </summary>
-        public string Tone { get; set; } = "مصرية";
+        public string Tone { get; set; } = "امريكي";
 
         /// <summary>
         /// لغة المصطلحات المستخدمة (مثل الإنجليزية).
@@ -36,7 +36,7 @@
         /// <summary>
         /// لغة المقابلة
         /// </summary>
-        public string InterviewLanguage { get; set; } = "العربية";
+        public string InterviewLanguage { get; set; } = "الانجليزية";
 
         /// <summary>
         /// عدد الأسئلة المطلوبة.

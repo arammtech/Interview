@@ -10,7 +10,10 @@ namespace Muqabalati.Service.Interfaces
     public interface IGenAIApiService : IDisposable
     {
         Task<string> GenerateContent(string apiKey, string prompt);
-
+        Task<string> GetTheToneAsync(
+                    string apiKey,
+                    string tone,
+                    string interviewLanguage);
         Task<string> GenerateIntroText(
                     string apiKey,
                     string applicantName,

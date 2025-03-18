@@ -95,6 +95,7 @@ namespace Muqabalati.Service.GenAI
                 * خاليًا من أي رموز أو تعليمات تحتاج إلى معالجة و  خاليا من علامات النحو وغيرها من العلامات التنصيص او  الفواصل او بدء سطر جديد
                 * استعمل نقطة بين الجمل
                 * جاهزًا للاستخدام فورًا مع Web Speech AI.
+                * Generate the response in {interviewLanguage}.
 ";
         }
 
@@ -126,6 +127,8 @@ namespace Muqabalati.Service.GenAI
                 * خاليًا من أي رموز أو تعليمات تحتاج إلى معالجة و  خاليا من علامات النحو وغيرها من العلامات التنصيص او الفواصل او بدء سطر جديد
                 * استعمل نقطة بين الجمل
                 * جاهزًا للاستخدام فورًا مع Web Speech AI.
+                * Generate the response in {interviewLanguage}.
+
     ";
         }
 
@@ -218,6 +221,8 @@ namespace Muqabalati.Service.GenAI
 لا تحذف هذا الفورمات لكي أستطيع فصل الأسئلة مع أجزائها أو الفواصل.
 
 النص يجب أن يكون جاهزًا للاستخدام فورًا مع Web Speech AI.
+                * Generate the response in {interviewLanguage}.
+
                         ";
         }
 

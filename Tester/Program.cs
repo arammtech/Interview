@@ -61,6 +61,8 @@ foreach (var q in test.Questions)
 
 }
 
+Console.WriteLine(test.Tone);
+
 //var test1 = await interviewservice.GenerateInterviewSessionAsync(new());
 
 //Console.WriteLine(" 2 الاسئلة");
