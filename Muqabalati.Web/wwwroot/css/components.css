@@ -144,61 +144,37 @@
     color: var(--color-1);
 }
 
-/* Glow */
-.glow {
+
+.glow2 {
+    z-index: -2 !important;
     position: absolute;
-    width: 1500px;
-    height: 1500px;
-    background: radial-gradient( closest-side, #364c843e, rgba(17, 17, 17, 0) );
-    backdrop-filter: blur(0px);
-    -webkit-backdrop-filter: blur(0px);
-    z-index: -2;
+    width: 425.5px;
+    height: 492px;
+    background: #364c8437;
+    /* background: radial-gradient(closest-side,      #364C84,      #364c841e); */
+    box-shadow: 0px 0px 500px 300px #364c8437;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
 }
 
-    .glow.top-left {
+    .glow2.top-middle {
         top: -50%;
-        left: -20%;
+        left: 330px;
     }
 
-    .glow.top-middle {
-        top: -40%;
-        left: 60%;
-        transform: translateX(-50%);
+    .glow2.right-middle {
+        bottom: 0;
+        right: 0;
     }
 
-    .glow.top-right {
-        top: -50%;
-        right: -20%;
+    .glow2.left-middle {
+        bottom: 0;
+        left: -4rem;
     }
 
-    .glow.bottom-left {
-        bottom: -100%;
-        left: -20%;
-    }
-
-    .glow.left-middle {
-        display: none;
-        top: 750px;
-        left: -1000px;
-        transform: translateY(-50%);
-    }
-
-@media (max-width: 1200px) {
-    .glow {
-        display: none;
-    }
-
-        .glow.left-middle {
-            display: block;
-            left: -500px;
-        }
-}
-
-@media (max-width: 1000px) {
-    .glow.left-middle {
-        left: -1000px;
-    }
-}
 
 /* Glass */
 
