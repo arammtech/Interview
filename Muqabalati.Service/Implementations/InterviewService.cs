@@ -102,11 +102,11 @@ namespace Muqabalati.Service.Implementations
                 // Create and return the interview session DTO
                 return new InterviewSessionDto
                 {
-                    ApplicantName = request.ApplicantName,
-                    IntroText = introText,
+                    ApplicantName = request.ApplicantName.Trim(),
+                    IntroText = introText.Trim(),
                     Questions = questions,
-                    Tone = Tonetext,
-                    ConclusionText = conclusionText
+                    Tone = Tonetext.Trim(),
+                    ConclusionText = conclusionText.Trim()
                 };
 
             }
