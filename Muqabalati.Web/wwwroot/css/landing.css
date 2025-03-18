@@ -585,8 +585,7 @@ footer {
     transform: scale(0.9);
     text-align: center;
     width: 26rem;
-    height: 28.9rem;
-    padding: 3rem;
+/*    height: 28.9rem;*/
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -627,11 +626,14 @@ footer {
         }
 
     .step .icon {
+        display:flex;
+        justify-content:center;
+        align-content:center;
         font-size: 40px;
-        margin-bottom: 10px;
-        /* display: inline-block; */
+        margin-bottom: 4rem;
+         display: inline-block; 
         width: 9rem;
-        height: 9rem;
+        height: 9rem !important;
         border-radius: var(--radius-3);
         -webkit-border-radius: var(--radius-3);
         -moz-border-radius: var(--radius-3);

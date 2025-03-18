@@ -171,11 +171,12 @@
 
                     <select asp-for="InterviewLanguage" class="select-input" name="" id="">
                         <option value="اللغة العربية" selected>اللغة العربية</option>
-                        <option value="اللغة الانجليزي">اللغة الانجليزي</option>
+                        <option value="اللغة الإنجليزية">اللغة الإنجليزية</option>
                     </select>
 
                     <select asp-for="Tone" class="select-input" name="" id="">
                         <option value="اللهجة المصرية" selected>اللهجة المصرية</option>
+                        <option value="العربية الفصحة" selected>العربية الفصحة</option>
                     </select>
 
                     <select asp-for="SkillLevel" class="select-input" name="" id="">
@@ -186,7 +187,7 @@
 
                 </div>
                 <div class="interviewTypes col-auto">
-                    <div class="type ">
+                    <div class="type d-none">
                         <svg
                         width="20"
                         height="20"
@@ -268,7 +269,7 @@
                             />
                         </svg>
                     </div>
-                    <div class="type ">
+                    <div class="type d-none ">
                         <svg
                         width="20"
                         height="20"
