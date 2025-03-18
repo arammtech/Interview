@@ -2,24 +2,28 @@
 
 /* Buttons */
 .btn {
-    display: flex ;
+    display: flex !important;
     justify-content: center !important;
     align-items: center !important;
     align-content: center !important;
     font-weight: bold !important;
     border: none !important;
     outline: none !important;
-    border-radius: .4rem !important;
-    -webkit-border-radius: .4rem !important;
-    -moz-border-radius: .4rem !important;
-    -ms-border-radius: .4rem !important;
-    -o-border-radius: .4rem !important;
+    border-radius: var(--radius-1) !important;
+    -webkit-border-radius: var(--radius-1) !important;
+    -moz-border-radius: var(--radius-1) !important;
+    -ms-border-radius: var(--radius-1) !important;
+    -o-border-radius: var(--radius-1) !important;
     transition: 0.3s ease-in-out;
     -webkit-transition: 0.3s ease-in-out;
     -moz-transition: 0.3s ease-in-out;
     -ms-transition: 0.3s ease-in-out;
     -o-transition: 0.3s ease-in-out;
 }
+
+    .btn:hover {
+        opacity: .8 !important;
+    }
 
 .btn-sm {
     padding: .4rem !important;
@@ -53,6 +57,27 @@
     -o-border-radius: 50% !important;
 }
 
+
+.btn-main {
+    color: var(--color-white) !important;
+    background: linear-gradient(90deg, rgba(149, 177, 238, 0.65) 0%, rgba(54, 76, 132, 0.65) 100%);
+    box-shadow: 0px 4px 53px 0px #364C8452;
+    backdrop-filter: blur(13.915966987609863px);
+    width: 14.8rem;
+    height: 3.82rem;
+    padding: 1rem 2.1rem !important;
+    gap: 1rem;
+    font-weight: 700;
+    font-size: 1.6rem !important;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
+    border-radius: var(--radius-1);
+    -webkit-border-radius: var(--radius-1);
+    -moz-border-radius: var(--radius-1);
+    -ms-border-radius: var(--radius-1);
+    -o-border-radius: var(--radius-1);
+}
 
 .btn-gray {
     background: var(--color-gray) !important;
@@ -192,6 +217,7 @@
 /* Stars  */
 .star_container {
     position: absolute;
+    z-index: -2;
 }
 
 .star_container.down {

@@ -1,6 +1,12 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/landing.css" asp-append-version="true" />
+
+}
+
 <div class="long-line">
     <svg width="1253"
          height="5082"
@@ -1113,7 +1119,6 @@
             <div class="swiper-pagination"></div>
         </div>
     </section>
-
     <section id="interview-steps" class="container f-ctr-ctr f-col">
         <h2>كيف تنشئ مقابلة؟</h2>
 
@@ -1204,3 +1209,12 @@
 </main>
 
 <footer></footer>
+
+
+                @section Scripts {
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="~/js/landing.js" asp-append-version="true"></script>
+
+ 
+                }

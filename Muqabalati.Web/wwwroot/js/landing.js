@@ -196,3 +196,4 @@ backToTopBtn.addEventListener("click", function () {
         }, 1000);
     }, 400);
 });
+

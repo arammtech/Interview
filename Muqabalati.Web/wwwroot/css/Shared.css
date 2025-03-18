@@ -14,16 +14,19 @@
     --color-gray-2: #ADB2B1;
     --color-gray-3: #7c7e83;
     --color-gray-4: #525252;
+    --color-gray-5: #F4F4F433;
+    --color-green: #3D544D;
     --color-dark: #171717;
     --color-white: #ffffff;
-    --color-border:#BBBBBB;
+    --color-border: #BBBBBB;
     --color-error: #cf0508;
     --color-aramm: #DB4B4E;
     --bg-t: transparent;
     --shadow-glass: 5px 4px 27px 0px #00000052;
     --radius-1: 1rem;
     --radius-2: .5rem;
-    --nav-height: 7rem;
+    --radius-3: 1.6rem;
+    --nav-height: 6.6rem;
     --footer-height: 45rem;
     --lg: 992px;
     --sm: 576px;
@@ -69,8 +72,6 @@ body {
     font-family: var(--main-font) !important;
     font-size: 1.6rem !important;
     overflow: hidden;
-/*    animation: gradientAnimation 15s ease infinite;
-    -webkit-animation: gradientAnimation 15s ease infinite;*/
 }
 
 
