@@ -315,6 +315,13 @@
 }
 
 #prepareInterview {
+    display: flex;
+    justify-content: center ;
+    align-items: center ;
+    align-content: center ;
+    font-weight: bold !important;
+    border: none !important;
+    outline: none !important;
     position: fixed;
     top: 50%;
     left: 50%;
