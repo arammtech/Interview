@@ -31,14 +31,14 @@ let isEvaluating = false;
 let answerStartTime = null;
 let isProcessingEnd = false;
 let voiceGender = "female"; // Default to female for a softer, more human tone
-let accent = "ar-EG"; // Egyptian Arabic for a natural, widely understood accent
+let accent = "en"; // Egyptian Arabic for a natural, widely understood accent
 let voicesLoadedPromise = null;
 let isPaused = false;
 let pausedStateDisplayText = "متوقف";
 
 // Speech Recognition Setup
 const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-recognition.lang = "ar-SA"; // Arabic language for recognition
+recognition.lang = accent; // Arabic language for recognition
 recognition.continuous = true;
 recognition.interimResults = true;
 
@@ -224,8 +224,7 @@ recognition.onend = () => {
             const estimatedTimeSeconds = question.estimatedTimeMinutes * 60;
             questionTimer.textContent = formatTime(estimatedTimeSeconds);
             const questionTextContent = (question.linkingPhrase ? question.linkingPhrase + ", " : "") + question.originalQuestion;
-            questionText.textContent = questionTextContent;
-            await speakText(questionTextContent);
+            await speakText(questionTextContent); // Remove questionText.textContent assignment
         } else {
             questionNumDiv.style.display = "none";
             questionTimer.textContent = "00:00";
@@ -331,82 +330,80 @@ function loadArabicVoice() {
 }
 
 // Speak Text with Enhanced Human-Like Quality
-function speakText(text) {
-    if (!text) return Promise.resolve();
-    return new Promise(async (resolve) => {
-        if (!arabicVoice) {
-            console.warn("Arabic voice not loaded yet, waiting...");
-            await waitForVoices();
-            if (!arabicVoice) {
-                console.error("No voice available to speak text:", text);
-                resolve();
-                return;
-            }
-        }
+async function speakText(text) {
+    if (!text) return;
 
-        // Split text into sentences for natural pauses
-        const sentences = text.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 0);
-        let utteranceText = "";
+    // Ensure voices are loaded
+    await waitForVoices();
+    if (!arabicVoice) {
+        console.error("No voice available to speak text:", text);
+        return;
+    }
 
-        // Process each sentence, preserving English terminology
-        sentences.forEach((sentence, index) => {
-            const words = sentence.split(" ");
-            let processedSentence = "";
-            words.forEach(word => {
-                if (/[a-zA-Z]/.test(word)) { // Detect English terms
-                    processedSentence += word + " "; // Keep English terms as-is
-                } else {
-                    processedSentence += word + " "; // Arabic words
-                }
-            });
-            utteranceText += processedSentence.trim();
-            if (index < sentences.length - 1) utteranceText += ". "; // Add pause between sentences
-        });
+    // Split text into sentences based on periods
+    const sentences = text.split(/(?<=\.)\s+/).filter(s => s.trim().length > 0);
 
-        const voices = speechSynthesis.getVoices();
-        let selectedVoice = voices.find(voice =>
-            voice.lang === accent &&
-            voice.name.toLowerCase().includes(voiceGender === "male" ? "male" : "female") &&
-            voice.name.includes("Natural" || "Premium")
-        ) || voices.find(voice => voice.lang === accent && !voice.name.includes("Basic")) || arabicVoice;
+    // Process each sentence one by one
+    for (const sentence of sentences) {
+        // Display the current sentence
+        questionText.textContent = sentence;
 
-        if (!selectedVoice) {
-            console.warn(`No ${voiceGender} voice found for ${accent}. Falling back to loaded Arabic voice: ${arabicVoice?.name}`);
-            selectedVoice = arabicVoice;
-        }
+        // Update the app state to "speaking"
+        appState = "يتكلم"; // "Speaking" in Arabic
+        updateStateDisplay();
+        bubble.classList.remove("processing", "listening");
+        bubble.classList.add("speaking");
+        bubble.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
 
-        const utterance = new SpeechSynthesisUtterance(utteranceText);
+        // Speak the sentence and wait for it to finish
+        await speakSentence(sentence);
+
+        // Clear the display after speaking
+        questionText.textContent = '';
+        bubble.classList.remove("speaking");
+    }
+
+    // Reset to "ready" state after all sentences are spoken
+    appState = "جاهز"; // "Ready" in Arabic
+    bubble.style.transform = "scale(1)";
+    updateStateDisplay();
+    bubble.classList.remove("processing", "listening");
+    bubble.innerHTML = "";
+}
+
+
+// Helper function to speak a sentence and wait for it to finish
+function speakSentence(sentence) {
+    return new Promise((resolve) => {
+        const utterance = new SpeechSynthesisUtterance(sentence);
         utterance.lang = accent;
-        utterance.voice = selectedVoice;
-        utterance.volume = 1.0; // Maximum volume for clarity
+        utterance.voice = arabicVoice;
+        utterance.volume = 1.0;
         utterance.rate = 0.85; // Slightly slower for natural pacing
-        utterance.pitch = voiceGender === "female" ? 1.1 : 0.95; // Subtle pitch adjustment for human-like tone
+        utterance.pitch = voiceGender === "female" ? 1.1 : 0.95; // Pitch based on gender
 
-        // Add slight pause between sentences during synthesis
-        utterance.onboundary = (event) => {
-            if (event.name === "sentence" && event.charIndex > 0) {
-                utterance.pause();
-                setTimeout(() => utterance.resume(), 300); // 300ms pause between sentences
-            }
-        };
-
-        utterance.onstart = () => {
-            appState = "يتكلم";
-            updateStateDisplay();
-            bubble.classList.remove("processing", "listening");
-            bubble.classList.add("speaking");
-            bubble.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
-        };
-
-        utterance.onend = () => {
-            appState = "جاهز";
-            bubble.style.transform = "scale(1)";
-            updateStateDisplay();
-            bubble.classList.remove("speaking", "processing", "listening");
-            bubble.innerHTML = "";
+        utterance.onend = () => resolve();
+        utterance.onerror = (event) => {
+            console.error("Speech synthesis error:", event.error);
             resolve();
         };
 
+        speechSynthesis.speak(utterance);
+    });
+}
+
+
+// Helper function to speak a chunk and return a promise
+function speakChunk(chunk) {
+    return new Promise((resolve) => {
+        const utterance = new SpeechSynthesisUtterance(chunk);
+        utterance.lang = accent;
+        utterance.voice = arabicVoice;
+        utterance.volume = 1.0;
+        utterance.rate = 0.85; // Slightly slower for natural pacing
+        utterance.pitch = voiceGender === "female" ? 1.1 : 0.95; // Gender-based pitch
+
+        utterance.onend = () => resolve();
         utterance.onerror = (event) => {
             console.error("Speech synthesis error:", event.error);
             resolve();
@@ -474,6 +471,8 @@ async function proceedToNextQuestion() {
     }
 }
 
+
+// Button Handlers
 async function startInterview() {
     if (!sessionData) return;
 
@@ -486,28 +485,10 @@ async function startInterview() {
     const firstQuestion = questions[0];
     const firstQuestionText = (firstQuestion.linkingPhrase ? firstQuestion.linkingPhrase + ", " : "") + firstQuestion.originalQuestion;
     questionNumDiv.textContent = `1/${questions.length}`;
-    questionText.textContent = firstQuestionText;
-    await speakText(firstQuestionText);
+    await speakText(firstQuestionText); // Remove questionText.textContent assignment
     const estimatedTimeSeconds = firstQuestion.estimatedTimeMinutes * 60;
     questionTimer.textContent = formatTime(estimatedTimeSeconds);
 }
-
-// Button Handlers
-repeatQuestionBtn.onclick = async () => {
-    if (appState !== "جاهز" || currentQuestionIndex >= questions.length || sessionData === null) return;
-    const question = questions[currentQuestionIndex];
-
-    repeatClickCount++;
-    if (repeatClickCount % 2 === 1) {
-        const rephrased = question.rephrasedQuestion || "لم يتم توفير سؤال معاد صياغته.";
-        questionText.textContent = rephrased;
-        await speakText(rephrased);
-    } else {
-        const explanation = question.explanation || "لم يتم توفير تفسير لهذا السؤال.";
-        questionText.textContent = explanation;
-        await speakText(explanation);
-    }
-};
 
 startAnswerBtn.onclick = () => {
     if (appState !== "جاهز" || currentQuestionIndex >= questions.length || sessionData === null) return;
@@ -521,6 +502,20 @@ endAnswerBtn.onclick = () => {
     if (appState !== "يستمع") return;
     clearInterval(timer);
     recognition.stop();
+};
+
+repeatQuestionBtn.onclick = async () => {
+    if (appState !== "جاهز" || currentQuestionIndex >= questions.length || sessionData === null) return;
+    const question = questions[currentQuestionIndex];
+
+    repeatClickCount++;
+    if (repeatClickCount % 2 === 1) {
+        const rephrased = question.rephrasedQuestion || "لم يتم توفير سؤال معاد صياغته.";
+        await speakText(rephrased); // Remove questionText.textContent assignment
+    } else {
+        const explanation = question.explanation || "لم يتم توفير تفسير لهذا السؤال.";
+        await speakText(explanation); // Remove questionText.textContent assignment
+    }
 };
 
 skipQuestionBtn.onclick = () => {
@@ -561,7 +556,6 @@ skipQuestionBtn.onclick = () => {
             const estimatedTimeSeconds = question.estimatedTimeMinutes * 60;
             questionTimer.textContent = formatTime(estimatedTimeSeconds);
             const questionTextContent = (question.linkingPhrase ? question.linkingPhrase + ", " : "") + question.originalQuestion;
-            questionText.textContent = questionTextContent;
             await speakText(questionTextContent);
         } else {
             questionNumDiv.style.display = "none";
@@ -721,6 +715,7 @@ $(document).ready(function () {
     stateDisplay.style.display = "none";
 
 
+    resetInactivityTimer();
 });
 
 // Initial Setup
@@ -739,3 +734,30 @@ prepareInterviewBtn.addEventListener("click", () => {
     prepareInterview();
 
 });
+
+
+
+// Inactivity timeout setup
+let inactivityTimeout;
+
+function resetInactivityTimer() {
+    // Clear any existing timeout to reset the countdown
+    clearTimeout(inactivityTimeout);
+    // Set a new timeout to redirect after 10 minutes
+    inactivityTimeout = setTimeout(() => {
+        window.location.replace("/customer/Home/Index");
+    }, 600000); // 10 minutes = 600,000 milliseconds
+}
+
+// Attach event listeners to detect user activity
+document.addEventListener("mousemove", resetInactivityTimer);
+document.addEventListener("mousedown", resetInactivityTimer);
+document.addEventListener("mouseup", resetInactivityTimer);
+document.addEventListener("click", resetInactivityTimer);
+document.addEventListener("keydown", resetInactivityTimer);
+document.addEventListener("keyup", resetInactivityTimer);
+document.addEventListener("touchstart", resetInactivityTimer);
+document.addEventListener("touchmove", resetInactivityTimer);
+document.addEventListener("touchend", resetInactivityTimer);
+window.addEventListener("scroll", resetInactivityTimer);
+
