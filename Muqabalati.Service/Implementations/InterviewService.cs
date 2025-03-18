@@ -55,6 +55,11 @@ namespace Muqabalati.Service.Implementations
                     request.InterviewLanguage
                 );
 
+                var toneTask = _genAIApiService.GetTheToneAsync(
+                    apiKey,
+                    request.Tone,
+                    request.InterviewLanguage
+                );
                 // Await all tasks concurrently
                 await Task.WhenAll(introTask, questionsTask, conclusionTask);
 
@@ -83,13 +88,24 @@ namespace Muqabalati.Service.Implementations
                 var conclusionText = conclusiontextResponse.Candidates.FirstOrDefault()?.Content?.Parts?.FirstOrDefault()?.Text
                                      ?? throw new InvalidOperationException("Conclusion text is missing in the deserialized response.");
 
+                // Deserialize the conclusion text response
+                var ToneResponse = JsonConvert.DeserializeObject<GenAIApiResponse>(await toneTask);
+                if (ToneResponse == null || ToneResponse.Candidates == null || !ToneResponse.Candidates.Any())
+                {
+                    throw new InvalidOperationException("Failed to deserialize the conclusion text response or it's empty.");
+                }
+
+                // Extract conclusion text
+                var Tonetext = ToneResponse.Candidates.FirstOrDefault()?.Content?.Parts?.FirstOrDefault()?.Text
+                                     ?? throw new InvalidOperationException("Conclusion text is missing in the deserialized response.");
+
                 // Create and return the interview session DTO
                 return new InterviewSessionDto
                 {
                     ApplicantName = request.ApplicantName,
                     IntroText = introText,
                     Questions = questions,
-                    Tone = request.Tone,
+                    Tone = Tonetext,
                     ConclusionText = conclusionText
                 };
 

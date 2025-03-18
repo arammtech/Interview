@@ -33,7 +33,16 @@ namespace Muqabalati.Service.Implementations
             return report;
         }
 
+        public async Task<string> GetTheToneAsync(
+            string apiKey,
+            string tone,
+            string interviewLanguage)
+        {
+            string prompt = $@"قوم بتحليل اللهجة واللغة  الذي اعطيك إياه،  ثم أرجع النتيجة  فقط بالانجليزي دون اي شرح باستخدام رموز مثل ""ar-eg"" للهجة المصرية، أو ما يناسبها بالنسبة للغات واللهجات الأخرى 
+    Language: {interviewLanguage}, Tone: {tone}";
 
+            return await GenerateContent(apiKey, prompt);
+        }
 
 
         public async Task<string> GenerateIntroText(
