@@ -729,7 +729,7 @@ prepareInterviewBtn.addEventListener("click", () => {
     updateStateDisplay();
     toggleButtons();
     waitForVoices();
-    pauseInterviewBtn.disabled = true;
+    pauseInterviewBtn.disabled = "none";
 
     prepareInterview();
 

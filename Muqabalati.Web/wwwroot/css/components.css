@@ -217,7 +217,7 @@
 /* Stars  */
 .star_container {
     position: absolute;
-    z-index: -2;
+    z-index: -10 !important;
 }
 
 .star_container.down {
@@ -320,6 +320,7 @@
 
 
 .select-input {
+    cursor:pointer;
     background: var(--color-gray-3) !important;
     color: var(--color-dark) !important;
     padding: 0 .5rem !important;
@@ -330,6 +331,7 @@
 }
 
     .select-input option {
+        cursor: pointer;
         background: var(--color-gray-3) !important;
         color: var(--color-dark) !important;
         padding: 1rem !important;

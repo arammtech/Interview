@@ -169,17 +169,23 @@
             <div class="options row">
                 <div class="interview-options col">
 
-                    <select asp-for="InterviewLanguage" class="select-input" name="" id="">
+                    <select asp-for="InterviewLanguage" class="select-input pointer">
                         <option value="اللغة العربية" selected>اللغة العربية</option>
                         <option value="اللغة الإنجليزية">اللغة الإنجليزية</option>
                     </select>
 
-                    <select asp-for="Tone" class="select-input" name="" id="">
-                        <option value="اللهجة المصرية" selected>اللهجة المصرية</option>
-                        <option value="العربية الفصحة" selected>العربية الفصحة</option>
+                    <select asp-for="Tone" class="select-input pointer">
+                        <option value="العربية الفصحة" >العربية الفصحة</option>
+                        <option value="اللهجة السورية" selected>اللهجة السورية</option>
+                        <option value="اللهجة المصرية" >اللهجة المصرية</option>
+                        <option value="اللهجة اليمنية" >اللهجة اليمنية</option>
+                        <option value="اللهجة السعودية" >اللهجة السعودية</option>
+                        <option value="اللهجة الخليجية" >اللهجة الخليجية</option>
+                        <option value="للهجة اللبنانية">للهجة اللبنانية</option>
+                        <option value="اللهجة الأردنية">اللهجة الأردنية</option>
                     </select>
 
-                    <select asp-for="SkillLevel" class="select-input" name="" id="">
+                    <select asp-for="SkillLevel" class="select-input pointer">
                         <option value="مبتدئ" selected>مبتدئ</option>
                         <option value="متوسط">متوسط</option>
                         <option value="محترف">محترف</option>
