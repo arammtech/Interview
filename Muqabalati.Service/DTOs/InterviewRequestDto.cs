@@ -6,12 +6,13 @@
         /// <summary>
         /// اسم المتقدم للمقابلة.
         /// </summary>
-        public string ApplicantName { get; set; } = "علي";
+        public string ApplicantName { get; set; } = "ميري";
 
         /// <summary>
         /// اسم المحاور.
         /// </summary>
-        public string InterviewerName { get; set; } = "محمد";
+        public string InterviewerName { get; set; } = "جون";
+        //public string InterviewerName { get; set; } = "سامر";
 
         /// <summary>
         /// موضوع المقابلة (مثل موضوع تقني محدد).

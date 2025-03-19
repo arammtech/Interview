@@ -21,11 +21,11 @@
     z-index: 11;
     width: 100%;
     min-height: fit-content;
-/*    padding:2rem;*/
+    /*    padding:2rem;*/
     display: flex;
     justify-content: center;
     align-items: center;
-    color:var(--color-bg);
+    color: var(--color-bg);
     /* glass */
     position: absolute;
     background: radial-gradient(rgba(113, 113, 113, 0.176), rgba(255, 255, 255, 0));
@@ -34,6 +34,7 @@
     box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.25);
     opacity: 0;
     transition: opacity .3s ease-in-out;
+    display: none;
 }
 
 #interviewerAIBubble:hover + #questionText {
@@ -46,6 +47,7 @@
     color: var(--color-bg);
     position: absolute;
     bottom: -11rem;
+    display:none;
 }
 
 .circle-bubble {
@@ -72,6 +74,8 @@
     -o-transition: transform 0.05s linear, border-radius 0.3s ease;
     z-index: 10;
     /* glow */
+
+    display:none;
 }
 .listening, .speaking, .processing {
     transition: none !important; /* Disable transitions */
@@ -344,38 +348,26 @@
 #prepareInterview:hover {
     opacity:.8;
 }
-/* Stars  */
-/*#InterviewAi .star_container.top-left {
-    bottom: 0%;
-    right: -20%;
-    transform: rotate(-10deg);
-    -webkit-transform: rotate(-10deg);
-    -moz-transform: rotate(-10deg);
-    -ms-transform: rotate(-10deg);
-    -o-transform: rotate(-10deg);
-}*/
-    /*transform: rotate(-15deg); */
 
-/* Start  */
 
-/*#InterviewAi .star_container {
+
+.endInterviewBtn {
     position: absolute;
-    bottom: 0%;
-    right: -20%;
-    transform: rotate(-10deg);
-    -webkit-transform: rotate(-10deg);
-    -moz-transform: rotate(-10deg);
-    -ms-transform: rotate(-10deg);
-    -o-transform: rotate(-10deg);
+    top: 3.5rem;
+    left:7.4rem;
+    width: 4.2rem;
+    height: 3.4rem;
+    border: 0.1px solid var(--color-border);
+    padding: 5px;
+    background: linear-gradient(90deg, #4c505a 0%, #4c505ae1 100%);
+    border-radius: var(--radius-3);
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    cursor: pointer;
+    transition: opacity 0.3s ease-in-out;
 }
 
-    #InterviewAi .star_container.down-right {
-        top: 0%;
-        left: -20%;
-        transform: rotate(0deg);
-        -webkit-transform: rotate(0deg);
-        -moz-transform: rotate(0deg);
-        -ms-transform: rotate(0deg);
-        -o-transform: rotate(0deg);
-    }*/
-
+    .endInterviewBtn:hover {
+        opacity: .8;
+    }

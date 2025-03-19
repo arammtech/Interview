@@ -736,12 +736,6 @@ $(document).ready(function () {
     updateStateDisplay();
     pauseInterviewBtn.disabled = true;
 
-    prepareInterviewBtn.style.display = "block";
-    bubble.style.display = "none";
-    questionText.style.display = "none";
-    stateDisplay.style.display = "none";
-
-
     resetInactivityTimer();
 });
 
