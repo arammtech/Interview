@@ -5,12 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const charCountDisplay = document.querySelector('.topic-chars');
     const suggestions = document.querySelectorAll('.suggestion');
     const submitButton = document.querySelector('button[type="submit"]');
+    const languageSelect = document.querySelector(".languageSelect");
+    const toneSelect = document.querySelector(".toneSelect");
 
-    // Debug: Check if elements are found
-    console.log('topicInput:', topicInput);
-    console.log('charCountDisplay:', charCountDisplay);
-    console.log('suggestions:', suggestions);
-    console.log('submitButton:', submitButton);
+  
 
     if (!topicInput || !charCountDisplay || !suggestions.length || !submitButton) {
         console.error('One or more elements not found in the DOM');
@@ -46,7 +44,53 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 3. Submit button animation
+    // Define accents for each language
+    // Define accents for each language
+    const accents = {
+        "اللغة العربية": [
+            { value: "العربية الفصحة", text: "العربية الفصحة" },
+            { value: "اللهجة السورية", text: "اللهجة السورية" },
+            { value: "اللهجة المصرية", text: "اللهجة المصرية" },
+            { value: "اللهجة اليمنية", text: "اللهجة اليمنية" },
+            { value: "اللهجة السعودية", text: "اللهجة السعودية" },
+            { value: "اللهجة الخليجية", text: "اللهجة الخليجية" },
+            { value: "اللهجة اللبنانية", text: "اللهجة اللبنانية" },
+            { value: "اللهجة الأردنية", text: "اللهجة الأردنية" }
+        ],
+        "اللغة الإنجليزية": [
+            { value: "اللهجة الأميركية", text: "اللهجة الأميركية" },
+            { value: "اللهجة البريطانية", text: "اللهجة البريطانية" }
+        ]
+    };
+
+    // Function to update the accents based on selected language
+    function updateTones() {
+        const selectedLanguage = languageSelect.value;
+        const options = accents[selectedLanguage] || [];
+
+        // Clear current options
+        toneSelect.innerHTML = "";
+
+        options.forEach((option) => {
+            const newOption = document.createElement("option");
+            newOption.value = option.value;
+            newOption.textContent = option.text;
+
+            // Set default selection: Syrian for Arabic, American for English
+            if ((selectedLanguage === "اللغة العربية" && option.value === "اللهجة السورية") ||
+                (selectedLanguage === "اللغة الإنجليزية" && option.value === "American")) {
+                newOption.selected = true;
+            }
+
+            toneSelect.appendChild(newOption);
+        });
+    }
+
+    // Listen for language selection changes
+    languageSelect.addEventListener("change", updateTones);
+
+
+    // 4. Submit button animation
     submitButton.addEventListener('click', function (e) {
         const animationDiv = document.createElement('div');
         animationDiv.className = 'submit-animation';
@@ -82,3 +126,5 @@ styleSheet.textContent = `
     }
 `;
 document.head.appendChild(styleSheet);
+
+
