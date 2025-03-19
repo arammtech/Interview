@@ -10,6 +10,7 @@ const prepareInterviewBtn = document.getElementById("prepareInterview");
 const questionNumDiv = document.getElementById("questionNum");
 const questionTimer = document.getElementById("questionTimer");
 const questionText = document.getElementById("questionText");
+const toneElement = document.getElementById("toneElement");
 
 // Variables 
 let audioContext, analyzer, source, dataArray;
@@ -18,7 +19,6 @@ let timer;
 let timeLeft = 0; // Will be set based on estimatedTimeMinutes
 let accumulatedText = "";
 let currentQuestionIndex = 0;
-let arabicVoice = null;
 let animationFrameId = null;
 let sessionData = null; // Stores API response
 let questions = []; // Populated from API
@@ -30,11 +30,18 @@ let isReady = false; //
 let isEvaluating = false;
 let answerStartTime = null;
 let isProcessingEnd = false;
-let voiceGender = "female"; // Default to female for a softer, more human tone
-let accent = "en"; // Egyptian Arabic for a natural, widely understood accent
-let voicesLoadedPromise = null;
 let isPaused = false;
 let pausedStateDisplayText = "متوقف";
+
+let arabicVoice = null;
+let voicesLoadedPromise = null;
+
+let voiceGender = "female";
+let language = toneElement.textContent.substring(0,2);
+let accent = toneElement.textContent;
+
+
+console.log(language, accent);
 
 // Speech Recognition Setup
 const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
@@ -315,12 +322,30 @@ function displayCountdownTimer() {
 // Load Arabic Voice with Enhanced Selection
 function loadArabicVoice() {
     const voices = speechSynthesis.getVoices();
-    arabicVoice = voices.find(voice =>
-        voice.lang === accent &&
-        voice.name.toLowerCase().includes(voiceGender === "male" ? "male" : "female") &&
-        voice.name.includes("Natural" || "Premium") // Prioritize natural-sounding voices
-    ) || voices.find(voice => voice.lang === accent && !voice.name.includes("Basic")) // Avoid low-quality voices
-        || voices.find(voice => voice.lang.startsWith("ar")) || (voices.length > 0 ? voices[0] : null);
+    let selectedVoice = null;
+
+    if (language === "ar") {
+        // For Arabic, look for a voice with the specified accent (e.g., ar-EG)
+        selectedVoice = voices.find(voice =>
+            voice.lang === accent &&
+            voice.name.toLowerCase().includes(voiceGender === "male" ? "male" : "female") &&
+            (voice.name.includes("Natural") || voice.name.includes("Premium"))
+        ) || voices.find(voice => voice.lang === accent && !voice.name.includes("Basic"))
+            || voices.find(voice => voice.lang.startsWith("ar"))
+            || (voices.length > 0 ? voices[0] : null);
+    } else {
+        // For English, look for a voice with an English language setting (using a US accent as default)
+        selectedVoice = voices.find(voice =>
+            voice.lang.startsWith("en") &&
+            voice.name.toLowerCase().includes(voiceGender === "male" ? "male" : "female") &&
+            (voice.name.includes("Natural") || voice.name.includes("Premium"))
+        ) || voices.find(voice => voice.lang.startsWith("en") && !voice.name.includes("Basic"))
+            || voices.find(voice => voice.lang.startsWith("en"))
+            || (voices.length > 0 ? voices[0] : null);
+    }
+
+    // Save the selected voice to the global variable
+    arabicVoice = selectedVoice;
 
     if (arabicVoice) {
         console.log(`Loaded voice: ${arabicVoice.name}, lang: ${arabicVoice.lang}, gender hint: ${voiceGender}`);
@@ -328,6 +353,7 @@ function loadArabicVoice() {
         console.error("No suitable voices available for speech synthesis.");
     }
 }
+
 
 // Speak Text with Enhanced Human-Like Quality
 async function speakText(text) {
@@ -414,6 +440,7 @@ function speakChunk(chunk) {
 }
 
 // Wait for voices to load
+
 function waitForVoices() {
     if (!voicesLoadedPromise) {
         voicesLoadedPromise = new Promise((resolve) => {
@@ -425,7 +452,7 @@ function waitForVoices() {
                         lang: voice.lang,
                         default: voice.default
                     })));
-                    loadArabicVoice();
+                    loadArabicVoice();  // This now loads based on language and gender
                     resolve();
                     return;
                 }
