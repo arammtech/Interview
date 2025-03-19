@@ -1,7 +1,7 @@
 
 /* Landing page */
 body {
-    height: 5065px !important;
+    height: 5050px !important;
 }
 
 main {
@@ -68,12 +68,15 @@ section {
     background: #364C8452;
     backdrop-filter: blur(16px);
     z-index: 5;
+   border-radius:var(--radius-1);
 }
 
 
 /* Navbar Styling */
 .navbar {
-    position: absolute !important;
+    z-index:1000;
+    position: fixed !important;
+    top: 0;
     width: calc(100% - 12rem);
     display: flex;
     align-items: center;
@@ -116,6 +119,7 @@ section {
 
 /* Navigation Links */
 .navbar-nav {
+  
     height: 1.9rem;
     gap: 2.5rem !important;
     text-align: center;
@@ -126,6 +130,7 @@ section {
 
     .navbar-nav .nav-link {
         color: var(--color-white) !important;
+        opacity: .8 !important;
         font-size: 16px;
         transition: color 0.3s;
         font-weight: 400;
@@ -133,12 +138,15 @@ section {
         line-height: 100%;
         letter-spacing: 0%;
         text-align: center;
+        transition:.3s ease-in-out;
     }
 
         .navbar-nav .nav-item.active .nav-link,
         .navbar-nav .nav-link:hover {
             color: var(--color-white) !important;
-            opacity: .8 !important;
+            opacity: 1 !important;
+            text-decoration:underline;
+            font-weight:700;
         }
 
 /* Logo Section */
@@ -170,7 +178,7 @@ section {
     .hero-text p {
         width: 52.5rem;
         font-weight: 400;
-        font-size: 1.8rem;
+        font-size: 1.6rem;
         line-height: 24px;
         letter-spacing: 0%;
         text-align: right;
@@ -179,13 +187,13 @@ section {
 
     .hero-text .btn-main {
         margin-top: 7.2rem;
-        width: 39.2rem;
+        width: 30.2rem;
         height: 6.8rem;
         padding: 1rem 2.1rem;
         box-shadow: 0px 4px 53px 0px #364C8452;
         backdrop-filter: blur(13.915966987609863px);
         font-weight: 700;
-        font-size: 2rem !important;
+        font-size: 1.9rem !important;
         line-height: 100%;
         letter-spacing: 0%;
     }
@@ -874,20 +882,19 @@ footer {
 }
 
 
-.footer-log {
+.footer-logo {
     display: flex;
     gap: 1rem;
+    align-items:center;
 }
 
 
-
-footer .footer {
-    width: 100%;
-    height: 17.6rem;
-    gap: 3.2rem;
-    display: flex;
-    justify-content: center;
-}
+    footer .footer {
+        width: 100%;
+        height: 17.6rem;
+        gap: 4.2rem;
+        display: flex;
+    }
 
 .footer .first {
     display: flex;
@@ -916,15 +923,13 @@ footer .footer {
 .footer .fourth {
     display: flex;
     flex-direction: column;
-    align-items:center;
+    align-items:end;
     width: 257px;
     height: 176px;
-    gap: 10px;
-    padding: 10px;
+    margin-right:auto;
 }
 
 footer h4 {
-  
     font-weight: 500;
     font-size: 2rem;
     line-height: 100%;
@@ -962,6 +967,75 @@ footer a {
     height: 2rem;
     display: flex;
     justify-content: space-between;
+   
 }
 
 
+
+.footer-end  p {
+     font-weight: 400;
+    font-size: 1.6rem ;
+    line-height: 30px;
+    letter-spacing: 0%;
+}
+
+/* backToTop*/
+
+#backToTop {
+    position: fixed;
+    bottom: 10%;
+    left: 2.5%;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    opacity: 0 ;
+    pointer-events: none;
+    z-index: 1001;
+    color: var(--color-bg);
+    background: #D9D9D936;
+    backdrop-filter: blur(7.846439838409424px);
+    border: 0.65px solid var(--color-border);
+    width: 4.8rem;
+    height: 4.8rem;
+    border-radius: 50%;
+}
+
+
+    #backToTop.show {
+        opacity: 1 ;
+        pointer-events: auto;
+    }
+    #backToTop.hidden {
+        opacity: 0;
+    }
+
+#backToTop.rocket {
+    animation: shake 0.4s ease-in-out infinite alternate, launch_arrow_up 1s ease-in-out;
+}
+
+
+@keyframes shake {
+    0% {
+        transform: rotate(-5deg);
+    }
+
+    100% {
+        transform: rotate(5deg);
+    }
+}
+
+@keyframes launch_arrow_up {
+    0% {
+        bottom: 10%;
+        left: 2.5%;
+    }
+
+    50% {
+        bottom: 50%;
+        left: 3%;
+    }
+
+    100% {
+        bottom: 100vh;
+        left: 5%;
+        opacity: 0;
+    }
+}
