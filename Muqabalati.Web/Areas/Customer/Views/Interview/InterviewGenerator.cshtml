@@ -175,8 +175,8 @@
                     </select>
 
                     <select asp-for="Tone" class="toneSelect select-input pointer">
-                        <option value="العربية الفصحة" selected>العربية الفصحة</option>
-                        <option value="اللهجة السورية" >اللهجة السورية</option>
+                        <option value="العربية الفصحة" >العربية الفصحة</option>
+                        <option value="اللهجة السورية" selected>اللهجة السورية</option>
                         <option value="اللهجة المصرية" >اللهجة المصرية</option>
                         <option value="اللهجة اليمنية" >اللهجة اليمنية</option>
                         <option value="اللهجة السعودية" >اللهجة السعودية</option>
@@ -309,14 +309,17 @@
     <div class="suggested-jops">
         <h1 class="suggestions-title">الوظائف المقترحة</h1>
         <div class="suggestions">
-            @foreach(var topic in Model.Topics)
+            @foreach (var topic in Model.Topics.Take(4))
             {
                 <div class="suggestion">@topic</div>
             }
-
+            @foreach (var topic in Model.Topics.Skip(4))
+            {
+                <div class="suggestion hidden">@topic</div>
+            }
 </div>
 
-        <a href="#" class="more-jops">عرض المزيد</a>
+        <a href="#"  id="toggleJobs" class="more-jops">عرض المزيد</a>
         </div>
       </form>
 

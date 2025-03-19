@@ -391,7 +391,9 @@
     opacity: .8;
 }
 
-
+.hidden {
+    display: none !important;
+}
     /* btn btn-lg btn-1      main fill*/
     /* btn btn-lg btn-2      second fill*/
     /* btn btn-sm btn-icon */

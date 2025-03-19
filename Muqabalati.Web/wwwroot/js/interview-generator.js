@@ -114,6 +114,25 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(animationDiv);
 
     });
+
+    // 5. toggle jops suggestions
+    const toggleJobsBtn = document.getElementById("toggleJobs");
+    const hiddenSuggestions = document.querySelectorAll(".suggestions .hidden");
+    let isExpanded = false;
+
+    toggleJobsBtn.addEventListener("click", function (e) {
+        e.preventDefault(); // Prevent page jump
+
+        if (!isExpanded) {
+            hiddenSuggestions.forEach(item => item.classList.remove("hidden"));
+            toggleJobsBtn.textContent = "عرض أقل"; // Change text to "Show Less"
+        } else {
+            hiddenSuggestions.forEach(item => item.classList.add("hidden"));
+            toggleJobsBtn.textContent = "عرض المزيد"; // Change text to "Show More"
+        }
+
+        isExpanded = !isExpanded;
+    });
 });
 
 // Add keyframes
