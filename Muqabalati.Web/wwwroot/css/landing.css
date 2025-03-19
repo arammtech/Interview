@@ -1,7 +1,7 @@
 
 /* Landing page */
 body {
-    height: 4450px !important;
+    min-height: 4600px !important;
 }
 
 main {
@@ -30,35 +30,36 @@ section {
 }
 
 #users-offers {
-    padding-top: 14rem;
-    padding-bottom: 14rem;
+    padding-top: 15rem;
+    padding-bottom: 15rem;
     gap: 2.6rem !important;
 }
 
 #our-services {
-    padding-top: 14rem;
-    padding-bottom: 14rem;
+    padding-top: 15rem;
+    padding-bottom: 15rem;
     gap: 6.4rem;
     opacity: 0; /* Initially hidden for scroll animation */
 }
 
 #success-stories {
-    padding-top: 14rem;
-    padding-bottom: 14rem;
+    padding-top: 15rem;
+    padding-bottom: 15rem;
     gap: 8.3rem;
 }
 
 #interview-steps {
-    padding-top: 14rem;
-    padding-bottom: 14rem;
+    padding-top: 15rem;
+    padding-bottom: 15rem;
     gap: 7.8rem;
     padding: 1rem;
 }
 
 #common-questions {
-    padding-top: 14rem;
-    padding-bottom: 14rem;
+    padding-top: 15rem;
+    padding-bottom: 15rem;
     gap: 6.4rem;
+    margin-bottom: 8rem;
 }
 
 
@@ -67,7 +68,7 @@ section {
     width: calc(100% - 12rem);
     height: 22.3rem;
     position: relative;
-    bottom: 0rem;
+    bottom: -1rem;
     padding: 8rem;
     background: #364C8452;
     backdrop-filter: blur(16px);
@@ -553,8 +554,9 @@ section {
     display: flex;
     position: absolute;
     bottom: 0 !important;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width:fit-content !important;
 }
 
 .swiper-pagination-bullet {
@@ -807,6 +809,7 @@ section {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
 }
 
 #share-your-story .text {
