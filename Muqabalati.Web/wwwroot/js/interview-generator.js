@@ -1,16 +1,11 @@
-﻿// Wait for DOM to be fully loaded
-document.addEventListener('DOMContentLoaded', () => {
+﻿document.addEventListener('DOMContentLoaded', () => {
     // Get DOM elements
     const topicInput = document.getElementById('inputTopic');
     const charCountDisplay = document.querySelector('.topic-chars');
     const suggestions = document.querySelectorAll('.suggestion');
     const submitButton = document.querySelector('button[type="submit"]');
-
-    // Debug: Check if elements are found
-    console.log('topicInput:', topicInput);
-    console.log('charCountDisplay:', charCountDisplay);
-    console.log('suggestions:', suggestions);
-    console.log('submitButton:', submitButton);
+    const languageSelect = document.querySelector(".languageSelect");
+    const toneSelect = document.querySelector(".toneSelect");
 
     if (!topicInput || !charCountDisplay || !suggestions.length || !submitButton) {
         console.error('One or more elements not found in the DOM');
@@ -46,13 +41,61 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 3. Submit button animation
+    // Define accents for each language
+    const accents = {
+        "اللغة العربية": [
+            { value: "العربية الفصحة", text: "العربية الفصحة" },
+            { value: "اللهجة السورية", text: "اللهجة السورية" },
+            { value: "اللهجة المصرية", text: "اللهجة المصرية" },
+            { value: "اللهجة اليمنية", text: "اللهجة اليمنية" },
+            { value: "اللهجة السعودية", text: "اللهجة السعودية" },
+            { value: "اللهجة الخليجية", text: "اللهجة الخليجية" },
+            { value: "اللهجة اللبنانية", text: "اللهجة اللبنانية" },
+            { value: "اللهجة الأردنية", text: "اللهجة الأردنية" }
+        ],
+        "اللغة الإنجليزية": [
+            { value: "اللهجة الأميركية", text: "اللهجة الأميركية" },
+            { value: "اللهجة البريطانية", text: "اللهجة البريطانية" }
+        ]
+    };
+
+    // Function to update the accents based on selected language
+    function updateTones() {
+        const selectedLanguage = languageSelect.value;
+        const options = accents[selectedLanguage] || [];
+
+        // Clear current options
+        toneSelect.innerHTML = "";
+
+        options.forEach((option) => {
+            const newOption = document.createElement("option");
+            newOption.value = option.value;
+            newOption.textContent = option.text;
+
+            // Set default selection: Syrian for Arabic, American for English
+            if ((selectedLanguage === "اللغة العربية" && option.value === "اللهجة المصرية") ||
+                (selectedLanguage === "اللغة الإنجليزية" && option.value === "اللهجة الأميركية")) {
+                newOption.selected = true;
+            }
+
+            toneSelect.appendChild(newOption);
+        });
+    }
+
+    // Listen for language selection changes
+    languageSelect.addEventListener("change", updateTones);
+
+    // Set the initial language to Arabic and tone to "اللهجة السورية" on page load
+    languageSelect.value = "اللغة العربية"; // Set default language to Arabic
+    updateTones(); // Update the accents based on the selected language
+
+    // 4. Submit button animation
     submitButton.addEventListener('click', function (e) {
         const animationDiv = document.createElement('div');
         animationDiv.className = 'submit-animation';
         animationDiv.textContent = 'جاري تجهيز المقابلة...';
 
-        animationDiv.style.cssText = `
+        animationDiv.style.cssText = ` 
             position: fixed;
             top: 50%;
             left: 50%;
@@ -68,7 +111,25 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
 
         document.body.appendChild(animationDiv);
+    });
 
+    // 5. toggle jobs suggestions
+    const toggleJobsBtn = document.getElementById("toggleJobs");
+    const hiddenSuggestions = document.querySelectorAll(".suggestions .hidden");
+    let isExpanded = false;
+
+    toggleJobsBtn.addEventListener("click", function (e) {
+        e.preventDefault(); // Prevent page jump
+
+        if (!isExpanded) {
+            hiddenSuggestions.forEach(item => item.classList.remove("hidden"));
+            toggleJobsBtn.textContent = "عرض أقل"; // Change text to "Show Less"
+        } else {
+            hiddenSuggestions.forEach(item => item.classList.add("hidden"));
+            toggleJobsBtn.textContent = "عرض المزيد"; // Change text to "Show More"
+        }
+
+        isExpanded = !isExpanded;
     });
 });
 

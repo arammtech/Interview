@@ -36,11 +36,13 @@ namespace Muqabalati.Web.Controllers
                 try
                 {
                     var interviewSessionDto = await _interviewService.GenerateInterviewSessionAsync(request);
-
+                    
                     // Store the session JSON in HttpContext.Session
                     HttpContext.Session.SetString(SessionKey, JsonConvert.SerializeObject(interviewSessionDto));
 
-                    return View("StartInterview");
+                    HttpContext.Session.SetString("tone", request.Tone);
+
+                    return View("StartInterview", interviewSessionDto.Tone);
 
                 }
                 catch (System.Exception ex)

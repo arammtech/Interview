@@ -41,7 +41,7 @@
         /// <summary>
         /// عدد الأسئلة المطلوبة.
         /// </summary>
-        public int QuestionCount { get; set; } = 2;
+        public int QuestionCount { get; set; } = 5;
 
         public List<string>? Topics = new List<string>
             {

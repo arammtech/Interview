@@ -169,12 +169,12 @@
             <div class="options row">
                 <div class="interview-options col">
 
-                    <select asp-for="InterviewLanguage" class="select-input pointer">
+                    <select asp-for="InterviewLanguage" class="languageSelect select-input pointer">
                         <option value="اللغة العربية" selected>اللغة العربية</option>
                         <option value="اللغة الإنجليزية">اللغة الإنجليزية</option>
                     </select>
 
-                    <select asp-for="Tone" class="select-input pointer">
+                    <select asp-for="Tone" class="toneSelect select-input pointer">
                         <option value="العربية الفصحة" >العربية الفصحة</option>
                         <option value="اللهجة السورية" selected>اللهجة السورية</option>
                         <option value="اللهجة المصرية" >اللهجة المصرية</option>
@@ -186,9 +186,9 @@
                     </select>
 
                     <select asp-for="SkillLevel" class="select-input pointer">
-                        <option value="مبتدئ" selected>مبتدئ</option>
-                        <option value="متوسط">متوسط</option>
-                        <option value="محترف">محترف</option>
+                        <option value="مستوى مبتدئ" selected>مستوى مبتدئ</option>
+                        <option value="مستوى متوسط">مستوى متوسط</option>
+                        <option value="مستوى متقدم">مستوى متقدم</option>
                     </select>
 
                 </div>
@@ -309,14 +309,17 @@
     <div class="suggested-jops">
         <h1 class="suggestions-title">الوظائف المقترحة</h1>
         <div class="suggestions">
-            @foreach(var topic in Model.Topics)
+            @foreach (var topic in Model.Topics.Take(4))
             {
                 <div class="suggestion">@topic</div>
             }
-
+            @foreach (var topic in Model.Topics.Skip(4))
+            {
+                <div class="suggestion hidden">@topic</div>
+            }
 </div>
 
-        <a href="#" class="more-jops">عرض المزيد</a>
+        <a href="#"  id="toggleJobs" class="more-jops">عرض المزيد</a>
         </div>
       </form>
 

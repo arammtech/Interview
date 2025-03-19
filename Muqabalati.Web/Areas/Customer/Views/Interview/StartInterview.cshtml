@@ -1,4 +1,4 @@
-﻿
+﻿@model string
 @{
     Layout = "_LayoutInterview.cshtml";
     ViewData["Title"] = "StartInterview";
@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="~/css/components.css" asp-append-version="true" />
 
 }
+
+<div  id="toneElement" style="display:none;">@Model</div>
 
 <div class="star_container down">
     <svg width="37"
