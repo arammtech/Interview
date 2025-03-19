@@ -1,5 +1,4 @@
-﻿// Wait for DOM to be fully loaded
-document.addEventListener('DOMContentLoaded', () => {
+﻿document.addEventListener('DOMContentLoaded', () => {
     // Get DOM elements
     const topicInput = document.getElementById('inputTopic');
     const charCountDisplay = document.querySelector('.topic-chars');
@@ -7,8 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitButton = document.querySelector('button[type="submit"]');
     const languageSelect = document.querySelector(".languageSelect");
     const toneSelect = document.querySelector(".toneSelect");
-
-  
 
     if (!topicInput || !charCountDisplay || !suggestions.length || !submitButton) {
         console.error('One or more elements not found in the DOM');
@@ -45,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Define accents for each language
-    // Define accents for each language
     const accents = {
         "اللغة العربية": [
             { value: "العربية الفصحة", text: "العربية الفصحة" },
@@ -77,8 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
             newOption.textContent = option.text;
 
             // Set default selection: Syrian for Arabic, American for English
-            if ((selectedLanguage === "اللغة العربية" && option.value === "اللهجة السورية") ||
-                (selectedLanguage === "اللغة الإنجليزية" && option.value === "American")) {
+            if ((selectedLanguage === "اللغة العربية" && option.value === "اللهجة المصرية") ||
+                (selectedLanguage === "اللغة الإنجليزية" && option.value === "اللهجة الأميركية")) {
                 newOption.selected = true;
             }
 
@@ -89,6 +85,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Listen for language selection changes
     languageSelect.addEventListener("change", updateTones);
 
+    // Set the initial language to Arabic and tone to "اللهجة السورية" on page load
+    languageSelect.value = "اللغة العربية"; // Set default language to Arabic
+    updateTones(); // Update the accents based on the selected language
 
     // 4. Submit button animation
     submitButton.addEventListener('click', function (e) {
@@ -96,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         animationDiv.className = 'submit-animation';
         animationDiv.textContent = 'جاري تجهيز المقابلة...';
 
-        animationDiv.style.cssText = `
+        animationDiv.style.cssText = ` 
             position: fixed;
             top: 50%;
             left: 50%;
@@ -112,10 +111,9 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
 
         document.body.appendChild(animationDiv);
-
     });
 
-    // 5. toggle jops suggestions
+    // 5. toggle jobs suggestions
     const toggleJobsBtn = document.getElementById("toggleJobs");
     const hiddenSuggestions = document.querySelectorAll(".suggestions .hidden");
     let isExpanded = false;
@@ -145,5 +143,3 @@ styleSheet.textContent = `
     }
 `;
 document.head.appendChild(styleSheet);
-
-
