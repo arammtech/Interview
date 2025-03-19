@@ -348,7 +348,7 @@
     border: 0.1px solid var(--color-border);
     padding: 5px;
     background: linear-gradient(90deg, #4c505a 0%, #4c505ae1 100%);
-    border-radius: var(--radius-2);
+    border-radius: var(--radius-3);
     display: flex;
     justify-content: center;
     align-content: center;

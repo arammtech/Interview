@@ -161,6 +161,8 @@
 }
 
     .actions .btn {
+        font-size: 1.6rem !important;
+        height: 3.2rem;
         transition: opacity .3s ease-in-out;
         -webkit-transition: opacity .3s ease-in-out;
         -moz-transition: opacity .3s ease-in-out;

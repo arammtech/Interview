@@ -1,7 +1,7 @@
 
 /* Landing page */
 body {
-    height: 5050px !important;
+    height: 4450px !important;
 }
 
 main {
@@ -21,39 +21,43 @@ main {
 section {
     position: relative;
     width: 100%;
-    margin: 14rem auto;
 }
 
 #hero {
-    height: 54.74rem !important;
+    height: 54.7rem;
     margin-top: calc(var(--nav-height) + 7rem);
     top: 0;
 }
 
 #users-offers {
-    height: 39.1rem !important;
+    padding-top: 14rem;
+    padding-bottom: 14rem;
     gap: 2.6rem !important;
 }
 
 #our-services {
-    height: 20.4rem;
+    padding-top: 14rem;
+    padding-bottom: 14rem;
     gap: 6.4rem;
     opacity: 0; /* Initially hidden for scroll animation */
 }
 
 #success-stories {
-    height: 56rem !important;
+    padding-top: 14rem;
+    padding-bottom: 14rem;
     gap: 8.3rem;
 }
 
 #interview-steps {
-    height: 43.9rem !important;
+    padding-top: 14rem;
+    padding-bottom: 14rem;
     gap: 7.8rem;
     padding: 1rem;
 }
 
 #common-questions {
-    height: 49.8rem !important;
+    padding-top: 14rem;
+    padding-bottom: 14rem;
     gap: 6.4rem;
 }
 
@@ -64,17 +68,17 @@ section {
     height: 22.3rem;
     position: relative;
     bottom: 0rem;
-    padding:8rem;
+    padding: 8rem;
     background: #364C8452;
     backdrop-filter: blur(16px);
     z-index: 5;
-   border-radius:var(--radius-1);
+    border-radius: var(--radius-1);
 }
 
 
 /* Navbar Styling */
 .navbar {
-    z-index:1000;
+    z-index: 1000;
     position: fixed !important;
     top: 0;
     width: calc(100% - 12rem);
@@ -119,7 +123,6 @@ section {
 
 /* Navigation Links */
 .navbar-nav {
-  
     height: 1.9rem;
     gap: 2.5rem !important;
     text-align: center;
@@ -138,15 +141,15 @@ section {
         line-height: 100%;
         letter-spacing: 0%;
         text-align: center;
-        transition:.3s ease-in-out;
+        transition: .3s ease-in-out;
     }
 
         .navbar-nav .nav-item.active .nav-link,
         .navbar-nav .nav-link:hover {
             color: var(--color-white) !important;
             opacity: 1 !important;
-            text-decoration:underline;
-            font-weight:700;
+            text-decoration: underline;
+            font-weight: 700;
         }
 
 /* Logo Section */
@@ -547,7 +550,7 @@ section {
 }
 
 .swiper-pagination {
-    display:flex;
+    display: flex;
     position: absolute;
     bottom: 0 !important;
     left: 50%;
@@ -585,7 +588,7 @@ section {
     transform: scale(0.9);
     text-align: center;
     width: 26rem;
-/*    height: 28.9rem;*/
+    /*    height: 28.9rem;*/
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -626,12 +629,12 @@ section {
         }
 
     .step .icon {
-        display:flex;
-        justify-content:center;
-        align-content:center;
+        display: flex;
+        justify-content: center;
+        align-content: center;
         font-size: 40px;
         margin-bottom: 4rem;
-         display: inline-block; 
+        display: inline-block;
         width: 9rem;
         height: 9rem !important;
         border-radius: var(--radius-3);
@@ -867,8 +870,8 @@ section {
 /* footer */
 
 footer {
-    position:absolute;
-    bottom:0;
+    position: absolute;
+    bottom: 0;
     width: 100%;
     height: 44.3rem !important;
     z-index: 4;
@@ -885,16 +888,16 @@ footer {
 .footer-logo {
     display: flex;
     gap: 1rem;
-    align-items:center;
+    align-items: center;
 }
 
 
-    footer .footer {
-        width: 100%;
-        height: 17.6rem;
-        gap: 4.2rem;
-        display: flex;
-    }
+footer .footer {
+    width: 100%;
+    height: 17.6rem;
+    gap: 4.2rem;
+    display: flex;
+}
 
 .footer .first {
     display: flex;
@@ -923,10 +926,10 @@ footer {
 .footer .fourth {
     display: flex;
     flex-direction: column;
-    align-items:end;
+    align-items: end;
     width: 257px;
     height: 176px;
-    margin-right:auto;
+    margin-right: auto;
 }
 
 footer h4 {
@@ -967,17 +970,16 @@ footer a {
     height: 2rem;
     display: flex;
     justify-content: space-between;
-   
 }
 
 
 
-.footer-end  p {
-     font-weight: 400;
-    font-size: 1.6rem ;
-    line-height: 30px;
-    letter-spacing: 0%;
-}
+    .footer-end p {
+        font-weight: 400;
+        font-size: 1.6rem;
+        line-height: 30px;
+        letter-spacing: 0%;
+    }
 
 /* backToTop*/
 
@@ -986,7 +988,7 @@ footer a {
     bottom: 10%;
     left: 2.5%;
     transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-    opacity: 0 ;
+    opacity: 0;
     pointer-events: none;
     z-index: 1001;
     color: var(--color-bg);
@@ -1000,16 +1002,17 @@ footer a {
 
 
     #backToTop.show {
-        opacity: 1 ;
+        opacity: 1;
         pointer-events: auto;
     }
+
     #backToTop.hidden {
         opacity: 0;
     }
 
-#backToTop.rocket {
-    animation: shake 0.4s ease-in-out infinite alternate, launch_arrow_up 1s ease-in-out;
-}
+    #backToTop.rocket {
+        animation: shake 0.4s ease-in-out infinite alternate, launch_arrow_up 1s ease-in-out;
+    }
 
 
 @keyframes shake {
