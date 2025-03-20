@@ -719,7 +719,7 @@ async function prepareInterview() {
                 isWaitingForApiResponse = false;
                 updateStateDisplay();
                 toggleButtons();
-                questionNumDiv.textContent = currentQuestionIndex + 1;
+                questionNumDiv.textContent = "?/?";
 
                 if (!isFailed) {
                     await startInterview();
