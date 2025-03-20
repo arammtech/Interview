@@ -110,7 +110,7 @@ Contributions are welcome! To contribute:
 - **Initial Ask:** $200K for prototype development, marketing, and hosting.  
 - **ROI:** Projected 650% return over 3 years ($1.3M return on $200K investment).  
 
-Interested in investing? Contact us at [teamaramm@gmail.com].
+Interested in investing? Contact us at [teamaramm@gmail.com](teamaramm@gmail.com).
 
 
 ## Acknowledgments
