@@ -112,7 +112,7 @@
 
 .processing {
     position: relative;
-    width: 4rem !important;
+    width: 44rem !important;
     height: 44rem !important;
     border-radius: 50% 40% 40% 60% / 40% 40% 60% 50%;
     animation: bubblePulse 1.5s infinite ease-in-out;
@@ -330,7 +330,10 @@
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 20px 40px;
-    background: var(--color-gradient-1);
+    background: radial-gradient(rgba(113, 113, 113, 0.176), rgba(255, 255, 255, 0));
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.25);
     color: var(--color-bg);
     border-radius: 10px;
     font-size: 24px;
@@ -344,7 +347,7 @@
 }
 
 #prepareInterview:hover {
-    opacity:.8;
+    opacity:.9;
 }
 
 
@@ -377,7 +380,7 @@
     justify-content: center;
     background: radial-gradient(rgba(113, 113, 113, 0.176), rgba(255, 255, 255, 0));
     backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(25px);
     box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.25);
     top: -33% !important;
     left: 25%;
