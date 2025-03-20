@@ -84,7 +84,7 @@
 
 
     .circle.passed {
-        border-color: #A5C529 !important;
+        border-color:  var(--color-success) !important;
     }
 
     .circle.failed {

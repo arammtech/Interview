@@ -7,6 +7,7 @@ const endAnswerBtn = document.getElementById("endAnswer");
 const skipQuestionBtn = document.getElementById("skipQuestion");
 const pauseInterviewBtn = document.getElementById("pauseInterview");
 const prepareInterviewBtn = document.getElementById("prepareInterview");
+const endInterviewBtn = document.querySelector(".endInterviewBtn");
 const questionNumDiv = document.getElementById("questionNum");
 const questionTimer = document.getElementById("questionTimer");
 const questionText = document.getElementById("questionText");
@@ -561,7 +562,7 @@ skipQuestionBtn.onclick = () => {
     updateStateDisplay();
     if (source) {
         source.disconnect();
-        source = null;
+        source = null; 
     }
     if (animationFrameId) {
         cancelAnimationFrame(animationFrameId);
@@ -639,7 +640,50 @@ pauseInterviewBtn.onclick = () => {
     toggleButtons();
 };
 
+endInterviewBtn.addEventListener("click", (e) => {
+    e.preventDefault(); 
 
+    Swal.fire({
+        title: "هل أنت متأكد؟هل انت متأكد من إنهاء المقابلة؟",
+        text: "لن تتمكن من التراجع عن هذا الإجراء!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "إنهاء",
+        cancelButtonText: "تراجع",
+        width: "40%", 
+        customClass: {
+            popup: "custom-swal", 
+            title: "custom-title",
+            htmlContainer: "custom-text",
+            confirmButton: "btn btn-sm btn-g1",
+            cancelButton: "btn btn-sm btn-gray"
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '/api/Customer/interview/end',
+                type: 'POST',
+                success: function (response) {
+                    if (response.success) {
+
+                        window.location.href = '/customer/home/index';
+                    } else {
+                        toastr.error(response.message || "حدث خطأ غير متوقع.");
+                    }
+                },
+                error: function (xhr) {
+                    // Handle server-side error (status 500, etc.)
+                    const response = xhr.responseJSON;
+                    if (response && response.message) {
+                        toastr.error(response.message); // Display the error message using toastr
+                    } else {
+                        toastr.error("حدث خطأ غير معروف."); // Fallback message
+                    }
+                }
+            });
+        }
+    });
+});
 
 async function prepareInterview() {
     $.ajax({
@@ -702,7 +746,7 @@ async function submitAnswers(answers) {
     console.log("Final cleaned answers before send:", JSON.stringify(cleanedAnswers, null, 2));
     try {
         await $.ajax({
-            url: '/Customer/Interview/Result',
+            url: '/api/Customer/Interview/result',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(cleanedAnswers),

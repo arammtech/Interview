@@ -64,44 +64,12 @@ namespace Muqabalati.Web.Controllers
         }
 
 
-        // // // // // move this to the api controller
-        [HttpPost]
-        public async Task<IActionResult> Result([FromBody]  List<AnswerModel> answers)
+      
+        [HttpGet]
+        public async Task<IActionResult> InterviewResult()
         {
-            //List<AnswerModel> answers1 = new List<AnswerModel>
-            //{
-            //    new AnswerModel { Answer = "A software development framework developed by Microsoft" },
-            //    new AnswerModel { Answer = "An integrated environment for managing and automating tasks in IT" },
-            //    new AnswerModel { Answer = "It is a markup language used for creating web pages", },
-            //    new()
-            //};
 
-            //string[] questions1 =
-            //{
-            //      "What is .Net, and what is its purpose?",
-            //        "What is PowerShell, and why is it useful in IT management?",
-            //        "What is HTML, and what is its role in web development?",
-            //        "What is JS, and what is its role in web development?"
-
-            //};
-
-            try
-            {
-                string interviewSessionJson = HttpContext.Session.GetString("InterviewSession");
-
-                if (string.IsNullOrEmpty(interviewSessionJson))
-                {
-                    return BadRequest("Interview session not found.");
-                }
-
-                var session = JsonConvert.DeserializeObject<InterviewSessionDto>(interviewSessionJson);
-
-                if (session == null || session.Questions == null)
-                {
-                    return BadRequest("Invalid interview session data.");
-                }
-
-                List<QuestionModel> questions2 = new List<QuestionModel>() {
+            List<QuestionModel> questions2 = new List<QuestionModel>() {
                             new()
                             {
                                 LinkingPhrase = "السؤال الأول هو",
@@ -135,9 +103,9 @@ namespace Muqabalati.Web.Controllers
                                 EstimatedTimeMinutes = 2
                             }
                     };
-                        
 
-                List<AnswerModel> answers2 = new List<AnswerModel>
+
+            List<AnswerModel> answers2 = new List<AnswerModel>
 {
     new AnswerModel
     {
@@ -157,32 +125,21 @@ namespace Muqabalati.Web.Controllers
     }
 };
 
-                //var questions = session.Questions.Select(q => q.OriginalQuestion).ToArray();
-                var questions22 = questions2.Select(q => q.OriginalQuestion).ToArray();
-                var report = await _interviewService.GenerateInterviewReport(answers2, questions22);
+            //var questions = session.Questions.Select(q => q.OriginalQuestion).ToArray();
+            var questions22 = questions2.Select(q => q.OriginalQuestion).ToArray();
+            var report = await _interviewService.GenerateInterviewReport(answers2, questions22);
 
-                TempData["InterviewReport"] = JsonConvert.SerializeObject(report);
-                
-                return Ok(new { success = true });
-            }
-            catch
-            {
-                return View("Error");
-            }
-        }
 
-        [HttpGet]
-        public IActionResult InterviewResult()
-        {
             if (TempData["InterviewReport"] is string ratingJson)
             {
-                var report = JsonConvert.DeserializeObject<InterviewReportDto>(ratingJson);
-               
-                return View("InterviewResult", report); 
+                //var report = JsonConvert.DeserializeObject<InterviewReportDto>(ratingJson);
+
+                return View("InterviewResult", report);
             }
             else
             {
-                return View("InterviewIsOver", "المقابلة لقد انتهت");
+                return RedirectToAction("InterviewGenerator");
+                //return View("InterviewIsOver", "المقابلة لقد انتهت");
             }
         }
 
