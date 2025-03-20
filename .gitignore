@@ -361,9 +361,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/Template.Web/appsettings.json
 /Template.Service.Tests
-/Muqabalati.Web/appsettings.json
-/Muqabalati.Web/appsettings.Development.json
-/Muqabalati.Web/appsettings.Development.json
-/Muqabalati.Web/appsettings.json
