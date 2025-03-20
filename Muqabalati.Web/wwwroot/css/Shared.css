@@ -154,6 +154,7 @@ ol, ul {
 
 /* Font Size */
 .big-text {
+    color:var(--color-bg) !important;
     font-size: 4.2rem;
     text-align: center;
 }

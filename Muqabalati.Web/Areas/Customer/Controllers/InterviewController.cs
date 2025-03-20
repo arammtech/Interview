@@ -21,6 +21,11 @@ namespace Muqabalati.Web.Controllers
         [HttpGet]
         public IActionResult InterviewGenerator()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
+            }
+
             InterviewRequestDto request = new();
             request.Topics = ["Machine Learning Engineer", "Software Developer", ".Net Developer", "Full-Stack Developer", "UI/UX Designer", "Graphic Designer", "Full-Stack Developer"];
 

@@ -106,13 +106,41 @@ section {
     -o-border-radius: var(--radius-3);
 }
 
-/* Profile Section */
-.profile-section {
-    display: flex;
-    align-items: center;
-    width: 21.9rem;
-    gap: 3.2rem;
+
+    .navbar .dropdown-menu[data-bs-popper] {
+        left: 0% !important;
+        top: 5.8rem !important;
+    }
+
+    .navbar .dropdown-1 {
+        color: var(--color-4) !important;
+    }
+
+    .navbar .dropdown-menu {
+        background: radial-gradient(rgba(113, 113, 113, 0.476), rgba(255, 255, 255, .1)) !important;
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.25);
+    }
+
+.navbar .dropdown-1 > a {
+    color: var(--color-4) !important;
+    gap: 1rem;
 }
+    .navbar .nav-logout {
+        color: var(--color-4) !important;
+        gap: 1rem !important;
+    }
+        .navbar .nav-logout svg {
+            margin-left: 1rem !important;
+        }
+        /* Profile Section */
+        .profile-section {
+            display: flex;
+            align-items: center;
+            width: 37rem;
+            gap: 3.2rem;
+        }
 
 .profile-img {
     width: 40px;
