@@ -33,7 +33,16 @@ namespace Muqabalati.Service.Implementations
             return report;
         }
 
+        public async Task<string> GetTheToneAsync(
+            string apiKey,
+            string tone,
+            string interviewLanguage)
+        {
+            string prompt = $@"قوم بتحليل اللهجة واللغة  الذي اعطيك إياه،  ثم أرجع النتيجة  فقط بالانجليزي دون اي شرح باستخدام رموز مثل ""ar-eg"" للهجة المصرية، أو ما يناسبها بالنسبة للغات واللهجات الأخرى 
+    Language: {interviewLanguage}, Tone: {tone}";
 
+            return await GenerateContent(apiKey, prompt);
+        }
 
 
         public async Task<string> GenerateIntroText(
@@ -43,10 +52,9 @@ namespace Muqabalati.Service.Implementations
       string tone,
       string topic,
       string level,
-      string department,
       string interviewLanguage)
         {
-            var introPrompt = GenerateIntroPrompt(applicantName, interviewerName, tone, topic, level, department, interviewLanguage);
+            var introPrompt = GenerateIntroPrompt(applicantName, interviewerName, tone, topic, level,interviewLanguage);
             return await GenerateContent(apiKey, introPrompt);
         }
 
@@ -66,12 +74,11 @@ namespace Muqabalati.Service.Implementations
             int questionNum,
             string topic,
             string level,
-            string department,
             string tone,
             string terminologyLanguage,
             string interviewLanguage)
         {
-            var questionPrompt = GenerateQuestionPrompt(questionNum, topic, level, department, tone,terminologyLanguage, interviewLanguage);
+            var questionPrompt = GenerateQuestionPrompt(questionNum, topic, level, tone,terminologyLanguage, interviewLanguage);
             return await GenerateContent(apiKey, questionPrompt);
         }
 

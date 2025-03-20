@@ -1,4 +1,4 @@
-﻿
+﻿@model string
 @{
     Layout = "_LayoutInterview.cshtml";
     ViewData["Title"] = "StartInterview";
@@ -6,10 +6,33 @@
 
 @section Styles {
     <link rel="stylesheet" href="~/css/interview-ai.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/components.css" asp-append-version="true" />
 
 }
 
-<div class="start_container down">
+<div  id="toneElement" style="display:none;">@Model</div>
+
+<div class="star_container down">
+    <svg width="37"
+         height="43"
+         viewBox="0 0 37 43"
+         fill="none"
+         xmlns="http://www.w3.org/2000/svg">
+        <path d="M22.2995 1.88532C22.1785 0.87461 20.84 0.592663 20.4185 1.48911L14.4008 14.2878C14.2681 14.5699 14.0092 14.765 13.7025 14.8141L0.817866 16.8761C-0.0775428 17.0194 -0.267617 18.2257 0.526562 18.7249L11.9545 25.9079C12.2266 26.0789 12.4093 26.3671 12.4474 26.6851L14.1749 41.1151C14.2959 42.1259 15.6344 42.4078 16.0559 41.5114L22.0736 28.7127C22.2063 28.4306 22.4652 28.2354 22.7719 28.1864L35.6565 26.1244C36.5519 25.9811 36.742 24.7747 35.9478 24.2756L24.5199 17.0926C24.2478 16.9216 24.0651 16.6334 24.027 16.3154L22.2995 1.88532Z"
+              fill="#364C84" />
+    </svg>
+</div>
+<div class="star_container middle-top">
+    <svg width="37"
+         height="43"
+         viewBox="0 0 37 43"
+         fill="none"
+         xmlns="http://www.w3.org/2000/svg">
+        <path d="M22.2995 1.88532C22.1785 0.87461 20.84 0.592663 20.4185 1.48911L14.4008 14.2878C14.2681 14.5699 14.0092 14.765 13.7025 14.8141L0.817866 16.8761C-0.0775428 17.0194 -0.267617 18.2257 0.526562 18.7249L11.9545 25.9079C12.2266 26.0789 12.4093 26.3671 12.4474 26.6851L14.1749 41.1151C14.2959 42.1259 15.6344 42.4078 16.0559 41.5114L22.0736 28.7127C22.2063 28.4306 22.4652 28.2354 22.7719 28.1864L35.6565 26.1244C36.5519 25.9811 36.742 24.7747 35.9478 24.2756L24.5199 17.0926C24.2478 16.9216 24.0651 16.6334 24.027 16.3154L22.2995 1.88532Z"
+              fill="#364C84" />
+    </svg>
+</div>
+<div class="star_container middle-right">
     <svg width="37"
          height="43"
          viewBox="0 0 37 43"
@@ -20,8 +43,14 @@
     </svg>
 </div>
 
-
     <section id="interview-page" class="container">
+    <a href="#" class="endInterviewBtn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.07324 19L18.9259 5.00002M5.07328 5L18.9259 19" stroke="#171717" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
+    </a>
+
+
         <div class="controls glass">
             <div class="timer-container">
                 <div>وقت الاجابة</div>
@@ -49,7 +78,7 @@
                     </svg>
                 </button>
 
-                <button id="startAnswer" data-action="start الإجابة" class="btn btn-icon">
+            <button id="startAnswer" data-action="ابدأ الإجابة" class="btn btn-icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path opacity="0.4" d="M6 9.85986V14.1499" stroke="#F4F4F4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                         <path opacity="0.4" d="M9 8.42993V15.5699" stroke="#F4F4F4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -92,26 +121,18 @@
                     </svg>
                 </button>
             </div>
-            <div id="questionNum" cla>1/?</div>
+            <div id="questionNum" >?/?</div>
         </div>
 
         <div id="InterviewAi">
-            <div class="star_container">
-                <svg width="37" height="43" viewBox="0 0 37 43" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M22.2995 1.88532C22.1785 0.87461 20.84 0.592663 20.4185 1.48911L14.4008 14.2878C14.2681 14.5699 14.0092 14.765 13.7025 14.8141L0.817866 16.8761C-0.0775428 17.0194 -0.267617 18.2257 0.526562 18.7249L11.9545 25.9079C12.2266 26.0789 12.4093 26.3671 12.4474 26.6851L14.1749 41.1151C14.2959 42.1259 15.6344 42.4078 16.0559 41.5114L22.0736 28.7127C22.2063 28.4306 22.4652 28.2354 22.7719 28.1864L35.6565 26.1244C36.5519 25.9811 36.742 24.7747 35.9478 24.2756L24.5199 17.0926C24.2478 16.9216 24.0651 16.6334 24.027 16.3154L22.2995 1.88532Z" fill="#364C84" />
-                </svg>
-            </div>
-          
+           
+        <button id="prepareInterview" >ابدأ المقابلة</button>
 
             <div id="interviewerAIBubble" class="circle-bubble"></div>
             <div id="questionText"></div>
 
             <h2 id="interviewerAIState" class="display-4 mt-4">جاهز</h2>
-            <div class="star_container right">
-                <svg width="37" height="43" viewBox="0 0 37 43" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M22.2995 1.88532C22.1785 0.87461 20.84 0.592663 20.4185 1.48911L14.4008 14.2878C14.2681 14.5699 14.0092 14.765 13.7025 14.8141L0.817866 16.8761C-0.0775428 17.0194 -0.267617 18.2257 0.526562 18.7249L11.9545 25.9079C12.2266 26.0789 12.4093 26.3671 12.4474 26.6851L14.1749 41.1151C14.2959 42.1259 15.6344 42.4078 16.0559 41.5114L22.0736 28.7127C22.2063 28.4306 22.4652 28.2354 22.7719 28.1864L35.6565 26.1244C36.5519 25.9811 36.742 24.7747 35.9478 24.2756L24.5199 17.0926C24.2478 16.9216 24.0651 16.6334 24.027 16.3154L22.2995 1.88532Z" fill="#364C84" />
-                </svg>
-            </div>
+        
         </div>
 
     </section>

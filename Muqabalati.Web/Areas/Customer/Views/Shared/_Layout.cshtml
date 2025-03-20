@@ -7,264 +7,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Muqabalati.Web</title>
     <script type="importmap"></script>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
   
-    <partial name="_StyleLinksPartial"></partial>
+    <!-- Swiper CSS -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-    <link rel="stylesheet" href="~/css/notification2.css" asp-append-version="true" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+
+    <partial name="_StyleLinksPartial"></partial>
 
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body dir="rtl" >
-    <header>
-        <!-- navbar  fixed-top -->
-        <nav class="navbar navbar-expand-lg fixed-top">
-            <div class="container">
-                <ul class="navbar-nav logo-container">
-                    <li class="nav-item logo">
-                        <a class="navbar-brand  bg-aramm" asp-area="Customer" asp-controller="Home" asp-action="Index">
-                            <img src="~/imgs/TeamARAMM/Aramm_tech.svg" alt="logo" />
-                        </a>
-                    </li>
-                </ul>
-                <button class="navbar-toggler fs-6" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNav" aria-controls="offcanvasNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <svg width="30" height="30" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M4 17.0308H20M4 12.0308H20M4 7.03077H20" stroke="#DB4B4E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </button>
-
-                <div class="offcanvas offcanvas-start w-40" tabindex="-1" id="offcanvasNav" aria-labelledby="offcanvasNavLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="offcanvasNavLabel">القائمة</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <ul class="navbar-nav gap-5 me-5">
-                            <li class="nav-item">
-                                <a class="nav-link @Html.IsActive("Customer/Home/Index")"
-                                   aria-current="page"
-                                   asp-area="Customer" asp-controller="Home" asp-action="Index">الرئيسية</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link @Html.IsActive("theme1")"
-                                   asp-area="Customer" asp-controller="Home" asp-action="Privacy">theme1</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link @Html.IsActive("theme2")"
-                                   asp-area="Customer" asp-controller="Home" asp-action="Privacy">theme2</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link @Html.IsActive("Customer/Home/AboutUs")"
-                                   asp-area="Customer" asp-controller="Home" asp-action="AboutUs">عن المطورين</a>
-                            </li>
-                            <li class="nav-item btn-group dropdown-1">
-                                <a id="manage"
-                                   class="nav-link pointer  @Html.IsActive("Customer/Home/Help")  @Html.IsActive("Customer/Home/FAQ")  @Html.IsActive("Customer/Home/Goals") @Html.IsActive("Customer/Home/ContactUs")  @Html.IsActive("Customer/Home/Privacy")"
-                                  >
-                                    المساعدة
-                                </a>
-                                <button type="button" class="dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="visually-hidden">Toggle Dropdown</span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a id="manage" asp-area="Customer" asp-controller="Home" asp-action="FAQ"
-                                            class="dropdown-item nav-link @Html.IsActive("Customer/Home/FAQ")" title="Manage">الأسئلة الشائعة</a>
-                                    </li>
-                                    <li>
-                                        <a id="manage" asp-area="Customer" asp-controller="Home" asp-action="Goals"
-                                           class="dropdown-item nav-link @Html.IsActive("Customer/Home/Goals")" title="Manage">الأهداف</a>
-                                    </li>
-                                    <li>
-                                        <a id="manage" asp-area="Customer" asp-controller="Home" asp-action="ContactUs"
-                                            class="dropdown-item nav-link @Html.IsActive("Customer/Home/ContactUs")" title="Manage">التواصل معنا</a>
-                                    </li>
-                                    <li>
-                                        <a id="manage" asp-area="Customer" asp-controller="Home" asp-action="Privacy"
-                                            class="dropdown-item nav-link @Html.IsActive("Customer/Home/Privacy")" title="Manage">الخصوصية والامان</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            
-                            @if (User.IsInRole(AppUserRoles.RoleAdmin))
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link @Html.IsActive("Admin/Dashboard/Index")" asp-area="Admin" asp-action="Index" asp-controller="Dashboard">ادارة التطبيق</a>
-                                </li>
-                            }
-                        </ul>
-                        <ul class="navbar-nav me-auto ">
-                            <li id="search-box" class="nav-item f-ctr-ctr me-5">
-                                <form class="form-input-box f-ctr-ctr" role="search">
-                                    <div class="input-box">
-                                        <input id="searchInput" placeholder="البحث" aria-label="Search">
-                                        <svg id="space" width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M11.5 21.5C16.7467 21.5 21 17.2467 21 12C21 6.75329 16.7467 2.5 11.5 2.5C6.25329 2.5 2 6.75329 2 12C2 17.2467 6.25329 21.5 11.5 21.5Z" stroke="#DB4B4E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path opacity="0.4" d="M22 22.5L20 20.5" stroke="#DB4B4E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                    </div>
-                                </form>
-                            </li>
-                            <li class="nav-item shopping-card-box me-5">
-                                <a class="nav-link @Html.IsActive("Customer/Cart/Index")" asp-area="Customer" asp-action="Index" asp-controller="Cart">
-                                    <svg class="pointer" width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M2 2.5H3.74001C4.82001 2.5 5.67 3.43 5.58 4.5L4.75 14.46C4.61 16.09 5.89999 17.49 7.53999 17.49H18.19C19.63 17.49 20.89 16.31 21 14.88L21.54 7.38C21.66 5.72 20.4 4.37 18.73 4.37H5.82001" stroke="#DB4B4E" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path opacity="0.4" d="M16.25 22.5C16.9404 22.5 17.5 21.9404 17.5 21.25C17.5 20.5596 16.9404 20 16.25 20C15.5596 20 15 20.5596 15 21.25C15 21.9404 15.5596 22.5 16.25 22.5Z" stroke="#DB4B4E" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path opacity="0.4" d="M8.25 22.5C8.94036 22.5 9.5 21.9404 9.5 21.25C9.5 20.5596 8.94036 20 8.25 20C7.55964 20 7 20.5596 7 21.25C7 21.9404 7.55964 22.5 8.25 22.5Z" stroke="#DB4B4E" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path opacity="0.4" d="M9 8.5H21" stroke="#DB4B4E" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </a>
-                                 @* @await Component.InvokeAsync("ShoppingCartQuantity")  *@
-                            </li>
-                            <partial name="_LoginPartial" />
-                            <li class="nav-item me-5">
-                                <button id="modeSwitch" class="nav-link">
-                                  
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
-        </nav>
-
-
-    </header>
-
-
-    <div id="loading-spinner"></div> <!-- Spinner element -->
-
-    <main role="main" id="content" class="page-height position-relative overflow-hidden f-ctr-ctr" style="display: none;">
-        <div class="notifications"></div>
-        <partial name="_NotificationsPartial" />
+    
         @RenderBody()
-    </main>
 
-
-    <footer class="footer m-0 border-none">
-        <div class="waves">
-            <div class="wave" id="wave1"></div>
-            <div class="wave" id="wave2"></div>
-            <div class="wave" id="wave3"></div>
-            <div class="wave" id="wave4"></div>
-        </div>
-        <div class="container">
-                  <ul class="social-icons">
-                <li id="facebook">
-                    <a href="">
-                        <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <rect y="0.531738" width="24" height="24" fill="url(#pattern0_119_1183)" />
-                            <defs>
-                                <pattern id="pattern0_119_1183" patternContentUnits="objectBoundingBox" width="1" height="1">
-                                    <use xlink:href="#image0_119_1183" transform="scale(0.0166667)" />
-                                </pattern>
-                                <image id="image0_119_1183" width="60" height="60" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAACXBIWXMAAAsTAAALEwEAmpwYAAADSElEQVR4nO2avU8UQRjGpxCNiY1gUIKx8ismmviHaDB+BStjjBgVLYzRWPkHiEhlb2Npp8GGggKFQw1ZZp9n7q6hsTBg5NCIIpg3DCaaA25nZ790n+Rtdu/mnd/M7Mw7845SpUqVKlXqP1UQBHuMMRcADAEYBlAlOUfyu7U5eWbfDZHslf+oIklr3UHyJskJkiuONk6yX8pSeZUxZi/JxwC+xAD92xZIDpLsVnlRpVJpC8PwFsmGR9A/zDbiA2PMtkxhwzA8BOB9UqBNwN9prQ9mAmuMOZ1kr25g8yRPpQpL8iLJHxnArvX0UhiGV9OC7csKtIn1Jz6MASzlAPR3TwPoSQS2Wq3uB/A5a8gm1gBw2CtsEARbfc7GAL4CeGKMOSFr7MzMzHbxMzU1tVOCDWPMEYm+IpT3VpZHb8AA7nnskVGtdddmPkk+jVjuHS+wJLttxOMDdrzV4MEBuNFKQ24qCRc9DeOl6enpAxH8RgUWG1BxpLXu8BgbP4/i2xF4IdaGg6u7Hi/fbhiGl1IAlpF0PQ7whEfgo8181Ov1fQBeAfjk6dN54wSrte4CsOwLGMCuZn4APPPlw/pZrtVqnZGBSfb6rMh66yTJDz79WOjzkYGxeuTirRIb+PnpG1gODVyAh9MATgBW7IULcL2owHIwGBmY5KxPMAf/ozGgP7o4XMwY2HkyA/CtUMBBEOyIsyS6As9mBWyMOR7zO44+pAHUsgIGcDb1SQuOy5IPYJL3s1iWhmI6bakhfPqIFXjQc2iZJjCAc5GB6/X6bp+bh7SApc5S98jAIpvFKxrwmHIVyf4CAl+Lm+tdKBBwvCMekc3PFgIYwEOVl2NalTzwvLfrEgDuFgD4tvKlSqXSJumMvAIDmPSaavGRTFPJATfkJoJKQiRPuaZLkwC2ifGTicCuieSVPABLRAXgssrrlQflEdiOsj6VpgD02AsmqQLLPJL4MF5Pkg1sdfYOw/AMgGNBELRLgt1ae0TYSZk8VZYaGRnZYi+mtdzbrhfTpJFUXqS17iL5yGPyfMWWNZDrC6d6dcNxA8Brl/20nX3HJO0pQ14VSbVarVMSW3YD8pIk7GnoorVZ+0zeDcpvnTJ/pUqVKlVK/Rv6BRWk0IPFRJAUAAAAAElFTkSuQmCC" />
-                            </defs>
-                        </svg>
-                </a>
-                </li>
-                <li id="github">
-                    <a href="https://github.com/arammtech">
-                        <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <rect y="0.531738" width="24" height="24" fill="url(#pattern0_119_1181)" />
-                            <defs>
-                                <pattern id="pattern0_119_1181" patternContentUnits="objectBoundingBox" width="1" height="1">
-                                    <use xlink:href="#image0_119_1181" transform="scale(0.0166667)" />
-                                </pattern>
-                                <image id="image0_119_1181" width="60" height="60" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEi0lEQVR4nO1aS4gcVRR9fuL/HxVjRPETFUVBkOwUFVGi4B8kEXHEPzjqxu9CsxODkkRwJ+LChStduJAEYRCMQ7TVYaiue87raVsGxk+MiSbROHEyJdeuCUnT3fXe66rqkdSBt+nuuveeuve9dz9tTIUKFSpUOEwRRdE51to1ADYC2ASgQXIHyX3p2qGfpd9tJLlanzH/J8RxvJTkMyS/JpkErq9Ijqoss1hhrT2P5AYAfw5AtHPtIbme5HKzWFCr1ZaIyLMkd+dI9JCVvsS11tpjh0pWRC4DMFEU0S7Ev4vj+NKhkLXW3lukV/usXSTvLpUsyRGS/wyB7IKn50TkybLIPjEsol3WaOFhDGBuERA94GkAdxVCttFoXALgj2GT7LJ2A7g8V7JRFB2TdRoDWBdF0UkArib5CsmfciDzI8mXReSqVPabPXR/q9djboQBvJRlXKPRuPLgZ/TO1LsTwP7AUH2t895V4n2eez4XsiSXpxlPXyOjKDqjx8u6k6QF8B6AB0Xk2mazef7MzMwJuur1+gUkV5J8CMD7mluLyB09ZJ3ZL7TjOF6WB+ENLl5ptVrHmYIxPT19fIYdbw2kII7jpR658UWmYOjBmWHDnoEKDpKjHnvvZlMwRORWBzueDlZAjxIPwKu5sutuz1oHO7YGCY/jeBmAeQ/Cj5qCAeApBzvmp6amzvYWTnK1Rzh/WAjD7nZ97ED6fm/BaLdcXDy7V4t/UxL0cCQ5m2HXem/BADY5evddUzJIfpBh06feQgE0HQnfZoZTi/eLuoa3UJK/uRDOJbsJC+t+dv0aInTW5URMkuQoUzI0Jc2w629voWz3jTM93Gw2TzUlQ6Mqw6593kIB7HQh3FkllQEtQDI8vNNbKNpTgkzC2qIthFV/217MsIshQjc73sPjpkQkSXKEtmszbNpcWOLB9rrHlAQRecDBnte9BVtr17gSBrCtXq+vMAUj7av94mDPKm/hInKuT/GgXY0ipwLW2itIfu9Ads5ae0qQEgBbPQjr2qVVU55389jY2NFaJbk2IgB8GaxM2kMyH8IHvE3yce1BherWEi8l6priLqyRYMKTk5OnA/grkPR/4UXyC5JvqCEalhkhO5L+dktIt5Pkdu17mYKaeCtJ3k4SjuTH+81504bDeOjLTXWsG4jsQWlctzYt9O8J2p51GJnaVqt1mnGLqOlAwtsH2UKHAMALPd7oRwv7Ld23vYy53jgCwE2B3s2vxVSr1ZYA+KaLknlr7TWpoRemTYOFaNDZ8Q/aXPfVp3vYk/CWJEmONHmiXq+vSIfRnaTfzlVR+wB72MOz2wrriQNY1TkI18pkYmLixDz1aAXmSHhWRG4wRYLkY10ysHfy1JEO4rI8u1/zalMGADzSORgH8ImI3OhyGrsgg+xeEbnPlAlr7S0uTYJQ+X1kaq/tOjMMWGsvzkoWQmX3kPdZGUM7l+T+OQC/F0hYvTqixb9ZLLDWnqWFd+fVFSov3as/65AutwyqCIjIyelJ/rkebCGHmEZNWmwM96+GvtA8W3vI3g9WqFChQoXDFP8CUGySZMB0EG8AAAAASUVORK5CYII=" />
-                            </defs>
-                        </svg>
-                    </a></li>
-                <li id="linkedin">
-                    <a href="https://www.linkedin.com/company/arammtech">
-                        <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <rect y="0.531738" width="24" height="24" fill="url(#pattern0_119_1182)" />
-                            <defs>
-                                <pattern id="pattern0_119_1182" patternContentUnits="objectBoundingBox" width="1" height="1">
-                                    <use xlink:href="#image0_119_1182" transform="scale(0.0166667)" />
-                                </pattern>
-                                <image id="image0_119_1182" width="60" height="60" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAACXBIWXMAAAsTAAALEwEAmpwYAAACFklEQVR4nO2aP2tUQRTFnxYqgigWKmK6QEDRSuzEUvwgdn6BkEJIJVhHED9BohiwsFAsLUQrGbznzOxjEdkuBt0iEFFHxiWwPN7bP+xL3sxwD5xq71zub+/sHea9LQqVSqVSqVRRyzm3BOAFySFJH5lDTdsistIaLMnvEYBN826odWFgjDrrE/HWwsCMcxvXGsDPNoB9SlbgedV1x2Lt8HuS6wAek7S5A695748dxPf7/VMkn2cJDODDOOwY9LkwMbMDJvlowrp3OQJvTFj3KTtgAF9F5Ex1jXPuGslf2QFz5NdlWV48iBeR6wC+dAF7VMAewF4YYCQ/A/jdFeyRATMipwQ8BPAWwFOST8IdF8C36IC998era4wxlypxz+pyA3hDcp/kalmWZ6ufhzPeWnsHgMkF+BXJ29NqGAwGp0l+zAH4xqx1OOeWZxmIUQPPKwAvswDujy4ct4KttScn1HI/eWAA98YfEobJbK29WhcrIjeTBjbGnCC5U80ZhlldfK/Xu5A0sIjcbci7W3ftDNs9aWCSD5ryGmPOV+PDlwDgb8rAa015ReRy3RoAf5IFBvCwKW/TWwQFpnZ4MVG3NPU3XFSkQ4s6pf9LjyUmcA4zMivwvOq6Y9phHv6WHnbdtVkN4EcbwNtdg8zhzYWBRWQlPIGIAGaad6y1V4oW/4231dVb/SnbONS02RqsSqVSqVSq4rD0D3+XHi3wJhFZAAAAAElFTkSuQmCC" />
-                            </defs>
-                        </svg>
-                    </a>
-                    </li>
-                <li id="instagram">
-                   I
-                    </a></li>
-                @* <li><a href="https://www.youtube.com/@arammtech">Y</a></li> *@
-                <li id="youtube">
-                    <a href="#">
-                        <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <rect y="0.531738" width="24" height="24" fill="url(#pattern0_youtube)" />
-                            <defs>
-                                <pattern id="pattern0_youtube" patternContentUnits="objectBoundingBox" width="1" height="1">
-                                    <use xlink:href="#image_youtube" transform="scale(0.0166667)" />
-                                </pattern>
-                                <image id="image_youtube" width="60" height="60" preserveAspectRatio="none" xlink:href="data:image/png;base64,YOUR_BASE64_IMAGE_DATA_FOR_YOUTUBE" />
-                            </defs>
-                        </svg>
-
-                    </a>
-                </li>
-                   
-                <li id="x" >
-                    <a href="https://x.com/ArammTech">
-                        <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <rect y="0.531738" width="24" height="24" fill="url(#pattern0_x)" />
-                            <defs>
-                                <pattern id="pattern0_x" patternContentUnits="objectBoundingBox" width="1" height="1">
-                                    <use xlink:href="#image_x" transform="scale(0.0166667)" />
-                                </pattern>
-                                <image id="image_x" width="60" height="60" preserveAspectRatio="none" xlink:href="data:image/png;base64,YOUR_BASE64_IMAGE_DATA_FOR_X" />
-                            </defs>
-                        </svg>
-
-                    </a></li>
-                  </ul>
-                  <ul class="menu">
-                    <li><a href="">الرئيسية</a></li>
-                    <li><a href="">الأسئلة الشائعة</a></li>
-                    <li><a href="">الأهداف</a></li>
-                    <li><a href="">عن المطورين</a></li>
-                    <li><a href="">الخصوصية والامان</a></li>
-                    <li><a href="">المساعدة</a></li>
-                    <li><a href="">تسجيل الدخول</a></li>
-                  </ul>
-            <ul class="flex-column gap-0">
-                <li>
-                    جميع الحقوق محفوظة لدى
-                    <a class="tc-acc pointer hov-2" href="#"> Website</a>
-                </li>
-                <li>صنع ب❤️ بواسطة
-                    <a class="tc-aramm pointer hov-2" href="#">ARAMM</a>
-                </li>
-            </ul>
-        </div>
-    </footer>
-
-    <!-- Help Button -->
-    <a id="helpButton"  asp-area="Customer" asp-controller="Home" asp-action="Help"  class="btn btn-icon btn-sm btn-1 hidden">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 16C15.87 16 19 12.87 19 9C19 5.13 15.87 2 12 2C8.13 2 5 5.13 5 9" stroke="#DB4B4E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M12 16V22" stroke="#DB4B4E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-            <path opacity="0.4" d="M15 19H9" stroke="#DB4B4E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-
-    </a>
-    <!-- Back to Top Button (placed here) -->
-    <button id="backToTop" class="btn btn-icon btn-sm btn-1 hidden">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M19.92 15.0499L13.4 8.52989C12.63 7.75989 11.37 7.75989 10.6 8.52989L4.08002 15.0499"
-                  stroke="#DB4B4E" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-    </button>
+  
+ 
 
     <partial name="_ScriptsPartial"></partial>
-    <script src="~/js/site.js" asp-append-version="true"></script>
 
-    <!-- Include notification.js as a module -->
-    <script type="module" src="~/js/notifications2.js"></script>
+    <!-- Cloud flare JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

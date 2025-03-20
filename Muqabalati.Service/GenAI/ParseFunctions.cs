@@ -31,15 +31,19 @@ namespace Muqabalati.Service.GenAI
 
                     if (parts.Length > 0)
                     {
-                        string evaluationContent = parts[0];
+                        string evaluationContent = parts[1];
 
                         // استخراج الإجابات الصحيحة، الخاطئة، ونسبة النجاح
-                        string[] assessmentValues = evaluationContent.Split(new[] { "1.", "2.", "3." ,"4."}, StringSplitOptions.RemoveEmptyEntries);
+                        string[] assessmentValues = evaluationContent.Split(new[] { "0.","1.", "2.", "3." ,"4."}, StringSplitOptions.RemoveEmptyEntries);
 
                         if (assessmentValues.Length >= 3)
                         {
+                            if (bool.TryParse(assessmentValues[1].Trim(), out bool isPassed))
+                            {
+                                report.IsPassed = isPassed;
+                            }
                             // استخدام TryParse للتحقق من صحة القيم العددية
-                            if (int.TryParse(assessmentValues[1].Trim(), out int correctAnswers))
+                            if (int.TryParse(assessmentValues[2].Trim(), out int correctAnswers))
                             {
                                 report.CorrectAnswers = correctAnswers;
                             }
@@ -48,7 +52,7 @@ namespace Muqabalati.Service.GenAI
                                 Console.WriteLine("Error parsing CorrectAnswers value.");
                             }
 
-                            if (int.TryParse(assessmentValues[2].Trim(), out int failAnswers))
+                            if (int.TryParse(assessmentValues[3].Trim(), out int failAnswers))
                             {
                                 report.FailAnswers = failAnswers;
                             }
@@ -57,7 +61,7 @@ namespace Muqabalati.Service.GenAI
                                 Console.WriteLine("Error parsing FailAnswers value.");
                             }
 
-                            if (int.TryParse(assessmentValues[3].Trim(), out int successRate))
+                            if (int.TryParse(assessmentValues[4].Trim(), out int successRate))
                             {
                                 report.GPA = successRate; // نسبة النجاح
                             }

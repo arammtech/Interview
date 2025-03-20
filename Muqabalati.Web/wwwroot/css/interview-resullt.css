@@ -7,7 +7,7 @@
     flex-direction: column;
     z-index: 1;
     min-height: 80vh;
-    margin: 4rem 0;
+    margin: 3rem 0;
     width: 92rem;
     padding: 0;
 }
@@ -84,7 +84,7 @@
 
 
     .circle.passed {
-        border-color: #A5C529 !important;
+        border-color:  var(--color-success) !important;
     }
 
     .circle.failed {
@@ -161,6 +161,8 @@
 }
 
     .actions .btn {
+        font-size: 1.6rem !important;
+        height: 3.2rem;
         transition: opacity .3s ease-in-out;
         -webkit-transition: opacity .3s ease-in-out;
         -moz-transition: opacity .3s ease-in-out;

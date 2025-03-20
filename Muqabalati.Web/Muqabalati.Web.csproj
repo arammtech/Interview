@@ -8,9 +8,25 @@
 
   <ItemGroup>
     <Compile Remove="Areas\Customer\APIsControllers\**" />
+    <Compile Remove="wwwroot\css\admin\**" />
+    <Compile Remove="wwwroot\css\customer\**" />
+    <Compile Remove="wwwroot\js\admin\**" />
+    <Compile Remove="wwwroot\js\customer\**" />
     <Content Remove="Areas\Customer\APIsControllers\**" />
+    <Content Remove="wwwroot\css\admin\**" />
+    <Content Remove="wwwroot\css\customer\**" />
+    <Content Remove="wwwroot\js\admin\**" />
+    <Content Remove="wwwroot\js\customer\**" />
     <EmbeddedResource Remove="Areas\Customer\APIsControllers\**" />
+    <EmbeddedResource Remove="wwwroot\css\admin\**" />
+    <EmbeddedResource Remove="wwwroot\css\customer\**" />
+    <EmbeddedResource Remove="wwwroot\js\admin\**" />
+    <EmbeddedResource Remove="wwwroot\js\customer\**" />
     <None Remove="Areas\Customer\APIsControllers\**" />
+    <None Remove="wwwroot\css\admin\**" />
+    <None Remove="wwwroot\css\customer\**" />
+    <None Remove="wwwroot\js\admin\**" />
+    <None Remove="wwwroot\js\customer\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,11 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\css\customer\" />
-    <Folder Include="wwwroot\css\admin\" />
     <Folder Include="wwwroot\icons\" />
-    <Folder Include="wwwroot\js\admin\" />
-    <Folder Include="wwwroot\js\customer\" />
     <Folder Include="wwwroot\uploads\images\users\" />
     <Folder Include="wwwroot\uploads\images\" />
   </ItemGroup>

@@ -50,7 +50,7 @@
                 </div>
             </div>
             <div class="result-info">
-                <h1 class=" @(Model.IsPassed ? "passed" : "failed")">مرفوض</h1>
+                <h1 class=" @(Model.IsPassed ? "passed" : "failed")">@(Model.IsPassed ? "مقبول" : "مرفوض")</h1>
                 <div class="answers-stats">
                     <div class="correct-answers">
                         <span class="label">
@@ -71,7 +71,7 @@
                                     stroke-linejoin="round" />
                             </svg>   
                         </span>    
-                        <span>10 / <span class="answers-count">@Model.CorrectAnswers</span></span>
+                        <span>@Model.TotalQuestions / <span class="answers-count">@Model.CorrectAnswers</span></span>
                     </div>
                     <div class="wrong-answers">
                         <span class="label">
@@ -92,7 +92,7 @@
                                       stroke-linejoin="round" />
                             </svg>
                         </span>
-                        <span>10 / <span class="answers-count">@Model.FailAnswers</span></span>
+                        <span>@Model.TotalQuestions / <span class="answers-count">@Model.FailAnswers</span></span>
                     </div>
                 </div>
             </div>
@@ -100,9 +100,9 @@
         </div>
 
         <div class="actions col-2">
-            <a href="#" class="btn btn-sm btn-g1">إعادة</a>
-            <a asp-area="Customer" asp-controller="Interview" asp-action="InterviewGenerator" class="btn btn-sm btn-gray">مولد المقابلة</a>
-            <a asp-area ="Customer" asp-controller="Home" asp-action="Index" class="btn btn-sm btn-gray">الرئيسية</a>
+            @* <a href="#" class="btn  btn-g1">إعادة</a> *@
+            <a asp-area="Customer" asp-controller="Interview" asp-action="InterviewGenerator" class="btn  btn-g1">مولد المقابلة</a>
+            <a asp-area ="Customer" asp-controller="Home" asp-action="Index" class="btn btn-gray">الرئيسية</a>
         </div>
 
     </div>
@@ -113,9 +113,15 @@
         {
               <div class="recomendation">
             <div class="content col">
-                    @recommendation.Recommendation . (Source:@recommendation.Source)
+
+                    @recommendation.Recommendation
+                    @if (!string.IsNullOrEmpty(recommendation.Source))
+                    {
+                        <span>.....</span>
+                        <a href="@recommendation.Source" class="show-more" target="_blank" rel="noopener noreferrer">لتفاصيل أكثر</a>
+                    }
+     
             </div>
-            <a href="#" class="show-more col-1 ">عرض المزيد</a>
         </div>
         }
     </div>
