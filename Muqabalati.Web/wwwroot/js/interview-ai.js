@@ -33,11 +33,11 @@ let answerStartTime = null;
 let isProcessingEnd = false;
 let isPaused = false;
 let pausedStateDisplayText = "متوقف";
-
+let isIntro = false;
 let arabicVoice = null;
 let voicesLoadedPromise = null;
 
-let voiceGender = "female";
+let voiceGender = "male";
 let language = toneElement.textContent.substring(0,2);
 let accent = toneElement.textContent;
 
@@ -64,14 +64,19 @@ function setupAudioAnalyzer() {
 }
 
 // Update State Display and Toggle Buttons
-function updateStateDisplay() {
-    if (isPaused) {
+function updateStateDisplay(intro = false) {
+    if (isIntro) {
+        stateDisplay.textContent = "بدء المقابلة";
+        isIntro = false;
+    }
+    else if (isPaused) {
         if (appState === "يستمع" || (appState === "جاهز" && currentQuestionIndex < questions.length)) {
             stateDisplay.textContent = "متوقف";
         } else {
             stateDisplay.textContent = pausedStateDisplayText || stateDisplay.textContent;
         }
-    } else if (isFailed) {
+    }
+    else if (isFailed) {
         stateDisplay.textContent = "فشل في بدء المقابلة";
     } else if (appState === "يستمع") {
         stateDisplay.textContent = "يستمع";
@@ -470,6 +475,7 @@ function think(duration) {
     return new Promise((resolve) => {
         appState = "يفكر";
         updateStateDisplay();
+     
         bubble.classList.remove("speaking", "listening");
         bubble.classList.add("processing");
         const startTime = Date.now();
@@ -505,7 +511,9 @@ async function startInterview() {
     if (!sessionData) return;
 
     await waitForVoices();
-    await displayCountdownTimer();
+    isIntro = true;
+    await think(2000);
+    //await displayCountdownTimer();
     const introText = sessionData?.introText || "مرحباً، شكراً لانضمامك إلى المقابلة.";
     await speakText(introText);
     await think(1000);
@@ -606,6 +614,9 @@ skipQuestionBtn.onclick = () => {
 };
 
 pauseInterviewBtn.onclick = () => {
+
+    let previousState = stateDisplay.textContent;
+
     if (!isPaused) {
         isPaused = true;
         pauseInterviewBtn.innerHTML = "Resume";
@@ -624,6 +635,7 @@ pauseInterviewBtn.onclick = () => {
             cancelAnimationFrame(animationFrameId);
             animationFrameId = null;
         }
+        stateDisplay.textContent = "متوقف";
     } else {
         isPaused = false;
         pauseInterviewBtn.innerHTML = "Pause";
@@ -636,6 +648,9 @@ pauseInterviewBtn.onclick = () => {
         if (appState === "يتكلم") {
             speechSynthesis.resume();
         }
+
+        //stateDisplay.textContent = previousState;
+        updateStateDisplay();
     }
     toggleButtons();
 };

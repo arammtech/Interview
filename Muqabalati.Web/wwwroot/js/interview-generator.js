@@ -73,7 +73,7 @@
             newOption.textContent = option.text;
 
             // Set default selection: Syrian for Arabic, American for English
-            if ((selectedLanguage === "اللغة العربية" && option.value === "اللهجة المصرية") ||
+            if ((selectedLanguage === "اللغة العربية" && option.value === "العربية الفصحة") ||
                 (selectedLanguage === "اللغة الإنجليزية" && option.value === "اللهجة الأميركية")) {
                 newOption.selected = true;
             }
